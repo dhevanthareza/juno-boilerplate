@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\InstansiController;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +20,33 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// tes view blade dan layout admin
 Route::get('/instansi', [InstansiController::class, 'index']);
+Route::post('/instansi/tespost', [InstansiController::class, 'tespost']);
+
+// tes asset vue di dalam module -> views
+Route::get('/instansi/vue/{filename}', function ($filename)
+{
+    //Add additional Logic Here
+    if(preg_match('/[^a-zA-Z_\-0-9.]/i', $filename))
+    {
+        abort(403); //return 404 error if file not found
+    }
+
+    $path = base_path('app/Modules/instansi/Views/'.$filename);
+ 
+    if (!File::exists($path)) {
+        abort(404); //return 404 error if file not found
+    }
+ 
+    $type = File::extension($path); //determine the file type
+    if($type!='js' && $type!='vue'){
+        abort(404); //return 404 error if file not found
+    }
+    $file = File::get($path); //get the file
+ 
+    $response = Response::make($file, 200); //200 OK HTML Response
+    $response->header("Content-Type", $type); //HTML filetype header
+ 
+    return $response; //return file
+});

@@ -32,11 +32,44 @@
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="{!! asset('css/nucleo-svg.css') !!}" rel="stylesheet" />
   <!-- CSS Files -->
-  <link id="pagestyle" href="{!! asset('css/argon-dashboard.css?v=2.0.3') !!}" rel="stylesheet" />
+  <link id="pagestyle" href="{!! asset('css/argon-dashboard.css') !!}" rel="stylesheet" />
   
   <!-- include Vue.js -->
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
-
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script> -->
+  <script src="https://unpkg.com/vue@3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
+  
+<script>
+  // to load Vue files from Modules
+  const options_loadModule = {
+      moduleCache: {
+          vue: Vue
+      },
+      async getFile(url) {
+          const res = await fetch(url);
+          if ( !res.ok )
+              throw Object.assign(new Error(res.statusText + ' ' + url), { res });
+          return {
+              getContentData: asBinary => asBinary ? res.arrayBuffer() : res.text(),
+          }
+      },
+      addStyle(textContent) {
+          const style = Object.assign(document.createElement('style'), { textContent });
+          const ref = document.head.getElementsByTagName('style')[0] || null;
+          document.head.insertBefore(style, ref);
+      },
+  }
+  const { loadModule } = window['vue3-sfc-loader'];
+
+  // to map component for each modules
+  function componentMap(basepath, components){
+    var generatedComponents = {};
+    components.forEach(component => {
+      generatedComponents[component] = Vue.defineAsyncComponent( () => loadModule(basepath+component+'.vue', options_loadModule) );
+    });
+    return generatedComponents;
+  }
+</script>
