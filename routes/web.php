@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InstansiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/instansi', function () {
-    return view('instansi.index');
-});
+Route::get('/instansi', [InstansiController::class, 'index']);
