@@ -15,6 +15,6 @@ class CobaServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/instansi/Views', 'instansi');
+        $this->loadViewsFrom(__DIR__.'/karyawan/Views', 'karyawan');
     }
 }

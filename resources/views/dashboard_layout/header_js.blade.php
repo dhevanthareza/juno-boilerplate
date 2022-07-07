@@ -38,6 +38,14 @@
   <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script> -->
   <script src="https://unpkg.com/vue@3"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
+
+  <!-- include Vue Datepicker -->
+  <link rel="stylesheet" href="https://unpkg.com/@vuepic/vue-datepicker@latest/dist/main.css">
+  <script src="https://unpkg.com/@vuepic/vue-datepicker@latest"></script>
+
+  <!-- include CKEditor 5 (vanilla) -->
+  <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+  
 </head>
 
 <body class="g-sidenav-show bg-gray-100">

@@ -44,7 +44,7 @@ export default {
     props: ['csrf', 'url', 'method'],
     data() {
         return {
-            datas: []
+            datas: [],
         }
     },
     mounted() {
@@ -61,7 +61,6 @@ async function fetchData(param) {
     });
     if (response.ok) { // if HTTP-status is 200-299
         param.datas = await response.json();
-        console.log(param.datas);
     } else {
         alert("HTTP-Error: " + response.status);
     }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\InstansiController;
+use App\Http\Controllers\KaryawanController;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
@@ -21,11 +21,11 @@ Route::get('/', function () {
 });
 
 // tes view blade dan layout admin
-Route::get('/instansi', [InstansiController::class, 'index']);
-Route::post('/instansi/tespost', [InstansiController::class, 'tespost']);
+Route::get('/karyawan', [KaryawanController::class, 'index']);
+Route::post('/karyawan/tespost', [KaryawanController::class, 'tespost']);
 
 // tes asset vue di dalam module -> views
-Route::get('/instansi/vue/{filename}', function ($filename)
+Route::get('/vue/karyawan/{filename}', function ($filename)
 {
     //Add additional Logic Here
     if(preg_match('/[^a-zA-Z_\-0-9.]/i', $filename))
@@ -33,7 +33,7 @@ Route::get('/instansi/vue/{filename}', function ($filename)
         abort(403); //return 404 error if file not found
     }
 
-    $path = base_path('app/Modules/instansi/Views/'.$filename);
+    $path = base_path('app/Modules/karyawan/Views/'.$filename);
  
     if (!File::exists($path)) {
         abort(404); //return 404 error if file not found
