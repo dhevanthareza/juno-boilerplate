@@ -49,7 +49,12 @@
                     <h6>Coba CKEditor (vanilla, nda reactive)</h6>
                 </div>
                 <div class="card-body p-3">
-                    <editor></editor>
+                    <form method="POST" action="{!! url('karyawan/tessubmit') !!}" ref="myform">
+                        @csrf
+                        <editor name="coba_editor"></editor>
+                        <a class="btn btn-primary" href="#" v-on:click="mySubmit">Tes Submit</a>
+                        Tombol submit masih reload page
+                    </form>
                 </div>
             </div>
         </div>
@@ -65,6 +70,11 @@ createApp({
         return {
             updateMe: 'It Works!',
             tanggal: ref(),
+        }
+    },
+    methods: {
+        mySubmit() {
+            this.$refs.myform.submit();
         }
     },
     components: { 

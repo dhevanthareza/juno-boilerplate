@@ -1,9 +1,10 @@
 <template>
-    <div id="ckeditor" v-html="teks"></div>
+    <textarea :name="name" id="ckeditor" v-model="teks"></textarea>
 </template>
 
 <script>
 export default {
+    props: ['name'],
     data() {
         return {
             teks: "This is some sample content."
@@ -18,9 +19,6 @@ export default {
             .catch( error => {
                     // console.error( error );
             } );
-    },
-    updated() {
-        console.log(teks)
     }
 }
 </script>

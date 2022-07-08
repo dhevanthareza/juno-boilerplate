@@ -23,6 +23,7 @@ Route::get('/', function () {
 // tes view blade dan layout admin
 Route::get('/karyawan', [KaryawanController::class, 'index']);
 Route::post('/karyawan/tespost', [KaryawanController::class, 'tespost']);
+Route::post('/karyawan/tessubmit', [KaryawanController::class, 'tessubmit']);
 
 // tes asset vue di dalam module -> views
 Route::get('/vue/karyawan/{filename}', function ($filename)
