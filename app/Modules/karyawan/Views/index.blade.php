@@ -29,7 +29,6 @@
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="p-3">
-                        <datepicker v-model="tanggal"></datepicker>
                         <komponen></komponen>
                         <div class="form-group">
                             <label for="example-text-input" class="form-control-label">Tes V-Model</label>
@@ -51,9 +50,17 @@
                 <div class="card-body p-3">
                     <form method="POST" action="{!! url('karyawan/tessubmit') !!}" ref="myform">
                         @csrf
-                        <editor name="coba_editor"></editor>
+                        <datepicker name="tanggal" v-model="tanggal"></datepicker>
+                        <editor 
+                            identifier="karyawan"
+                            name="coba_editor"
+                        ></editor>
+                        <editor 
+                            identifier="karyawan"
+                            name="coba_editor2"
+                        ></editor>
                         <a class="btn btn-primary" href="#" v-on:click="mySubmit">Tes Submit</a>
-                        Tombol submit masih reload page
+                        Cek hasil submit di console.log
                     </form>
                 </div>
             </div>
@@ -74,7 +81,16 @@ createApp({
     },
     methods: {
         mySubmit() {
-            this.$refs.myform.submit();
+            // get form data
+            form_result = new FormData(this.$refs.myform);
+
+            // update ckeditor
+            updateCkeditor(form_result, [
+                ['karyawan', 'coba_editor'],
+                ['karyawan', 'coba_editor2'],
+            ]);
+
+            console.log([...form_result]);
         }
     },
     components: { 

@@ -1,20 +1,25 @@
 <template>
-    <textarea :name="name" id="ckeditor" v-model="teks"></textarea>
+    <textarea :identifier="identifier" :name="name" :id="ckeditorId"></textarea>
 </template>
 
 <script>
 export default {
-    props: ['name'],
-    data() {
-        return {
-            teks: "This is some sample content."
+    props: ['name', 'identifier'],
+    computed: {
+        ckeditorId() {
+            return 'ckeditor_' + this.identifier + '_' + this.name;
         }
+    },
+    data() {
+        return {}
     },
     mounted() {
         ClassicEditor
-            .create( document.querySelector( '#ckeditor' ) )
+            .create( document.querySelector( '#'+this.ckeditorId ) )
             .then( editor => {
-                    // console.log( editor );
+                window[
+                    editorGetAttr(this.identifier, this.name)
+                ] = editor;
             } )
             .catch( error => {
                     // console.error( error );

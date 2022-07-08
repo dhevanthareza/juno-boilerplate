@@ -45,7 +45,7 @@
 
   <!-- include CKEditor 5 (vanilla) -->
   <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
-  
+
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
@@ -79,5 +79,18 @@
       generatedComponents[component] = Vue.defineAsyncComponent( () => loadModule(basepath+component+'.vue', options_loadModule) );
     });
     return generatedComponents;
+  }
+
+  // function for ckeditor, editor attribute picker
+  function updateCkeditor(form, datas){
+    datas.forEach(data => {
+      form.set(data[1], window[
+          editorGetAttr(data[0], data[1])
+      ].getData());
+    });
+  }
+
+  function editorGetAttr(identifier, name){
+    return 'editor_' + identifier + '_' + name;
   }
 </script>
