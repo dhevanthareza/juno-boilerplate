@@ -12,20 +12,48 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link active" href="../pages/dashboard.html">
+            <a class="nav-link" href="../pages/dashboard.html">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">Dashboard</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link " href="../pages/tables.html">
+        <li class="nav-item" style="background-color:#f6f9fc;">
+            <a class="nav-link " data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample1" href="#collapseExample1">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Tables</span>
+            <span class="nav-link-text ms-1">Modul menu collapse</span>
             </a>
+            <ul class="navbar-nav collapse" id="collapseExample1">
+                <li class="nav-item" style="padding-left:16px;">
+                    <a class="nav-link active" href="#">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Sub Modul 1</span>
+                    </a>
+                </li>
+                <li class="nav-item" style="padding-left:16px;">
+                    <a class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample1sub" href="#collapseExample1sub">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Sub Modul 2</span>
+                    </a>
+                    <ul class="navbar-nav collapse" id="collapseExample1sub">
+                        <li class="nav-item" style="padding-left:16px;">
+                            <a class="nav-link" href="#">
+                            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Sub Sub Modul</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </li>
         <li class="nav-item">
             <a class="nav-link " href="../pages/billing.html">
@@ -36,7 +64,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " href="../pages/virtual-reality.html">
+            <a class="nav-link active" href="../pages/virtual-reality.html">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-app text-info text-sm opacity-10"></i>
             </div>
