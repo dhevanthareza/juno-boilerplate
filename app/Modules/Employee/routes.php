@@ -4,4 +4,13 @@ namespace App\Modules\Employee;
 use App\Modules\Employee\Controller\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
-Route::resource('employee', EmployeeController::class);
+Route::prefix('/employee')->group(function() {
+    Route::get('/', [EmployeeController::class, 'index']);
+    Route::get('/datatable', [EmployeeController::class, 'datatable']);
+    Route::get('/create', [EmployeeController::class, 'create']);
+    Route::post('/', [EmployeeController::class, 'store']);
+    Route::get('/:employee_id', [EmployeeController::class, 'show']);
+    Route::get('/:employee_id/edit', [EmployeeController::class, 'edit']);
+    Route::put('/:employee_edit', [EmployeeController::class, 'update']);
+    Route::delete('/:employee_edit', [EmployeeController::class, 'destroy']);
+});

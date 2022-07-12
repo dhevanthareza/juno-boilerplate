@@ -32,7 +32,6 @@ Route::post('/karyawan/tessubmit', [KaryawanController::class, 'tessubmit']);
 // tes asset vue di dalam module -> views
 Route::get('/vue/karyawan/{filename}', function ($filename)
 {
-    //Add additional Logic Here
     if(preg_match('/[^a-zA-Z_\-0-9.]/i', $filename))
     {
         abort(403); //return 404 error if file not found
@@ -45,7 +44,7 @@ Route::get('/vue/karyawan/{filename}', function ($filename)
     }
  
     $type = File::extension($path); //determine the file type
-    if($type!='js' && $type!='vue'){
+    if($type != 'js' && $type != 'vue'){
         abort(404); //return 404 error if file not found
     }
     $file = File::get($path); //get the file

@@ -198,7 +198,9 @@ return [
         /*
          * DNT Service Providers
          */
+        
         App\Modules\CobaServiceProvider::class,
+        App\Providers\ModuleViewServiceProvider::class
     ],
 
     /*

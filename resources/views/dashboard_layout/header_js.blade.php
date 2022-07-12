@@ -32,8 +32,10 @@
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="{!! asset('css/nucleo-svg.css') !!}" rel="stylesheet" />
   <!-- CSS Files -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
   <link id="pagestyle" href="{!! asset('css/argon-dashboard.css') !!}" rel="stylesheet" />
-  
+
   <!-- include Vue.js -->
   <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script> -->
   <script src="https://unpkg.com/vue@3"></script>
@@ -45,52 +47,102 @@
 
   <!-- include CKEditor 5 (vanilla) -->
   <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
-  
-<script>
-  // to load Vue files from Modules
-  const options_loadModule = {
+  <div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="rootToast" class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div id="rootAlertMessage" class="toast-body">
+          Hello, world! This is a toast message.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const showToast = ({
+      message,
+      type //primary, secondary, succes, danger, info, warning, light,dark
+    }) => {
+      // configure color
+      const alertContainer = document.getElementById("rootToast");
+      const classForAlertContainer = `toast align-items-center text-white bg-${type} border-0`;
+      alertContainer.className = classForAlertContainer;
+
+      // configure title and message
+      // const rootTitleAlert = document.getElementById("rootAlertTitle");
+      const rootMessageAlert = document.getElementById("rootAlertMessage");
+      // rootTitleAlert.innerHTML = title;
+      rootMessageAlert.innerHTML = message;
+
+      const rootToast = document.getElementById("rootToast");
+      const toast = new bootstrap.Toast(rootToast);
+      toast.show();
+    }
+    // to load Vue files from Modules
+    const options_loadModule = {
       moduleCache: {
-          vue: Vue
+        vue: Vue
       },
       async getFile(url) {
-          const res = await fetch(url);
-          if ( !res.ok )
-              throw Object.assign(new Error(res.statusText + ' ' + url), { res });
-          return {
-              getContentData: asBinary => asBinary ? res.arrayBuffer() : res.text(),
-          }
+        const res = await fetch(url);
+        if (!res.ok)
+          throw Object.assign(new Error(res.statusText + ' ' + url), {
+            res
+          });
+        return {
+          getContentData: asBinary => asBinary ? res.arrayBuffer() : res.text(),
+        }
       },
       addStyle(textContent) {
-          const style = Object.assign(document.createElement('style'), { textContent });
-          const ref = document.head.getElementsByTagName('style')[0] || null;
-          document.head.insertBefore(style, ref);
+        const style = Object.assign(document.createElement('style'), {
+          textContent
+        });
+        const ref = document.head.getElementsByTagName('style')[0] || null;
+        document.head.insertBefore(style, ref);
       },
-  }
-  const { loadModule } = window['vue3-sfc-loader'];
+    }
+    const {
+      loadModule
+    } = window['vue3-sfc-loader'];
 
-  // to map component for each modules
-  function componentMap(basepath, components){
-    var generatedComponents = {};
-    components.forEach(component => {
-      generatedComponents[component] = Vue.defineAsyncComponent( () => loadModule(basepath+component+'.vue', options_loadModule) );
-    });
-    return generatedComponents;
-  }
+    // to map component for each modules
+    function componentMap(basepath, components) {
+      var generatedComponents = {};
+      components.forEach(component => {
+        generatedComponents[component] = Vue.defineAsyncComponent(() => loadModule(basepath + component + '.vue', options_loadModule));
+      });
+      return generatedComponents;
+    }
 
-  // function for ckeditor, editor attribute picker
-  function updateCkeditor(form, datas){
-    datas.forEach(data => {
-      form.set(data[1], window[
+    function commonComponentMap(components) {
+      var generatedComponents = {};
+      components.forEach(component => {
+        generatedComponents[component] = Vue.defineAsyncComponent(() => loadModule("/js/vue_component/" + component + '.vue', options_loadModule));
+      });
+      return generatedComponents;
+    }
+
+    // function for ckeditor, editor attribute picker
+    function updateCkeditor(form, datas) {
+      datas.forEach(data => {
+        form.set(data[1], window[
           editorGetAttr(data[0], data[1])
-      ].getData());
-    });
-  }
+        ].getData());
+      });
+    }
 
-  function editorGetAttr(identifier, name){
-    return 'editor_' + identifier + '_' + name;
-  }
-</script>
+    function editorGetAttr(identifier, name) {
+      return 'editor_' + identifier + '_' + name;
+    }
+
+    const httpClient = axios.create({
+      timeout: 10000,
+      headers: {
+        'X-CSRF-TOKEN': "{!! csrf_token() !!}"
+      }
+    });
+  </script>

@@ -16,7 +16,7 @@ class JsonResponseHandler
     {
         return (new _JsonResponseHandler())->setMessage($message);
     }
-    public static function setResult(array $result)
+    public static function setResult($result)
     {
         return (new _JsonResponseHandler())->setResult($result);
     }
@@ -26,7 +26,7 @@ class _JsonResponseHandler
     private int $status = 200;
     private string $code = JsonResponseType::SUCCESS;
     private string $message = "";
-    private ?array $result = null;
+    private $result = null;
 
 
     public function setStatus(int $status)
@@ -44,7 +44,7 @@ class _JsonResponseHandler
         $this->$message = $message;
         return $this;
     }
-    public function setResult(array $result)
+    public function setResult($result)
     {
         $this->result = $result;
         return $this;
