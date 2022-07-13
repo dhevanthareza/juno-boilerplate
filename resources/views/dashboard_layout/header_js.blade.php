@@ -21,33 +21,34 @@
   <link rel="apple-touch-icon" sizes="76x76" href="{!! asset('img/apple-icon.png') !!}">
   <link rel="icon" type="image/png" href="{!! asset('img/favicon.png') !!}">
   <title>
-    Argon Dashboard 2 by Creative Tim
+    DNT - Core
   </title>
   <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
   <link href="{!! asset('css/nucleo-icons.css') !!}" rel="stylesheet" />
   <link href="{!! asset('css/nucleo-svg.css') !!}" rel="stylesheet" />
   <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <script src="//kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="{!! asset('css/nucleo-svg.css') !!}" rel="stylesheet" />
   <!-- CSS Files -->
   <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script> -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+  <script src="//cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
   <link id="pagestyle" href="{!! asset('css/argon-dashboard.css') !!}" rel="stylesheet" />
 
   <!-- include Vue.js -->
   <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script> -->
-  <script src="https://unpkg.com/vue@3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
+  <script src="//unpkg.com/vue@3"></script>
+  <script src="//cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
 
   <!-- include Vue Datepicker -->
   <link rel="stylesheet" href="https://unpkg.com/@vuepic/vue-datepicker@latest/dist/main.css">
-  <script src="https://unpkg.com/@vuepic/vue-datepicker@latest"></script>
+  <script src="//unpkg.com/@vuepic/vue-datepicker@latest"></script>
 
   <!-- include CKEditor 5 (vanilla) -->
-  <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="//cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="g-sidenav-show bg-gray-100">

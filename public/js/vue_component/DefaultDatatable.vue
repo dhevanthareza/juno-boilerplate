@@ -9,6 +9,11 @@
                 >
                     {{ header }}
                 </th>
+                <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                >
+                    Actions
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -17,6 +22,23 @@
                     <span class="text-secondary text-xs font-weight-bold">{{
                         content[header]
                     }}</span>
+                </td>
+                <td>
+                    <div class="d-flex">
+                        <button
+                            type="button"
+                            class="btn btn-xs bg-primary me-1 text-white"
+                        >
+                            Edit
+                        </button>
+                        <button
+                            @click="deleteData(content.id)"
+                            type="button"
+                            class="btn btn-xs btn-danger"
+                        >
+                            Delete
+                        </button>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -39,13 +61,29 @@ export default {
     methods: {
         async fetchData() {
             const { page, per_page } = this;
-            const response = await httpClient(this.url, {
+            const response = await httpClient.get(`${this.url}/datatable`, {
                 params: { page, per_page },
             });
             const result = response.data.result;
             this.contents = result.data;
             this.total = result.total;
-            showToast({title: "Success", message: "Berhasil Mengambil Data", type: "success"})
+        },
+        async deleteData(id) {
+            Swal.fire({
+                title: "Apakah anda yakin ingin menghapus data ini?",
+                showDenyButton: true,
+                confirmButtonText: `Yakin`,
+                denyButtonText: `Tidak`,
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    await httpClient.delete(`${this.url}/${id}`);
+                    Swal.fire("Data berhasil dihapus!", "", "success");
+                    this.fetchData()
+                } else if (result.isDenied) {
+                    Swal.fire("Proses hapus dibatalkan", "", "info");
+                    this.fetchData()
+                }
+            });
         },
     },
 };

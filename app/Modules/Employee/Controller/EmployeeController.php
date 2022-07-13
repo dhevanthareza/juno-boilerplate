@@ -38,7 +38,8 @@ class EmployeeController extends Controller
 
     public function show($id)
     {
-        // show a single article
+        $employee = EmployeeModel::where('id', $id)->first();
+        return JsonResponseHandler::setResult($employee)->send();
     }
 
     public function edit($id)
@@ -53,6 +54,7 @@ class EmployeeController extends Controller
 
     public function destroy($id)
     {
-        // delete a article
+        $delete = EmployeeModel::where('id', $id)->delete();
+        return JsonResponseHandler::setResult($delete)->send();
     }
 }

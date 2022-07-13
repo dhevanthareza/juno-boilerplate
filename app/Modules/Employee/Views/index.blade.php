@@ -12,7 +12,7 @@
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
-                        <default-datatable url="{!! url('employee/datatable') !!}" :headers="headers">
+                        <default-datatable url="{!! url('employee') !!}" :headers="headers">
                         </default-datatable>
                     </div>
                 </div>

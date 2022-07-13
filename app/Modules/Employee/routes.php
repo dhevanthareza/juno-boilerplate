@@ -9,8 +9,8 @@ Route::prefix('/employee')->group(function() {
     Route::get('/datatable', [EmployeeController::class, 'datatable']);
     Route::get('/create', [EmployeeController::class, 'create']);
     Route::post('/', [EmployeeController::class, 'store']);
-    Route::get('/:employee_id', [EmployeeController::class, 'show']);
-    Route::get('/:employee_id/edit', [EmployeeController::class, 'edit']);
-    Route::put('/:employee_edit', [EmployeeController::class, 'update']);
-    Route::delete('/:employee_edit', [EmployeeController::class, 'destroy']);
+    Route::get('/{employee_id}', [EmployeeController::class, 'show']);
+    Route::get('/{employee_id}/edit', [EmployeeController::class, 'edit']);
+    Route::put('/{employee_id}', [EmployeeController::class, 'update']);
+    Route::delete('/{employee_id}', [EmployeeController::class, 'destroy']);
 });
