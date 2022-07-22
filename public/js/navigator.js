@@ -255,7 +255,7 @@ async function handleNavigation(_, scroll = true) {
                 just_content: true
             }
         });
-        document.getElementById("coreroot").innerHTML = page.data;
+        setInnerHTML(document.getElementById("coreroot"), page.data)
 
 
         listeners.forEach((f) => f({ currentUrl }));
@@ -342,3 +342,18 @@ initialize({
 
     }
 })
+
+var setInnerHTML = (elm, html) => {
+    elm.innerHTML = html;
+
+    Array.from(elm.querySelectorAll("script")).forEach(oldScript => {
+        const newScript = document.createElement("script");
+        Array.from(oldScript.attributes)
+            .forEach(attr => {
+                console.log(attr)
+                newScript.setAttribute(attr.name, attr.value)
+            });
+        newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+        oldScript.parentNode.replaceChild(newScript, oldScript);
+    });
+}
