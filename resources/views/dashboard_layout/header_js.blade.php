@@ -42,8 +42,7 @@
   <script src="//cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
 
   <!-- include Vue Datepicker -->
-  <link rel="stylesheet" href="https://unpkg.com/@vuepic/vue-datepicker@latest/dist/main.css">
-  <script src="//unpkg.com/@vuepic/vue-datepicker@latest"></script>
+  <script src="{!! asset('js/vuedatepicker.min.js') !!}"></script>
 
   <!-- include CKEditor 5 (vanilla) -->
   <script src="//cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
@@ -63,26 +62,11 @@
     </div>
   </div>
 
+  <script src="{!! asset('js/toast.js') !!}"></script>
+  <script src="{!! asset('js/httpClient.js') !!}"></script>
+  <script src="{!! asset('js/navigator.js') !!}"></script>
   <script>
-    const showToast = ({
-      message,
-      type //primary, secondary, succes, danger, info, warning, light,dark
-    }) => {
-      // configure color
-      const alertContainer = document.getElementById("rootToast");
-      const classForAlertContainer = `toast align-items-center text-white bg-${type} border-0`;
-      alertContainer.className = classForAlertContainer;
-
-      // configure title and message
-      // const rootTitleAlert = document.getElementById("rootAlertTitle");
-      const rootMessageAlert = document.getElementById("rootAlertMessage");
-      // rootTitleAlert.innerHTML = title;
-      rootMessageAlert.innerHTML = message;
-
-      const rootToast = document.getElementById("rootToast");
-      const toast = new bootstrap.Toast(rootToast);
-      toast.show();
-    }
+    
     // to load Vue files from Modules
     const options_loadModule = {
       moduleCache: {
@@ -140,10 +124,5 @@
       return 'editor_' + identifier + '_' + name;
     }
 
-    const httpClient = axios.create({
-      timeout: 10000,
-      headers: {
-        'X-CSRF-TOKEN': "{!! csrf_token() !!}"
-      }
-    });
+    
   </script>

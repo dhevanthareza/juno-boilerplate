@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('Employee::index');
+        return view('Employee::index', ['just_content' => $request->input('just_content')]);
     }
 
     public function datatable(Request $request)

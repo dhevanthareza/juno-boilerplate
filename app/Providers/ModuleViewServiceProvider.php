@@ -16,5 +16,6 @@ class ModuleViewServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->loadViewsFrom(__DIR__.'/../Modules/Employee/Views', 'Employee');
+        $this->loadViewsFrom(__DIR__.'/../Modules/Dashboard/Views', 'Dashboard');
     }
 }
