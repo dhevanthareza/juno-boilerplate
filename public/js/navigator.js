@@ -59,17 +59,15 @@ function navigate(
 
 
 async function handleNavigation(_, scroll = true) {
+    renderLoadingScreen(document.getElementById("coreroot"))
     // Save scroll position
     const scrollPosition = { x: scrollX, y: scrollY };
     sessionStorage.setItem(
         `knave:${lastRenderedId}`,
         JSON.stringify(scrollPosition),
     );
-
-
     // Render new page
     currentUrl = location.href;
-
     // LOADING PAGE
     const page = await httpClient.get(currentUrl, {
         params: {
@@ -77,10 +75,7 @@ async function handleNavigation(_, scroll = true) {
         }
     });
     setInnerHTML(document.getElementById("coreroot"), page.data)
-
-
     if (scroll) restoreScrollPosition();
-
     lastRenderedId = history.state.id;
     lastRenderedIndex = history.state.index;
 }
@@ -139,6 +134,21 @@ function setInnerHTML(elm, html) {
         newScript.appendChild(document.createTextNode(oldScript.innerHTML));
         oldScript.parentNode.replaceChild(newScript, oldScript);
     });
+}
+function renderLoadingScreen(elm) {
+    elm.innerHTML = `
+    <div class="card bg-opacity-50">
+        <div class="card-body" style="height: 500px">
+            <div class="loading">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+    </div>
+    `
 }
 
 // initialize client side navigator

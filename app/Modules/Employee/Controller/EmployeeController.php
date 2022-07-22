@@ -12,7 +12,7 @@ class EmployeeController extends Controller
 {
     public function index(Request $request)
     {
-        return view('Employee::index', ['just_content' => $request->input('just_content')]);
+        return view('Employee::index');
     }
 
     public function datatable(Request $request)

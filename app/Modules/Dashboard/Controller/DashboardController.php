@@ -9,6 +9,6 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        return view('Dashboard::index', ['just_content' => $request->input('just_content')]);
+        return view('Dashboard::index');
     }
 }
