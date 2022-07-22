@@ -5,7 +5,6 @@
     <div id="app">
         <div class="row">
             <div class="col-12">
-                <h1>Test</h1>
                 <default-datatable url="{!! url('employee') !!}" :headers="headers" />
             </div>
         </div>
