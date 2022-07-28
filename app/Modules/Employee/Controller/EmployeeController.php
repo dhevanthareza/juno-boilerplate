@@ -30,7 +30,7 @@ class EmployeeController extends Controller
     public function store(EmployeeCreateRequest $request)
     {   
         $payload = $request->all();
-        $path = $request->file('photo')->storeAs('employee_photo', $payload['fullname'] . ".jpg");
+        $path = $request->file('photo')->storePubliclyAs('public/employee_photo', $payload['fullname'] . ".jpg");
         $payload['photo'] = $path; 
         $employee = EmployeeModel::create($payload);
         return JsonResponseHandler::setResult($employee)->send();

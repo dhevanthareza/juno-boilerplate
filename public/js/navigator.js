@@ -3,6 +3,7 @@ let currentUrl; //string
 let lastRenderedId; //string
 let lastRenderedIndex; //number
 let savedScrollRestoration; //ScrollRestoration
+let navigatorController = new AbortController()
 
 function initializeNavigator() {
 
@@ -69,10 +70,11 @@ async function handleNavigation(_, scroll = true) {
     // Render new page
     currentUrl = location.href;
     // LOADING PAGE
+    try { navigatorController.abort() } catch (err) { }
+    navigatorController = new AbortController()
     const page = await httpClient.get(currentUrl, {
-        params: {
-            just_content: true
-        }
+        signal: navigatorController.signal,
+        headers: { "X-Partial-Content": true },
     });
     setInnerHTML(document.getElementById("coreroot"), page.data)
     if (scroll) restoreScrollPosition();

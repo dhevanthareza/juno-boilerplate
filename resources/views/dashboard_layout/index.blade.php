@@ -1,4 +1,4 @@
-@if(request()->just_content == 'true')
+@if(request()->header('X-Partial-Content') == true)
     @yield('content')
 @else
     {!! View::make('dashboard_layout.head') !!}

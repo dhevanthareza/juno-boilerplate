@@ -5,7 +5,11 @@
     <div id="app">
         <div class="row">
             <div class="col-12">
-                <default-datatable url="{!! url('employee') !!}" :headers="headers" />
+                <default-datatable url="{!! url('employee') !!}" :headers="headers">
+                    <template #dob="{ content }">
+                        <span class="badge badge-sm bg-gradient-success">@{{ content.dob }}</span>
+                    </template>
+                </default-datatable>
             </div>
         </div>
     </div>
@@ -42,6 +46,8 @@
                         },
                     ],
                 }
+            },
+            created() {
             },
             methods: {},
             components: {

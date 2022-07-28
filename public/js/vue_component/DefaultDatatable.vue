@@ -51,14 +51,22 @@
                                             : 'left'
                                     }`"
                                 >
-                                    <span
-                                        :class="`text-secondary text-xs font-weight-bold text-${
-                                            header['align']
-                                                ? header['align']
-                                                : 'left'
-                                        }`"
-                                        >{{ content[header["value"]] }}</span
+                                    <slot
+                                        :name="`${header['value']}`"
+                                        :content="content"
+                                        :value="content[header['value']]"
                                     >
+                                        <span
+                                            :class="`text-secondary text-xs font-weight-bold text-${
+                                                header['align']
+                                                    ? header['align']
+                                                    : 'left'
+                                            }`"
+                                            >{{
+                                                content[header["value"]]
+                                            }}</span
+                                        >
+                                    </slot>
                                 </td>
                                 <td>
                                     <div class="d-flex">
@@ -94,10 +102,9 @@
     </div>
 </template>
 <script>
+import PaginateContent from "./PaginateContent.vue";
 export default {
-    components: {
-        ...commonComponentMap(["PaginateContent"]),
-    },
+    components: { PaginateContent },
     props: ["url", "headers"],
     data() {
         return {
