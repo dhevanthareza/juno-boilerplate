@@ -1,5 +1,4 @@
 @extends('dashboard_layout.index')
-
 @section('content')
 <div>
     <div id="app">
@@ -15,7 +14,6 @@
     </div>
 
     <script>
-        var a = "tes"
         createApp({
             data() {
                 return {

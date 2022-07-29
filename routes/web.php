@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware([])->group(function () {
     require app_path('Modules/Employee/routes.php');
     require app_path('Modules/Dashboard/routes.php');
+    require app_path('Modules/User/routes.php');
 });
 
 
