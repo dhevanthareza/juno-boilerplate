@@ -47,6 +47,9 @@ export default {
             return Math.ceil(this.total / this.per_page);
         },
         paginateItem() {
+            if(this.pageCount == 0) {
+                return [1]
+            }
             const maxLength = 12;
             const leftWidth = 2;
             const maxleftWidth = 3;

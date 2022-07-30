@@ -25,7 +25,7 @@ class _JsonResponseHandler
 {
     private int $status = 200;
     private string $code = JsonResponseType::SUCCESS;
-    private string $message = "";
+    private string $message = '';
     private $result = null;
 
 
@@ -41,7 +41,7 @@ class _JsonResponseHandler
     }
     public function setMessage(string $message)
     {
-        $this->$message = $message;
+        $this->message = $message;
         return $this;
     }
     public function setResult($result)

@@ -114,10 +114,10 @@ function shouldHandleClick(e) {
         e.button === 0 &&
         !e.shiftKey &&
         !e.altKey &&
-        !e.ctrlKey &&
-        (!t.target || t.target !== "_self") &&
-        !t.hasAttribute("download") &&
-        !t.relList.contains("external")
+        !e.ctrlKey 
+        // (!t.target || t.target !== "_self") &&
+        // !t.hasAttribute("download") &&
+        // !t.relList.contains("external")
     );
 }
 function createUniqueId() {

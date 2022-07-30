@@ -8,13 +8,11 @@
         </a>
     </div>
     <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+    <div id="sidebar" class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="/dashboard">
-                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
-                    </div>
+                    <i class="m-0 p-0 ni ni-tv-2 text-primary text-sm opacity-10"></i>
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
@@ -89,22 +87,47 @@
                     <span class="nav-link-text ms-1">Profile</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link " href="../pages/sign-in.html">
+            <li style="cursor: pointer" class="nav-item">
+                <div @click="logout" class="nav-link">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Sign In</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="../pages/sign-up.html">
-                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-collection text-info text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Sign Up</span>
-                </a>
+                    <span class="nav-link-text ms-1">Log Out</span>
+                </div>
             </li>
         </ul>
     </div>
+    <script>
+        createApp({
+            created() {
+                this.fetchMenu()
+            },
+            methods: {
+                async fetchMenu() {
+                    try {
+                        const response = await httpClient.get('/menu/mine');
+                        console.log(response.data)
+                    } catch (err) {
+                        showToast({
+                            message: err.message,
+                            type: 'warning'
+                        })
+                    }
+                },
+                async logout() {
+                    showLoading()
+                    try {
+                        await httpClient.get("/user/logout")
+                        location.href = "/user/login"
+                    } catch (err) {
+                        hideLoading()
+                        showToast({
+                            message: err.message,
+                            type: 'warning'
+                        })
+                    }
+                }
+            },
+        }).mount("#sidebar")
+    </script>
 </aside>

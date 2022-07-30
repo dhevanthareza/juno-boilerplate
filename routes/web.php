@@ -15,15 +15,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::middleware([])->group(function () {
+Route::middleware(['auth'])->group(function () {
     require app_path('Modules/Employee/routes.php');
     require app_path('Modules/Dashboard/routes.php');
     require app_path('Modules/User/routes.php');
+    require app_path('Modules/Menu/routes.php');
 });
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/user/login');
 });
 
 // tes view blade dan layout admin
