@@ -14,6 +14,9 @@ class UserModel extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(RoleModel::class, 'user_roles', 'user_id', 'role_id');
+        return $this->belongsToMany(RoleModel::class, 'user_roles', 'role_id', 'user_id');
+    }
+    protected function getRole() {
+        return $this->roles();
     }
 }

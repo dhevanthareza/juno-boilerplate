@@ -1,7 +1,35 @@
 <template>
     <div class="card mb-4">
         <div class="card-header pb-0">
-            <h6>Employee</h6>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h6>{{ title ?? "" }}</h6>
+                </div>
+                <div>
+                    <a
+                        :href="`${url}/create`"
+                        type="button"
+                        class="btn btn-xs bg-primary me-1 text-white"
+                    >
+                        Add Data
+                    </a>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between mb-5">
+                <div :class="`input-group ${isSearchFocused ? 'focused' : ''}`">
+                    <span class="input-group-text text-body"
+                        ><i class="fas fa-search" aria-hidden="true"></i
+                    ></span>
+                    <input
+                        v-model="keyword"
+                        @focus="isSearchFocused = true"
+                        @blur="isSearchFocused = false"
+                        type="text"
+                        class="form-control"
+                        placeholder="Search Data"
+                    />
+                </div>
+            </div>
         </div>
         <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive p-0">
@@ -12,7 +40,7 @@
                                 v-for="(header, index) in headers"
                                 :key="index"
                                 :class="`text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-${
-                                    header['align'] ? header['align'] : 'left'
+                                    header['align'] ? header['align'] : 'center'
                                 }`"
                             >
                                 {{ header["text"] }}
@@ -48,7 +76,7 @@
                                     :class="`text-${
                                         header['align']
                                             ? header['align']
-                                            : 'left'
+                                            : 'center'
                                     }`"
                                 >
                                     <slot
@@ -63,19 +91,23 @@
                                                     : 'left'
                                             }`"
                                             >{{
-                                                content[header["value"]]
+                                                resolve(
+                                                    content,
+                                                    header["value"]
+                                                )
                                             }}</span
                                         >
                                     </slot>
                                 </td>
                                 <td>
                                     <div class="d-flex">
-                                        <button
+                                        <a
+                                            :href="`${url}/${content.id}/edit`"
                                             type="button"
                                             class="btn btn-xs bg-primary me-1 text-white"
                                         >
                                             Edit
-                                        </button>
+                                        </a>
                                         <button
                                             @click="deleteData(content.id)"
                                             type="button"
@@ -103,30 +135,50 @@
 </template>
 <script>
 import PaginateContent from "./PaginateContent.vue";
+let fetchController = new AbortController();
 export default {
     components: { PaginateContent },
-    props: ["url", "headers"],
+    props: ["url", "headers", "title"],
     data() {
         return {
             isContentLoading: false,
             contents: [],
+            keyword: "",
             total: 0,
             page: 1,
             per_page: 5,
+            isSearchFocused: false,
         };
     },
-    mounted() {
+    watch: {
+        page(newPage, oldPage) {
+            this.fetchData();
+        },
+        keyword() {
+            this.fetchData()
+        }
+    },
+    created() {
         this.fetchData();
     },
     methods: {
+        resolve(obj, path, separator = ".") {
+            var properties = path.split(separator);
+            return properties.reduce((prev, curr) => prev && prev[curr], obj);
+        },
         handlePageItemClick(page) {
             this.page = page;
         },
         async fetchData() {
+            try {
+                fetchController.abort();
+            } catch (err) {}
             this.isContentLoading = true;
-            const { page, per_page } = this;
+            const { page, per_page, keyword } = this;
+            fetchController = new AbortController();
             const response = await httpClient.get(`${this.url}/datatable`, {
-                params: { page, per_page },
+                signal: fetchController.signal,
+                params: { page, per_page, keyword },
             });
             const result = response.data.result;
             this.contents = result.data;
@@ -149,11 +201,6 @@ export default {
                     this.fetchData();
                 }
             });
-        },
-    },
-    watch: {
-        page(newPage, oldPage) {
-            this.fetchData();
         },
     },
 };

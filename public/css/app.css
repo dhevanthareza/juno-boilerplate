@@ -1,0 +1,8 @@
+:root {
+    --ms-ring-color: transparent;
+    --ms-option-bg-selected: grey;
+    --ms-option-bg-selected-pointed: grey;
+    --ms-font-size: 15px;
+    --ms-tag-font-size: 15px;
+    --ms-option-font-size: 15px;
+}

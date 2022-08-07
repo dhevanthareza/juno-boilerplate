@@ -11,17 +11,21 @@
     DNT - Core
   </title>
 
-  <!--     Fonts and icons     -->
+  <!--Fonts and icons-->
   <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+
   <!-- Nucleo Icons -->
   <link href="{!! asset('css/nucleo-icons.css') !!}" rel="stylesheet" />
   <link href="{!! asset('css/nucleo-svg.css') !!}" rel="stylesheet" />
+
   <!-- Font Awesome Icons -->
   <script src="//kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="{!! asset('css/nucleo-svg.css') !!}" rel="stylesheet" />
 
-  <link id="pagestyle" href="{!! asset('css/argon-dashboard.css') !!}" rel="stylesheet" />
+  <!-- Argon CSS -->
+  <link id="pagestyle" href="{!! asset('css/argon-dashboard.min.css') !!}" rel="stylesheet" />
   <link id="pagestyle" href="{!! asset('css/core.css') !!}" rel="stylesheet" />
+
 
   <!-- include Vue.js -->
   @if (env('APP_ENV') == 'PRODUCTION')
@@ -44,6 +48,11 @@
   <!-- viewer js --->
   <script src="{!! asset('js/libraries/viewerjs/viewer.min.js') !!}"></script>
   <link href="{!! asset('css/libraries/viewerjs/viewer.min.css') !!}" rel="stylesheet" />
+
+  <!---- SELECT ---->
+  <script src="https://cdn.jsdelivr.net/npm/@vueform/multiselect@2.5.2/dist/multiselect.global.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vueform/multiselect@2.5.2/themes/default.css">
+  <link id="pagestyle" href="{!! asset('css/app.css') !!}" rel="stylesheet" />
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
