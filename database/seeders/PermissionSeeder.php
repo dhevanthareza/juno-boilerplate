@@ -124,6 +124,30 @@ class PermissionSeeder extends Seeder
                 'description' => 'Delete Permission',
                 'menu_id' => 5
             ],
+            [
+                'id' => 15,
+                'code' => 'create',
+                'description' => 'Create Employee',
+                'menu_id' => 7
+            ],
+            [
+                'id' => 16,
+                'code' => 'read',
+                'description' => 'Read Employee',
+                'menu_id' => 7
+            ],
+            [
+                'id' => 17,
+                'code' => 'update',
+                'description' => 'Update Employee',
+                'menu_id' => 7
+            ],
+            [
+                'id' => 18,
+                'code' => 'delete',
+                'description' => 'Delete Employee',
+                'menu_id' =>7
+            ],
             
         ]);
     }

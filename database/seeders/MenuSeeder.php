@@ -50,7 +50,19 @@ class MenuSeeder extends Seeder
                 'path' => '/permission',
                 'description' => 'Organize Permission',
                 'parent_id' => 1
-            ]
+            ],
+            [
+                'id' => 6,
+                'name' => 'Master Data',
+                'description' => 'Organize Permission',
+            ],
+            [
+                'id' => 7,
+                'name' => 'Employee',
+                'path' => '/employee',
+                'description' => 'Organize employee',
+                'parent_id' => 6
+            ],
         ]);
     }
 }
