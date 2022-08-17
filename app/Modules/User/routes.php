@@ -17,6 +17,7 @@ Route::prefix('/user')->group(function () {
     Route::get('/create', [UserController::class, 'create']);
     Route::post('/', [UserController::class, 'store']);
     Route::get('/{user_id}', [UserController::class, 'show']);
+    Route::get('/{user_id}/detail', [UserController::class, 'detail']);
     Route::get('/{user_id}/edit', [UserController::class, 'edit']);
     Route::put('/{user_id}', [UserController::class, 'update']);
     Route::delete('/{user_id}', [UserController::class, 'destroy']);

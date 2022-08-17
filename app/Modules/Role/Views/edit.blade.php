@@ -34,9 +34,6 @@
             return {
                 roleData: {
                     name: null,
-                    path: null,
-                    description: null,
-                    parent_id: null,
                 },
             }
         },

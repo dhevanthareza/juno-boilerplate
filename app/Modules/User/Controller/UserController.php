@@ -91,7 +91,11 @@ class UserController extends Controller
         $payload = $request->all();
         unset($payload['created_at']);
         unset($payload['updated_at']);
-
+        if($payload['password'] != null && $payload['password'] != "") {
+            $payload['password'] = Hash::make($payload['password']);
+        } else {
+            unset($payload['password']);
+        }
         $User = UserModel::where('id', $user_id)->update($payload);
         return JsonResponseHandler::setResult($User)->send();
     }
