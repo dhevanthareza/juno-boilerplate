@@ -17,7 +17,7 @@
             </div>
             <div class="d-flex justify-content-between mb-5">
                 <div :class="`input-group ${isSearchFocused ? 'focused' : ''}`">
-                    <span class="input-group-text text-body"
+                    <span class="input-group-text"
                         ><i class="fas fa-search" aria-hidden="true"></i
                     ></span>
                     <input
@@ -155,8 +155,8 @@ export default {
             this.fetchData();
         },
         keyword() {
-            this.fetchData()
-        }
+            this.fetchData();
+        },
     },
     created() {
         this.fetchData();

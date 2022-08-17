@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/menu')->group(function() {
     Route::get('/', [MenuController::class, 'index']);
     Route::get('/parents', [MenuController::class, 'parentList']);
+    Route::get('/all', [MenuController::class, 'all']);
     Route::get('/mine', [MenuController::class, 'mine']);
     Route::get('/datatable', [MenuController::class, 'datatable']);
     Route::get('/create', [MenuController::class, 'create']);

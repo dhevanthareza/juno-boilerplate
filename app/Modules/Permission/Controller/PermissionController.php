@@ -41,7 +41,7 @@ class PermissionController extends Controller
 
     public function edit(Request $request, $permission_id)
     {
-        return view('Permission::edit', ['Permission_id' => $permission_id]);
+        return view('Permission::edit', ['permission_id' => $permission_id]);
     }
 
     public function update(Request $request, $permission_id)

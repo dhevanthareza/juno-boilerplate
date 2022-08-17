@@ -43,6 +43,13 @@ class MenuController extends Controller
         $menus = MenuModel::where('parent_id', null)->get();
         return JsonResponseHandler::setResult($menus)->send();
     }
+
+    public function all()
+    {
+        $menus = MenuModel::get();
+        return JsonResponseHandler::setResult($menus)->send();
+    }
+
     public function datatable(Request $request)
     {
         $per_page = $request->input('per_page') != null ? $request->input('per_page') : 15;
