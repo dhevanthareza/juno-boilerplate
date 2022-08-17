@@ -8,7 +8,7 @@
         </a>
     </div>
     <hr class="horizontal dark mt-0">
-    <div id="sidebar" class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+    <div id="sidebar" class="collapse navbar-collapse  w-auto py-5" id="sidenav-collapse-main" style="height: inherit">
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="/dashboard">
@@ -16,6 +16,36 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
+            <template v-for="(menu, index) in menus">
+                <template v-if="menu.childs.length > 0">
+                    <li class="nav-item">
+                        <a class="nav-link " data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample1" href="#collapseExample1">
+                            <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+                            <span class="nav-link-text ms-1">@{{ menu.name }}</span>
+                        </a>
+                        <ul class="navbar-nav collapse" id="collapseExample1">
+                            <template v-for="(childMenu, childIndex) in menu.childs">
+                                <li class="nav-item" style="padding-left:16px;">
+                                    <a class="nav-link" :href="childMenu.path">
+                                        <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                            <i class="ni ni-tv-2 text-warning text-sm opacity-10"></i>
+                                        </div>
+                                        <span class="nav-link-text ms-1">@{{ childMenu.name }}</span>
+                                    </a>
+                                </li>
+                            </template>
+                        </ul>
+                    </li>
+                </template>
+                <template v-else>
+                    <li class="nav-item">
+                        <a class="nav-link" :href="menu.path">
+                            <i class="m-0 p-0 ni ni-tv-2 text-primary text-sm opacity-10"></i>
+                            <span class="nav-link-text ms-1">@{{ menu.name }}</span>
+                        </a>
+                    </li>
+                </template>
+            </template>
             <template v-for="(menu, index) in menus">
                 <template v-if="menu.childs.length > 0">
                     <li class="nav-item">
