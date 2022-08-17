@@ -1,7 +1,7 @@
 @extends('dashboard_layout.index')
 @section('content')
-<div id="role-page">
-    <default-datatable title="Role" url="{!! url('role') !!}" :headers="headers" />
+<div id="user-page">
+    <default-datatable title="User" url="{!! url('user') !!}" :headers="headers" />
 </div>
 
 <script>
@@ -13,8 +13,16 @@
                         value: 'id',
                     },
                     {
-                        text: 'Nama Role',
+                        text: 'Nama User',
                         value: 'name',
+                    },
+                    {
+                        text: 'Username User',
+                        value: 'username',
+                    },
+                    {
+                        text: 'Email User',
+                        value: 'email',
                     },
                 ],
             }
@@ -28,6 +36,6 @@
                 ]
             )
         },
-    }).mount('#role-page');
+    }).mount('#user-page');
 </script>
 @endsection

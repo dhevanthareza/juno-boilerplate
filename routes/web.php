@@ -21,6 +21,7 @@ Route::middleware(['auth'])->group(function () {
     require app_path('Modules/User/routes.php');
     require app_path('Modules/Menu/routes.php');
     require app_path('Modules/Role/routes.php');
+    require app_path('Modules/Permission/routes.php');
 });
 
 

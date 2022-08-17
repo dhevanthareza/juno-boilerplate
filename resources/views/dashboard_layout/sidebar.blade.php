@@ -18,7 +18,7 @@
             </li>
             <template v-for="(menu, index) in menus">
                 <template v-if="menu.childs.length > 0">
-                    <li class="nav-item" style="background-color:#f6f9fc;">
+                    <li class="nav-item">
                         <a class="nav-link " data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample1" href="#collapseExample1">
                             <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
                             <span class="nav-link-text ms-1">@{{ menu.name }}</span>
@@ -26,7 +26,7 @@
                         <ul class="navbar-nav collapse" id="collapseExample1">
                             <template v-for="(childMenu, childIndex) in menu.childs">
                                 <li class="nav-item" style="padding-left:16px;">
-                                    <a class="nav-link active" :href="childMenu.path">
+                                    <a class="nav-link" :href="childMenu.path">
                                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                                             <i class="ni ni-tv-2 text-warning text-sm opacity-10"></i>
                                         </div>

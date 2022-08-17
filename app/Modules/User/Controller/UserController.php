@@ -23,7 +23,7 @@ class UserController extends Controller
         $password = $request->input('password');
         $remember_me = $request->input('remember_me');
 
-        $user = UserModel::where('username', $username)->orWhere('email', $username)->with(['roles'])->first();
+        $user = UserModel::where('username', $username)->orWhere('email', $username)->with(['Users'])->first();
         if ($user == null) {
             return JsonResponseHandler::setCode(JsonResponseType::ERROR)
                 ->setStatus(400)
@@ -49,5 +49,50 @@ class UserController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return JsonResponseHandler::setMessage("Logout Berhasil")->send();
+    }
+    public function index()
+    {
+        return view('User::index');
+    }
+    public function datatable(Request $request)
+    {
+        $per_page = $request->input('per_page') != null ? $request->input('per_page') : 15;
+        $keyword = $request->input('keyword') != null ? $request->input('keyword') : null;
+        $Users = UserModel::search($keyword)->paginate($per_page);
+        return JsonResponseHandler::setResult($Users)->send();
+    }
+
+    public function detail(Request $request, $user_id)
+    {
+        $User = UserModel::where('id', $user_id)->first();
+        return JsonResponseHandler::setResult($User)->send();
+    }
+
+    public function create()
+    {
+        return view('User::create');
+    }
+
+    public function store(Request $request)
+    {
+        $payload = $request->all();
+        $payload['password'] = Hash::make($payload['password']);
+        $User = UserModel::create($payload);
+        return JsonResponseHandler::setResult($User)->send();
+    }
+
+    public function edit(Request $request, $user_id)
+    {
+        return view('User::edit', ['user_id' => $user_id]);
+    }
+
+    public function update(Request $request, $user_id)
+    {
+        $payload = $request->all();
+        unset($payload['created_at']);
+        unset($payload['updated_at']);
+
+        $User = UserModel::where('id', $user_id)->update($payload);
+        return JsonResponseHandler::setResult($User)->send();
     }
 }
