@@ -1,6 +1,6 @@
 @extends('dashboard_layout.index')
 @section('content')
-<div id="role-page">
+<div class="page-inner" id="role-page">
     <default-datatable title="Role" url="{!! url('role') !!}" :headers="headers" />
 </div>
 

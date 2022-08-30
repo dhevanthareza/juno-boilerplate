@@ -17,7 +17,7 @@ class PermissionModel extends Model
     // Scope
     public function scopeSearch($query, $keyword)
     {
-        $searchable = ['name'];
+        $searchable = ['code'];
         return ModelSearchHandler::handle($query, $searchable, $keyword);
     }
 

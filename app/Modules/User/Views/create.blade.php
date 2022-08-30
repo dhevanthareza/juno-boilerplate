@@ -1,9 +1,10 @@
 @extends('dashboard_layout.index')
 @section('content')
+<div class="page-inner">
 <div id="add-user" class="card">
     <div class="card-header pb-0">
         <div class="d-flex align-items-center">
-            <h6 class="mb-0">Tambah User</h6>
+            <h4 class="card-title">Tambah User</h4>
         </div>
     </div>
     <div class="card-body">
@@ -35,16 +36,17 @@
                 </div>
             </div>
             <div class="d-flex justify-content-end">
-                <button type="button" @click="back" class="btn btn-xs bg-warning me-1 text-white">
+                <button type="button" @click="back" class="btn btn-sm bg-warning me-1 text-white">
                     Cancel
                 </button>
-                <button type="button" @click="store" class="btn btn-xs bg-primary me-1 text-white">
+                <button type="button" @click="store" class="btn btn-sm bg-primary me-1 text-white">
                     Save Data
                 </button>
             </div>
         </form>
 
     </div>
+</div>
 </div>
 <script>
     Vue.createApp({

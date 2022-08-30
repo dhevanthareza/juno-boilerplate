@@ -11,21 +11,21 @@
     DNT - Core
   </title>
 
-  <!--Fonts and icons-->
-  <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <!-- Fonts and icons -->
+	<script src="{!! asset('js/plugins/webfont/webfont.min.js') !!}"></script>
+	<script>
+		WebFont.load({
+			google: {"families":["Lato:300,400,700,900"]},
+			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['{!! asset("css/fonts.min.css") !!}']},
+			active: function() {
+				sessionStorage.fonts = true;
+			}
+		});
+	</script>
 
-  <!-- Nucleo Icons -->
-  <link href="{!! asset('css/nucleo-icons.css') !!}" rel="stylesheet" />
-  <link href="{!! asset('css/nucleo-svg.css') !!}" rel="stylesheet" />
-
-  <!-- Font Awesome Icons -->
-  <script src="//kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <link href="{!! asset('css/nucleo-svg.css') !!}" rel="stylesheet" />
-
-  <!-- Argon CSS -->
-  <link id="pagestyle" href="{!! asset('css/argon-dashboard.min.css') !!}" rel="stylesheet" />
-  <link id="pagestyle" href="{!! asset('css/core.css') !!}" rel="stylesheet" />
-
+  <!-- CSS Files -->
+	<link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
+	<link rel="stylesheet" href="{!! asset('css/atlantis.min.css') !!}">
 
   <!-- include Vue.js -->
   @if (env('APP_ENV') == 'PRODUCTION')
@@ -53,15 +53,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@vueform/multiselect@2.5.2/dist/multiselect.global.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vueform/multiselect@2.5.2/themes/default.css">
   <link id="pagestyle" href="{!! asset('css/app.css') !!}" rel="stylesheet" />
-</head>
 
-<body class="g-sidenav-show bg-gray-100">
-  <script src="{!! asset('js/toast.js') !!}"></script>
-  <script src="{!! asset('js/loading.js') !!}"></script>
-  <script src="{!! asset('js/httpClient.js') !!}"></script>
-  <script>
-    initializeHttpClient("{!! csrf_token() !!}");
-  </script>
-  <script src="{!! asset('js/navigator.js') !!}"></script>
-  <script src="{!! asset('js/vue_initial.js') !!}"></script>
-  <script src="{!! asset('js/ckeditor_initial.js') !!}"></script>
+</head>
+  

@@ -1,6 +1,6 @@
 @extends('dashboard_layout.index')
 @section('content')
-<div id="app">
+<div class="page-inner" id="app">
     <default-datatable title="Menu" url="{!! url('menu') !!}" :headers="headers" />
 </div>
 

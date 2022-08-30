@@ -32,7 +32,7 @@ function initializeNavigator() {
 function handleClick(e) {
     if (!shouldHandleClick(e)) return; // check is it click what we want to handle
     e.preventDefault();
-    navigate(e.target.href);
+    navigate(e.target.getAttribute('href'));
 }
 
 function navigate(
@@ -60,7 +60,7 @@ function navigate(
 
 
 async function handleNavigation(_, scroll = true) {
-    renderLoadingScreen(document.getElementById("coreroot"))
+    renderLoadingScreen(document.getElementById("root-content"))
     // Save scroll position
     const scrollPosition = { x: scrollX, y: scrollY };
     sessionStorage.setItem(
@@ -76,7 +76,7 @@ async function handleNavigation(_, scroll = true) {
         signal: navigatorController.signal,
         headers: { "X-Partial-Content": true },
     });
-    setInnerHTML(document.getElementById("coreroot"), page.data)
+    setInnerHTML(document.getElementById("root-content"), page.data)
     if (scroll) restoreScrollPosition();
     lastRenderedId = history.state.id;
     lastRenderedIndex = history.state.index;
@@ -103,18 +103,15 @@ function restoreScrollPosition() {
 
 // navigator tools
 function shouldHandleClick(e) {
-    const t = e.target;
-
+    const t = e.target
     return (
-        (t instanceof HTMLAnchorElement ||
-            t instanceof SVGAElement ||
-            t instanceof HTMLAreaElement) &&
+        // (t instanceof HTMLAnchorElement ||
+        //     t instanceof SVGAElement ||
+        //     t instanceof HTMLAreaElement) &&
         !e.defaultPrevented &&
-        t.href !== undefined &&
-        e.button === 0 &&
-        !e.shiftKey &&
-        !e.altKey &&
-        !e.ctrlKey 
+        (t.href !== undefined || 
+            t.hasAttribute('href')) &&
+        !t.hasAttribute('data-toggle')
         // (!t.target || t.target !== "_self") &&
         // !t.hasAttribute("download") &&
         // !t.relList.contains("external")
@@ -139,14 +136,16 @@ function setInnerHTML(elm, html) {
 }
 function renderLoadingScreen(elm) {
     elm.innerHTML = `
-    <div class="card bg-opacity-50">
-        <div class="card-body" style="height: 500px">
-            <div class="loading">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+    <div class="page-inner">
+        <div class="card bg-opacity-50">
+            <div class="card-body" style="height: 500px">
+                <div class="loading">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
             </div>
         </div>
     </div>

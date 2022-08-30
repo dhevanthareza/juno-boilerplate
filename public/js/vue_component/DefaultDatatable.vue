@@ -3,65 +3,54 @@
         <div class="card-header pb-0">
             <div class="d-flex justify-content-between">
                 <div>
-                    <h6>{{ title ?? "" }}</h6>
+                    <h4 class="card-title">{{ title }}</h4>
                 </div>
                 <div>
                     <a
                         :href="`${url}/create`"
                         type="button"
-                        class="btn btn-xs bg-primary me-1 text-white"
+                        class="btn btn-primary btn-round ml-auto"
                     >
                         Add Data
                     </a>
                 </div>
             </div>
-            <div class="d-flex justify-content-between mb-5">
-                <div :class="`input-group ${isSearchFocused ? 'focused' : ''}`">
-                    <span class="input-group-text"
-                        ><i class="fas fa-search" aria-hidden="true"></i
-                    ></span>
+            <div class="form-group">
+                <div class="input-icon">
                     <input
-                        v-model="keyword"
-                        @focus="isSearchFocused = true"
-                        @blur="isSearchFocused = false"
                         type="text"
+                        v-model="keyword"
                         class="form-control"
-                        placeholder="Search Data"
+                        placeholder="Search for..."
                     />
+                    <span class="input-icon-addon">
+                        <i class="fa fa-search"></i>
+                    </span>
                 </div>
             </div>
         </div>
         <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
+                <table class="table align-items-center mb-0 table-hover">
                     <thead>
                         <tr>
                             <th
                                 v-for="(header, index) in headers"
                                 :key="index"
-                                :class="`text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-${
+                                :class="`text-${
                                     header['align'] ? header['align'] : 'center'
                                 }`"
                             >
                                 {{ header["text"] }}
                             </th>
-                            <th
-                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
-                            >
-                                Actions
-                            </th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-if="isContentLoading">
                             <td :colspan="headers.length + 1">
                                 <div class="d-flex justify-content-center">
-                                    <div
-                                        class="spinner-border text-primary"
-                                        role="status"
-                                    >
-                                        <span class="sr-only">Loading...</span>
-                                    </div>
+                                    <div class="loader loader-lg"></div>
                                 </div>
                             </td>
                         </tr>
@@ -85,7 +74,7 @@
                                         :value="content[header['value']]"
                                     >
                                         <span
-                                            :class="`text-secondary text-xs font-weight-bold text-${
+                                            :class="`text-${
                                                 header['align']
                                                     ? header['align']
                                                     : 'left'
@@ -101,10 +90,15 @@
                                 </td>
                                 <td>
                                     <div class="d-flex">
+                                        <slot
+                                            name="left-action"
+                                            :content="content"
+                                        >
+                                        </slot>
                                         <a
                                             :href="`${url}/${content.id}/edit`"
                                             type="button"
-                                            class="btn btn-xs bg-primary me-1 text-white"
+                                            class="btn btn-xs bg-primary mr-1 text-white"
                                         >
                                             Edit
                                         </a>
@@ -115,6 +109,11 @@
                                         >
                                             Delete
                                         </button>
+                                        <slot
+                                            name="right-action"
+                                            :content="content"
+                                        >
+                                        </slot>
                                     </div>
                                 </td>
                             </tr>

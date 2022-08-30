@@ -1,6 +1,6 @@
 @extends('dashboard_layout.index')
 @section('content')
-<div id="permission-page">
+<div class="page-inner" id="permission-page">
     <default-datatable title="Role" url="{!! url('permission') !!}" :headers="headers" />
 </div>
 
