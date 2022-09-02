@@ -9,6 +9,7 @@ Route::prefix('/role')->group(function () {
     Route::get('/', [RoleController::class, 'index']);
     Route::get('/datatable', [RoleController::class, 'datatable']);
     Route::get('/create', [RoleController::class, 'create']);
+    Route::get('/all', [RoleController::class, 'all']);
     Route::post('/', [RoleController::class, 'store']);
     Route::get('/{role_id}', [RoleController::class, 'show']);
     Route::get('/{role_id}/detail', [RoleController::class, 'detail']);

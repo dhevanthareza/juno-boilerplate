@@ -1,58 +1,14 @@
 @extends('dashboard_layout.index')
 @section('content')
-    <style>
-        .modal-mask {
-            position: fixed;
-            z-index: 9998;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, .5);
-            display: table;
-            transition: opacity .3s ease;
-        }
-
-        .modal-wrapper {
-            display: table-cell;
-            vertical-align: middle;
-        }
-    </style>
-
     <div class="page-inner" id="user-page">
         <default-datatable title="User" url="{!! url('user') !!}" :headers="headers">
             <template #left-action="{ content }">
-                <button @click="handleRoleButtonClick" type="button" class="btn btn-xs btn-info mr-1" data-toggle="modal">
+                <button @click="handleRoleButtonClick(content.id)" type="button" class="btn btn-xs btn-info mr-1"
+                    data-toggle="modal">
                     Role
                 </button>
             </template>
         </default-datatable>
-        <div v-if="showModal">
-            <transition name="modal">
-                <div class="modal-mask">
-                    <div class="modal-wrapper">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Modal title</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true" @click="showModal = false">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Modal body text goes here.</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        @click="showModal = false">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </transition>
-        </div>
 
         <div ref="modal" class="modal fade" id="addRoleModal" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -64,11 +20,20 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="d-flex flex-row mb-3">
-                            <input type="text" v-model="keyword" class="form-control mr-2" placeholder="Cari Role" />
-                            <button type="button" class="btn btn-xs btn-primary mr-1">
-                                Tambah Role
-                            </button>
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-sm-10 mb-2">
+                                    <vue-multiselect v-model="selectedRoleId" :searchable="true"
+                                        :options="roles" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <div v-if="isAddingRole" class="loader loader-lg"></div>
+                                    <button v-if="!isAddingRole" @click="addUserRole" type="button"
+                                        class="btn btn-sm btn-primary btn-block">
+                                        Tambah Role
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <div class="table-responsive">
                             <table class="table align-items-center table-hover">
@@ -83,9 +48,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-
+                                    <tr v-if="isFetchingUserRole">
+                                        <td :colspan="2">
+                                            <div class="d-flex justify-content-center">
+                                                <div class="loader loader-lg"></div>
+                                            </div>
+                                        </td>
                                     </tr>
+                                    <template v-if="!isFetchingUserRole">
+                                        <tr v-for="role in userRoles">
+                                            <td>@{{ role.name }}</td>
+                                            <td>
+                                                <div v-if="isRemoveRole" class="loader loader-lg"></div>
+                                                <button v-if="!isRemoveRole" @click="removeUserRole(role.id)" type="button"
+                                                    class="btn btn-xs btn-danger">
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </template>
                                 </tbody>
                             </table>
                         </div>
@@ -99,8 +80,9 @@
         createApp({
             data() {
                 return {
-                    isRolesLoading: false,
                     roles: [],
+                    userRoles: [],
+                    isFetchingUserRole: false,
                     showModal: false,
                     headers: [{
                             text: 'id',
@@ -119,9 +101,15 @@
                             value: 'email',
                         },
                     ],
+                    selectedRoleId: null,
+                    selectedUserId: null,
+                    isAddingRole: false,
+                    isRemoveRole: false
                 }
             },
-            created() {},
+            created() {
+                this.fetchRoles()
+            },
             components: {
                 ...commonComponentMap(
                     [
@@ -130,11 +118,41 @@
                 )
             },
             methods: {
-                handleRoleButtonClick() {
-                    console.log("dsad")
-                    this.showModal = true
+                async handleRoleButtonClick(userId) {
+                    this.selectedUserId = userId
+                    $('#addRoleModal').modal()
+                    await this.fetchUserRoles(userId)
+                },
+                async addUserRole() {
+                    this.isAddingRole = true;
+                    await httpClient.post(`user/${this.selectedUserId}/role`, {
+                        role_id: this.selectedRoleId
+                    });
+                    this.isAddingRole = false;
+                    this.fetchUserRoles(this.selectedUserId)
+                },
+                async removeUserRole(role_id) {
+                    this.isRemoveRole = true;
+                    await httpClient.delete(`user/${this.selectedUserId}/role/${role_id}`);
+                    this.isRemoveRole = false;
+                    this.fetchUserRoles(this.selectedUserId)
+                },
+                async fetchUserRoles(userId) {
+                    this.isFetchingUserRole = true
+                    const response = await httpClient.get(`user/${userId}/role`);
+                    this.userRoles = response.data.result
+                    this.isFetchingUserRole = false
+                },
+                async fetchRoles() {
+                    const response = await httpClient.get('role/all');
+                    this.roles = response.data.result.map((role) => {
+                        return {
+                            value: role.id,
+                            label: role.name
+                        }
+                    })
                 }
             },
-        }).mount('#user-page');
+        }).component('vue-multiselect', VueformMultiselect).mount('#user-page');
     </script>
 @endsection

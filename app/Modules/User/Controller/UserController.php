@@ -6,6 +6,7 @@ use App\Handler\JsonResponseHandler;
 use App\Handler\JsonResponseType;
 use App\Http\Controllers\Controller;
 use App\Modules\User\Model\UserModel;
+use App\Modules\User\Model\UserRoleModel;
 use App\Modules\User\Request\UserLoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -91,12 +92,31 @@ class UserController extends Controller
         $payload = $request->all();
         unset($payload['created_at']);
         unset($payload['updated_at']);
-        if($payload['password'] != null && $payload['password'] != "") {
+        if ($payload['password'] != null && $payload['password'] != "") {
             $payload['password'] = Hash::make($payload['password']);
         } else {
             unset($payload['password']);
         }
         $User = UserModel::where('id', $user_id)->update($payload);
         return JsonResponseHandler::setResult($User)->send();
+    }
+
+    public function getRoles(Request $request, $user_id)
+    {
+        $user = UserModel::where('id', $user_id)->first();
+        return JsonResponseHandler::setResult($user->roles)->send();
+    }
+
+    public function addRole(Request $request, $user_id)
+    {
+        $role_id = $request->input('role_id');
+        $upsert = UserRoleModel::firstOrCreate(['user_id' => $user_id, 'role_id' => $role_id], ['user_id' => $user_id, 'role_id' => $role_id]);
+        return JsonResponseHandler::setResult($upsert)->send();
+    }
+
+    public function removeRole(Request $request, $user_id, $role_id)
+    {
+        $delete = UserRoleModel::where('user_id', $user_id)->where('role_id', $role_id)->delete();
+        return JsonResponseHandler::setResult($delete)->send();
     }
 }

@@ -53,4 +53,9 @@ class RoleController extends Controller
         $role = RoleModel::where('id', $role_id)->update($payload);
         return JsonResponseHandler::setResult($role)->send();
     }
+
+    public function all(Request $request) {
+        $roles = RoleModel::get();
+        return JsonResponseHandler::setResult($roles)->send();
+    }
 }

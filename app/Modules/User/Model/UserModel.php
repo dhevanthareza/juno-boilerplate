@@ -23,7 +23,7 @@ class UserModel extends Authenticatable
     // Relations
     public function roles()
     {
-        return $this->belongsToMany(RoleModel::class, 'user_roles', 'role_id', 'user_id');
+        return $this->belongsToMany(RoleModel::class, 'user_roles', 'user_id', 'role_id')->withPivot('deleted_at')->wherePivot('deleted_at', NULL);;
     }
 
     // Function
