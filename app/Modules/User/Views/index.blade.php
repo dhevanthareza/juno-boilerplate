@@ -57,8 +57,8 @@
                                     </tr>
                                     <template v-if="!isFetchingUserRole">
                                         <tr v-for="role in userRoles">
-                                            <td>@{{ role.name }}</td>
-                                            <td>
+                                            <td class="text-center">@{{ role.name }}</td>
+                                            <td class="text-center">
                                                 <div v-if="isRemoveRole" class="loader loader-lg"></div>
                                                 <button v-if="!isRemoveRole" @click="removeUserRole(role.id)" type="button"
                                                     class="btn btn-xs btn-danger">
@@ -139,12 +139,12 @@
                 },
                 async fetchUserRoles(userId) {
                     this.isFetchingUserRole = true
-                    const response = await httpClient.get(`user/${userId}/role`);
+                    const response = await httpClient.get(`{{ url('') }}/user/${userId}/role`);
                     this.userRoles = response.data.result
                     this.isFetchingUserRole = false
                 },
                 async fetchRoles() {
-                    const response = await httpClient.get('role/all');
+                    const response = await httpClient.get('{{ url('') }}/role/all');
                     this.roles = response.data.result.map((role) => {
                         return {
                             value: role.id,

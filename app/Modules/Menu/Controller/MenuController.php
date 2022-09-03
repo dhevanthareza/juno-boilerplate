@@ -5,6 +5,7 @@ namespace App\Modules\Menu\Controller;
 use App\Handler\JsonResponseHandler;
 use App\Http\Controllers\Controller;
 use App\Modules\Menu\Model\MenuModel;
+use App\Modules\Permission\Model\PermissionModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -89,5 +90,11 @@ class MenuController extends Controller
 
         $menu = MenuModel::where('id', $menu_id)->update($payload);
         return JsonResponseHandler::setResult($menu)->send();
+    }
+
+    public function permissions(Request $request, $menu_id)
+    {
+        $permissions = PermissionModel::where('menu_id', $menu_id)->get();
+        return JsonResponseHandler::setResult($permissions)->send();
     }
 }

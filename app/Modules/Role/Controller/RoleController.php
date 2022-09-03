@@ -4,7 +4,9 @@ namespace App\Modules\Role\Controller;
 
 use App\Handler\JsonResponseHandler;
 use App\Http\Controllers\Controller;
+use App\Modules\Permission\Model\PermissionModel;
 use App\Modules\Role\Model\RoleModel;
+use App\Modules\Role\Model\RolePermissionModel;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -57,5 +59,24 @@ class RoleController extends Controller
     public function all(Request $request) {
         $roles = RoleModel::get();
         return JsonResponseHandler::setResult($roles)->send();
+    }
+
+    public function permissionDatatable(Request $request, $role_id) {
+        $per_page = $request->input('per_page') != null ? $request->input('per_page') : 15;
+        $keyword = $request->input('keyword') != null ? $request->input('keyword') : null;
+        $role = RoleModel::where('id', $role_id)->first();
+        $permissions = $role->permissions()->with('menu')->search($keyword)->orderBy('menu_id')->paginate($per_page);
+        return JsonResponseHandler::setResult($permissions)->send();
+    }
+
+    public function addPermission(Request $request, $role_id) {
+        $permission_id = $request->input('permission_id');
+        $upsert = RolePermissionModel::firstOrCreate(['role_id' => $role_id, 'permission_id' => $permission_id], ['role_id' => $role_id, 'permission_id' => $permission_id]);
+        return JsonResponseHandler::setResult($upsert)->send();
+    }
+
+    public function deletePermission(Request $request, $role_id, $permission_id) {
+        $delete = RolePermissionModel::where('role_id', $role_id)->where('permission_id', $permission_id)->delete();
+        return JsonResponseHandler::setResult($delete)->send();
     }
 }

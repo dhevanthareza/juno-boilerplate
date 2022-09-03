@@ -7,6 +7,7 @@
                 </div>
                 <div>
                     <a
+                        v-if="canAdd"
                         :href="`${url}/create`"
                         type="button"
                         class="btn btn-primary btn-round ml-auto"
@@ -96,6 +97,7 @@
                                         >
                                         </slot>
                                         <a
+                                            v-if="canEdit"
                                             :href="`${url}/${content.id}/edit`"
                                             type="button"
                                             class="btn btn-xs bg-primary mr-1 text-white"
@@ -103,6 +105,7 @@
                                             Edit
                                         </a>
                                         <button
+                                            v-if="canDelete"
                                             @click="deleteData(content.id)"
                                             type="button"
                                             class="btn btn-xs btn-danger"
@@ -137,7 +140,32 @@ import PaginateContent from "./PaginateContent.vue";
 let fetchController = new AbortController();
 export default {
     components: { PaginateContent },
-    props: ["url", "headers", "title"],
+    props: {
+        url: {
+            type: String,
+            required: true,
+        },
+        headers: {
+            type: Array,
+            required: true,
+        },
+        title: {
+            type: String,
+            reqired: true,
+        },
+        canAdd: {
+            type: Boolean,
+            default: true,
+        },
+        canEdit: {
+            type: Boolean,
+            default: true,
+        },
+        canDelete: {
+            type: Boolean,
+            default: true,
+        },
+    },
     data() {
         return {
             isContentLoading: false,
@@ -145,7 +173,7 @@ export default {
             keyword: "",
             total: 0,
             page: 1,
-            per_page: 5,
+            per_page: 15,
             isSearchFocused: false,
         };
     },

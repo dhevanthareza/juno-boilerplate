@@ -14,6 +14,7 @@ Route::prefix('/menu')->group(function() {
     Route::get('/{menu_id}', [MenuController::class, 'show']);
     Route::get('/{menu_id}/detail', [MenuController::class, 'detail']);
     Route::get('/{menu_id}/edit', [MenuController::class, 'edit']);
+    Route::get('/{menu_id}/permissions', [MenuController::class, 'permissions']);
     Route::put('/{menu_id}', [MenuController::class, 'update']);
     Route::delete('/{menu_id}', [MenuController::class, 'destroy']);
 });
