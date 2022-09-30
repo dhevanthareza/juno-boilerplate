@@ -15,11 +15,14 @@ return new class extends Migration
     {
         Schema::create('employee', function (Blueprint $table) {
             $table->id();
+            $table->string('nip')->unique();
             $table->string('fullname');
             $table->date('dob');
             $table->text('address');
             $table->text('photo');
             $table->timestamps();
+            $table->softDeletes();
+            $table->index(['dob']);
         });
     }
 

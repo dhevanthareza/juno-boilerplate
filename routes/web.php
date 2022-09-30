@@ -15,13 +15,18 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::middleware([])->group(function () {
+Route::middleware(['auth'])->group(function () {
     require app_path('Modules/Employee/routes.php');
+    require app_path('Modules/Dashboard/routes.php');
+    require app_path('Modules/User/routes.php');
+    require app_path('Modules/Menu/routes.php');
+    require app_path('Modules/Role/routes.php');
+    require app_path('Modules/Permission/routes.php');
 });
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/user/login');
 });
 
 // tes view blade dan layout admin
@@ -32,7 +37,6 @@ Route::post('/karyawan/tessubmit', [KaryawanController::class, 'tessubmit']);
 // tes asset vue di dalam module -> views
 Route::get('/vue/karyawan/{filename}', function ($filename)
 {
-    //Add additional Logic Here
     if(preg_match('/[^a-zA-Z_\-0-9.]/i', $filename))
     {
         abort(403); //return 404 error if file not found
@@ -45,7 +49,7 @@ Route::get('/vue/karyawan/{filename}', function ($filename)
     }
  
     $type = File::extension($path); //determine the file type
-    if($type!='js' && $type!='vue'){
+    if($type != 'js' && $type != 'vue'){
         abort(404); //return 404 error if file not found
     }
     $file = File::get($path); //get the file

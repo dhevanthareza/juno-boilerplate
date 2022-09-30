@@ -4,32 +4,42 @@ namespace App\Modules\Employee\Controller;
 
 use App\Handler\JsonResponseHandler;
 use App\Http\Controllers\Controller;
+use App\Modules\Employee\Model\EmployeeModel;
 use App\Modules\Employee\Request\EmployeeCreateRequest;
-use EmployeeModel;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('karyawan::index');
+        return view('Employee::index');
+    }
+
+    public function datatable(Request $request)
+    {
+        $per_page = $request->input('per_page') != null ? $request->input('per_page') : 15;
+        $employees = EmployeeModel::paginate($per_page);
+        return JsonResponseHandler::setResult($employees)->send();
     }
 
     public function create()
     {
         // show create form
     }
-    
+
     public function store(EmployeeCreateRequest $request)
-    {
-        $validated = $request->validated();
-        $employee = EmployeeModel::create($validated);
+    {   
+        $payload = $request->all();
+        $path = $request->file('photo')->storePubliclyAs('public/employee_photo', $payload['fullname'] . ".jpg");
+        $payload['photo'] = $path; 
+        $employee = EmployeeModel::create($payload);
         return JsonResponseHandler::setResult($employee)->send();
     }
 
     public function show($id)
     {
-        // show a single article
+        $employee = EmployeeModel::where('id', $id)->first();
+        return JsonResponseHandler::setResult($employee)->send();
     }
 
     public function edit($id)
@@ -44,6 +54,7 @@ class EmployeeController extends Controller
 
     public function destroy($id)
     {
-        // delete a article
+        $delete = EmployeeModel::where('id', $id)->delete();
+        return JsonResponseHandler::setResult($delete)->send();
     }
 }
