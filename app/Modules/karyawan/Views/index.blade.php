@@ -1,6 +1,7 @@
 @extends('dashboard_layout.index')
 
 @section('content')
+<script src="{!! url('vue/karyawan/routes.js') !!}"></script>
 
 <div id="app">
 
