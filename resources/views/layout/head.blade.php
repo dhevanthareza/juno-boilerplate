@@ -24,7 +24,7 @@
 	</script>
 
   <!-- CSS Files -->
-	<link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
+  <!-- Load CSS assets with Vite -->
   @vite
   
   <!-- include Vue.js -->

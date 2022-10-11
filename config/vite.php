@@ -15,7 +15,8 @@ return [
             'entrypoints' => [
                 'ssr' => 'resources/scripts/ssr.ts',
                 'paths' => [
-                    'resources/scss/atlantis.scss',
+                    'resources/scss/dnt-core.scss',
+                    // 'resources/scss/atlantis.scss',
                     // 'resources/css/tailwind.css',
                     // 'resources/scripts/main.ts',
                     // 'resources/js/app.js',
