@@ -14,7 +14,6 @@ yarn-error.log
 /.idea
 /.vscode
 
-tsconfig.json
 composer.lock
 package-lock.json
 vite.config.ts
