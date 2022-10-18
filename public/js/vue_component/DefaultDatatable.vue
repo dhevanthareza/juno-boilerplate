@@ -1,39 +1,41 @@
 <template>
     <div class="card mb-4">
-        <div class="card-header pb-0">
-            <div class="d-flex justify-content-between">
-                <div>
-                    <h4 class="card-title">{{ title }}</h4>
-                </div>
-                <div>
-                    <a
-                        v-if="canAdd"
-                        :href="`${url}/create`"
-                        type="button"
-                        class="btn btn-primary btn-round ml-auto"
-                    >
-                        Add Data
-                    </a>
+        <div class="card-header">
+            <div class="card-head-row justify-content-between">
+                <h4 class="card-title"><strong>{{ title }}</strong></h4>
+                <div class="d-flex align-items-center">
+                    <div class="form-group">
+                        <div class="input-icon">
+                            <input
+                                type="text"
+                                v-model="keyword"
+                                class="form-control"
+                                placeholder="Search for..."
+                            />
+                            <span class="input-icon-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <a
+                            v-if="canAdd"
+                            :href="`${url}/create`"
+                            type="button"
+                            class="btn btn-primary btn-round ml-auto"
+                        >
+                            <div class="fa fa-fw fa-plus mr-2"></div>
+                            Add Data
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="input-icon">
-                    <input
-                        type="text"
-                        v-model="keyword"
-                        class="form-control"
-                        placeholder="Search for..."
-                    />
-                    <span class="input-icon-addon">
-                        <i class="fa fa-search"></i>
-                    </span>
-                </div>
-            </div>
+            
         </div>
         <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0 table-hover">
-                    <thead>
+                    <thead class="bg-grey1">
                         <tr>
                             <th
                                 v-for="(header, index) in headers"
@@ -124,7 +126,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="px-5">
+            <div class="px-5 mt-4">
                 <paginate-content
                     @onPageClick="handlePageItemClick"
                     :page="page"

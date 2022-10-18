@@ -24,9 +24,9 @@
 	</script>
 
   <!-- CSS Files -->
-	<link rel="stylesheet" href="{!! asset('css/bootstrap.min.css') !!}">
-	<link rel="stylesheet" href="{!! asset('css/atlantis.min.css') !!}">
-
+  <!-- Load CSS assets with Vite -->
+  @vite
+  
   <!-- include Vue.js -->
   @if (env('APP_ENV') == 'PRODUCTION')
   <script src="{!! asset('js/libraries/vue/vue.global.prod.js') !!}"></script>
@@ -53,6 +53,5 @@
   <script src="https://cdn.jsdelivr.net/npm/@vueform/multiselect@2.5.2/dist/multiselect.global.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vueform/multiselect@2.5.2/themes/default.css">
   <link id="pagestyle" href="{!! asset('css/app.css') !!}" rel="stylesheet" />
-
 </head>
   

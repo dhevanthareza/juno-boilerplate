@@ -8,7 +8,8 @@
     createApp({
         data() {
             return {
-                headers: [{
+                headers: [
+                    {
                         text: 'id',
                         value: 'id',
                         align: 'center'
