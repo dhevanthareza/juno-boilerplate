@@ -10,7 +10,7 @@ export default defineConfig({
 				// tailwindcss(),
 				autoprefixer(),
 			],
-			php : "C:/xampp7/php/php8.exe"
+			// php : "C:/xampp7/php/php8.exe"
 		}),
 		
 	],
