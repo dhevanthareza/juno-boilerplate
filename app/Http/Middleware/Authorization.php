@@ -20,7 +20,7 @@ class Authorization
     {
         $isHavePermission = UserService::checkIsHavePermission(Auth::user()->id, $permission_code);
         if(!$isHavePermission) {
-            return dd("Anda tidak diijinkan");
+            return response()->view('layout.error');
         }
         return $next($request);
     }
