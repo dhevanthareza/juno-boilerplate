@@ -20,13 +20,13 @@ class MenuController extends Controller
         }, $roles);
         $menus = MenuModel::with(['childs' => function ($q) use ($role_ids) {
             $q->whereHas('permissions', function ($q) use ($role_ids) {
-                $q->where('code', 'read')->whereHas('roles', function ($q) use ($role_ids) {
+                $q->where('code', 'like' ,'%read%')->whereHas('roles', function ($q) use ($role_ids) {
                     $q->whereIn('roles.id', $role_ids);
                 });
             });
         }, 'permissions', 'permissions.roles'])->whereNull('parent_id')->where(function ($q) use ($role_ids) {
             $q->orWhereHas('permissions', function ($q) use ($role_ids) {
-                $q->where('code', 'read')->whereHas('roles', function ($q) use ($role_ids) {
+                $q->where('code', 'like', '%read%')->whereHas('roles', function ($q) use ($role_ids) {
                     $q->whereIn('roles.id', $role_ids);
                 });
             })->orHas('childs');

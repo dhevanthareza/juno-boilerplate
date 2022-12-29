@@ -27,7 +27,7 @@ class UserModel extends Authenticatable
     }
 
     // Function
-    protected function getRole() {
+    protected function getRoles() {
         return $this->roles();
     }
 }
