@@ -18,25 +18,25 @@ class PermissionSeeder extends Seeder
         DB::table('permissions')->insert([
             [
                 'id' => 1,
-                'code' => 'create',
+                'code' => 'create-user',
                 'description' => 'Create User',
                 'menu_id' => 2
             ],
             [
                 'id' => 2,
-                'code' => 'read',
+                'code' => 'read-user',
                 'description' => 'Read User',
                 'menu_id' => 2
             ],
             [
                 'id' => 3,
-                'code' => 'update',
+                'code' => 'update-user',
                 'description' => 'Update User',
                 'menu_id' => 2
             ],
             [
                 'id' => 4,
-                'code' => 'delete',
+                'code' => 'delete-user',
                 'description' => 'Delete User',
                 'menu_id' => 2
             ],
@@ -48,25 +48,25 @@ class PermissionSeeder extends Seeder
             ],
             [
                 'id' => 6,
-                'code' => 'create',
+                'code' => 'create-role',
                 'description' => 'Create Role',
                 'menu_id' => 3
             ],
             [
                 'id' => 7,
-                'code' => 'read',
+                'code' => 'read-role',
                 'description' => 'Read Role',
                 'menu_id' => 3
             ],
             [
                 'id' => 8,
-                'code' => 'update',
+                'code' => 'update-role',
                 'description' => 'Update Role',
                 'menu_id' => 3
             ],
             [
                 'id' => 9,
-                'code' => 'delete',
+                'code' => 'delete-role',
                 'description' => 'Delete Role',
                 'menu_id' => 3
             ],
@@ -78,73 +78,73 @@ class PermissionSeeder extends Seeder
             ],
             [
                 'id' => 11,
-                'code' => 'create',
+                'code' => 'create-menu',
                 'description' => 'Create Menu',
                 'menu_id' => 4
             ],
             [
                 'id' => 12,
-                'code' => 'read',
+                'code' => 'read-menu',
                 'description' => 'Read Menu',
                 'menu_id' => 4
             ],
             [
                 'id' => 13,
-                'code' => 'update',
+                'code' => 'update-menu',
                 'description' => 'Update Menu',
                 'menu_id' => 4
             ],
             [
                 'id' => 14,
-                'code' => 'delete',
+                'code' => 'delete-menu',
                 'description' => 'Delete Menu',
                 'menu_id' => 4
             ],
             [
                 'id' => 15,
-                'code' => 'create',
+                'code' => 'create-permission',
                 'description' => 'Create Permission',
                 'menu_id' => 5
             ],
             [
                 'id' => 16,
-                'code' => 'read',
+                'code' => 'read-permission',
                 'description' => 'Read Permission',
                 'menu_id' => 5
             ],
             [
                 'id' => 17,
-                'code' => 'update',
+                'code' => 'update-permission',
                 'description' => 'Update Permission',
                 'menu_id' => 5
             ],
             [
                 'id' => 18,
-                'code' => 'delete',
+                'code' => 'delete-permission',
                 'description' => 'Delete Permission',
                 'menu_id' => 5
             ],
             [
                 'id' => 15,
-                'code' => 'create',
+                'code' => 'create-employee',
                 'description' => 'Create Employee',
                 'menu_id' => 7
             ],
             [
                 'id' => 16,
-                'code' => 'read',
+                'code' => 'read-employee',
                 'description' => 'Read Employee',
                 'menu_id' => 7
             ],
             [
                 'id' => 17,
-                'code' => 'update',
+                'code' => 'update-employee',
                 'description' => 'Update Employee',
                 'menu_id' => 7
             ],
             [
                 'id' => 18,
-                'code' => 'delete',
+                'code' => 'delete-employee',
                 'description' => 'Delete Employee',
                 'menu_id' =>7
             ],
