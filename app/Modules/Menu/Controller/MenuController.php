@@ -20,7 +20,7 @@ class MenuController extends Controller
         }, $roles);
         $menus = MenuModel::with(['childs' => function ($q) use ($role_ids) {
             $q->whereHas('permissions', function ($q) use ($role_ids) {
-                $q->where('code', 'like' ,'%read%')->whereHas('roles', function ($q) use ($role_ids) {
+                $q->where('code', 'like', '%read%')->whereHas('roles', function ($q) use ($role_ids) {
                     $q->whereIn('roles.id', $role_ids);
                 });
             });
@@ -74,6 +74,30 @@ class MenuController extends Controller
     {
         $payload = $request->all();
         $menu = MenuModel::create($payload);
+        $menu_code = strtolower(join("_", explode(" ", $menu->name)));
+        $permission_payload = [
+            [
+                'code' => 'create-' . $menu_code,
+                'description' => 'Create ' . $menu->name,
+                'menu_id' => $menu->id
+            ],
+            [
+                'code' => 'read-' . $menu_code,
+                'description' => 'Read ' . $menu->name,
+                'menu_id' => $menu->id
+            ],
+            [
+                'code' => 'update-' . $menu_code,
+                'description' => 'Update ' . $menu->name,
+                'menu_id' => $menu->id
+            ],
+            [
+                'code' => 'delete-' . $menu_code,
+                'description' => 'Delete ' . $menu->name,
+                'menu_id' => $menu->id
+            ]
+        ];
+        PermissionModel::insert($permission_payload);
         return JsonResponseHandler::setResult($menu)->send();
     }
 

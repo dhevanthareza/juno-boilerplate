@@ -21,5 +21,6 @@ class ModuleViewServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../Modules/User/Views', 'User');
         $this->loadViewsFrom(__DIR__.'/../Modules/Role/Views', 'Role');
         $this->loadViewsFrom(__DIR__.'/../Modules/Permission/Views', 'Permission');
+        $this->loadViewsFrom(__DIR__.'/../Modules/Module/Views', 'Module');
     }
 }
