@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->foreign('parent_id')->references('id')->on('menus');
+            $table->unsignedBigInteger('module_id')->nullable();
+            $table->foreign('module_id')->references('id')->on('module');
             $table->timestamps();
             $table->softDeletes();
         });

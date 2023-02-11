@@ -28,40 +28,53 @@ class MenuSeeder extends Seeder
                 'name' => 'User',
                 'path' => '/user',
                 'description' => 'Organize User',
-                'parent_id' => 1
+                'parent_id' => 1,
+                'module_id' => 1
             ],
             [
                 'id' => 3,
                 'name' => 'Role',
                 'path' => '/role',
                 'description' => 'Organize Role',
-                'parent_id' => 1
+                'parent_id' => 1,
+                'module_id' => 2
             ],
             [
                 'id' => 4,
                 'name' => 'Menu',
                 'path' => '/menu',
                 'description' => 'Organize Menu',
-                'parent_id' => 1
+                'parent_id' => 1,
+                'module_id' => 3
             ],
             [
                 'id' => 5,
                 'name' => 'Permission',
                 'path' => '/permission',
                 'description' => 'Organize Permission',
-                'parent_id' => 1
+                'parent_id' => 1,
+                'module_id' => 4
             ],
             [
-                'id' => 6,
+                'id' => 7,
                 'name' => 'Master Data',
                 'description' => 'Organize Permission',
             ],
             [
-                'id' => 7,
+                'id' => 8,
                 'name' => 'Employee',
                 'path' => '/employee',
                 'description' => 'Organize employee',
-                'parent_id' => 6
+                'parent_id' => 6,
+                'module_id' => 5
+            ],
+            [
+                'id' => 10,
+                'name' => 'Module',
+                'path' => '/module',
+                'description' => 'Organize module',
+                'parent_id' => 1,
+                'module_id' => 5
             ],
         ]);
     }
