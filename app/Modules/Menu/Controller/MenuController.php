@@ -8,6 +8,7 @@ use App\Modules\Menu\Model\MenuModel;
 use App\Modules\Permission\Model\PermissionModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use MenuRepository;
 
 class MenuController extends Controller
 {
@@ -73,31 +74,7 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         $payload = $request->all();
-        $menu = MenuModel::create($payload);
-        $menu_code = strtolower(join("_", explode(" ", $menu->name)));
-        $permission_payload = [
-            [
-                'code' => 'create-' . $menu_code,
-                'description' => 'Create ' . $menu->name,
-                'menu_id' => $menu->id
-            ],
-            [
-                'code' => 'read-' . $menu_code,
-                'description' => 'Read ' . $menu->name,
-                'menu_id' => $menu->id
-            ],
-            [
-                'code' => 'update-' . $menu_code,
-                'description' => 'Update ' . $menu->name,
-                'menu_id' => $menu->id
-            ],
-            [
-                'code' => 'delete-' . $menu_code,
-                'description' => 'Delete ' . $menu->name,
-                'menu_id' => $menu->id
-            ]
-        ];
-        PermissionModel::insert($permission_payload);
+        $menu = MenuRepository::createMenu($payload);
         return JsonResponseHandler::setResult($menu)->send();
     }
 
