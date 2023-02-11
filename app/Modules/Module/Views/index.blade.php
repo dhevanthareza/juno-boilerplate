@@ -18,6 +18,10 @@
                         text: 'Nama Module',
                         value: 'name',
                     },
+                    {
+                        text: 'Deskripsi Module',
+                        value: 'description',
+                    },
                 ],
             }
         },

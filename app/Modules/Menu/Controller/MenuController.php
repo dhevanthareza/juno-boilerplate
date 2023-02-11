@@ -5,10 +5,10 @@ namespace App\Modules\Menu\Controller;
 use App\Handler\JsonResponseHandler;
 use App\Http\Controllers\Controller;
 use App\Modules\Menu\Model\MenuModel;
+use App\Modules\Menu\Repository\MenuRepository;
 use App\Modules\Permission\Model\PermissionModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use MenuRepository;
 
 class MenuController extends Controller
 {

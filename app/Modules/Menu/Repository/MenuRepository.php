@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Modules\Menu\Repository;
 use App\Modules\Menu\Model\MenuModel;
 use App\Modules\Permission\Model\PermissionModel;
 

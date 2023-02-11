@@ -1,8 +1,10 @@
 <?php 
 
-namespace App\Modules\Module;
+namespace App\Modules\Module\Controller;
 
+use App\Handler\JsonResponseHandler;
 use App\Http\Controllers\Controller;
+use App\Modules\Module\Model\ModuleModel;
 use Illuminate\Http\Request;
 
 class ModuleController extends Controller {
@@ -13,9 +15,9 @@ class ModuleController extends Controller {
 
     public function datatable(Request $request)
     {
-        // $per_page = $request->input('per_page') != null ? $request->input('per_page') : 15;
-        // $employees = EmployeeModel::paginate($per_page);
-        // return JsonResponseHandler::setResult($employees)->send();
+        $per_page = $request->input('per_page') != null ? $request->input('per_page') : 15;
+        $employees = ModuleModel::paginate($per_page);
+        return JsonResponseHandler::setResult($employees)->send();
     }
 
     public function create()

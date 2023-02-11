@@ -2,9 +2,11 @@
 namespace App\Modules\Module;
 
 use App\Modules\Menu\Controller\MenuController;
+use App\Modules\Module\Controller\ModuleController;
 use Illuminate\Support\Facades\Route;
 Route::prefix('/module')->group(function() {
-    Route::get('/', [MenuController::class, 'index']);
+    Route::get('/', [ModuleController::class, 'index']);
+    Route::get('/datatable', [ModuleController::class, 'datatable']);
     Route::get('/create', [MenuController::class, 'create']);
     Route::post('/', [MenuController::class, 'store']);
     Route::get('/{menu_id}', [MenuController::class, 'show']);
