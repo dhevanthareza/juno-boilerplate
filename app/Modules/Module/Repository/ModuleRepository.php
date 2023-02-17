@@ -31,7 +31,9 @@ class ModuleRepository
         self::generateRoute($module_path, $module_name, $module_url, $module_variable);
         // Create DB Migration
         // Create Model
+        self::generateModel($module_name, $module_variable, $module_path);
         // Create Repository
+        self::generateRepository();
         // Create Controller
         // Create View
     }
@@ -87,5 +89,28 @@ class ModuleRepository
         array_splice($file_lines, $matched_line_index-1, 0, $insert_string);
         $modified_file_contents = implode("", $file_lines);
         file_put_contents($file_path, $modified_file_contents);
+    }
+
+    private static function generateModel($module_name, $module_variable, $module_path)
+    {
+        $model_string = <<<END
+        <?php
+        namespace App\Modules\\{$module_name}\Model;
+        use Illuminate\Database\Eloquent\Model;
+        use Illuminate\Database\Eloquent\SoftDeletes;
+
+        class {$module_name} extends Model
+        {
+            use SoftDeletes;
+            protected \$table = '{$module_variable}';
+            protected \$guarded = [];
+        }
+        END;
+
+        File::put($module_path . '/Models//' . $module_name . '.php', $model_string);
+    }
+
+    private static function generateRepository() {
+        
     }
 }

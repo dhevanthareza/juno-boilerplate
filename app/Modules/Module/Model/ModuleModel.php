@@ -9,5 +9,4 @@ class ModuleModel extends Model {
     use SoftDeletes;
     protected $table = 'module';
     protected $guarded = ['created_at', 'updated_at', 'deleted_at'];
-
 }
