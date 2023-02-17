@@ -5,6 +5,7 @@ namespace App\Modules\Module\Controller;
 use App\Handler\JsonResponseHandler;
 use App\Http\Controllers\Controller;
 use App\Modules\Module\Model\ModuleModel;
+use App\Modules\Module\Repository\ModuleRepository;
 use Illuminate\Http\Request;
 
 class ModuleController extends Controller {
@@ -22,16 +23,14 @@ class ModuleController extends Controller {
 
     public function create()
     {
-        // show create form
+        return view('Module::create');
     }
 
     public function store(Request $request)
     {   
-        // $payload = $request->all();
-        // $path = $request->file('photo')->storePubliclyAs('public/employee_photo', $payload['fullname'] . ".jpg");
-        // $payload['photo'] = $path; 
-        // $employee = EmployeeModel::create($payload);
-        // return JsonResponseHandler::setResult($employee)->send();
+        $payload = $request->all();
+        $module = ModuleRepository::create($payload['module'], $payload['menu']);
+        return JsonResponseHandler::setResult($module)->send();
     }
 
     public function show($id)
