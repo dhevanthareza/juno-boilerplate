@@ -28,12 +28,12 @@ class ModuleRepository
         // Generate Folder
         self::generateFolder($module_path);
         // Generate Route
-        self::generateRoute($module_path, $module_name, $module_url, $module_variable);
+        self::generateRoute($module_name, $module_url, $module_variable, $module_path);
         // Create DB Migration
         // Create Model
         self::generateModel($module_name, $module_variable, $module_path);
         // Create Repository
-        self::generateRepository();
+        self::generateRepository($module_name, $module_variable, $module_path);
         // Create Controller
         // Create View
     }
@@ -49,7 +49,7 @@ class ModuleRepository
         File::makeDirectory($module_path . '/Views', 0755);
     }
 
-    private static function generateRoute($module_path, $module_name, $module_url, $module_variable)
+    private static function generateRoute($module_name, $module_url, $module_variable, $module_path)
     {
         // creating routes.php in module
         $route_string = <<<END
@@ -80,13 +80,13 @@ class ModuleRepository
         $file_lines = file($file_path);
 
         $matched_line_index = 18;
-        foreach($file_lines as $index => $line) {
-            if(str_contains($line, $search_string)) {
+        foreach ($file_lines as $index => $line) {
+            if (str_contains($line, $search_string)) {
                 $matched_line_index = $index;
             }
         }
 
-        array_splice($file_lines, $matched_line_index-1, 0, $insert_string);
+        array_splice($file_lines, $matched_line_index - 1, 0, $insert_string);
         $modified_file_contents = implode("", $file_lines);
         file_put_contents($file_path, $modified_file_contents);
     }
@@ -110,7 +110,48 @@ class ModuleRepository
         File::put($module_path . '/Models//' . $module_name . '.php', $model_string);
     }
 
-    private static function generateRepository() {
-        
+    private static function generateRepository($module_name, $module_variable, $module_path)
+    {
+        $repository_string = <<<END
+        <?php
+
+        namespace App\Modules\\{$module_name}\Repositories;
+
+        use App\Modules\\{$module_name}\Model\\{$module_name};
+
+        class EmployeeRepository
+        {
+            public static function datatable(\$per_page = 15)
+            {
+                \$employees = {$module_name}::paginate(\$per_page);
+                return \$employees;
+            }
+            public static function get(\${$module_variable}_id)
+            {
+                \${$module_variable} = {$module_name}::where('id', \${$module_variable}_id)->first();
+                return \${$module_variable};
+            }
+            public static function create(\${$module_variable})
+            {
+                \${$module_variable} = {$module_name}::create(\${$module_variable});
+                return \${$module_variable};
+            }
+
+            public static function update(\${$module_variable}_id, \${$module_variable})
+            {
+                {$module_name}::where('id', \${$module_variable}_id)->update(\${$module_variable});
+                \${$module_variable} = {$module_name}::where('id', \${$module_variable}_id)->first();
+                return \${$module_variable};
+            }
+
+            public static function delete(\${$module_variable}_id)
+            {
+                \$delete = {$module_name}::where('id', \${$module_variable}_id)->delete();
+                return \$delete;
+            }
+        }
+        END;
+
+        File::put($module_path . '/Repositories//' . $module_name . 'Repository.php', $repository_string);
     }
 }
