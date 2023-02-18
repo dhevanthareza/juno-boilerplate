@@ -71,3 +71,6 @@ php artisan storage:link
 
 Production: npm run build
 Development: npm run dev
+
+
+php artisan test --filter ModuleTest
