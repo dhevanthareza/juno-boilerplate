@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\File;
 
 class ModuleRepository
 {
-    public static function create($module_payload, $menu_payload)
+    public static function create($module_payload, $menu_payload, $property_payload)
     {
         // TODO : Create module data
         $module = ModuleModel::creeat($module_payload);
@@ -17,9 +17,9 @@ class ModuleRepository
         $menu = MenuRepository::createMenu($menu_payload);
 
         // TODO : Create module and menu file
-        self::generateModuleFile($module_payload);
+        self::generateModuleFile($module_payload, $property_payload);
     }
-    public static function generateModuleFile($module_payload)
+    public static function generateModuleFile($module_payload, $property_payload)
     {
         $module_name = join("", explode(" ", $module_payload['name'])); // Patter must Be ModuleName, Employee, UserPreferences, modulename
         $module_url = strtolower(join("-", explode(" ", $module_payload['name']))); // module-name, employee, user-preferences
@@ -30,6 +30,9 @@ class ModuleRepository
         // Generate Route
         self::generateRoute($module_name, $module_url, $module_variable, $module_path);
         // Create DB Migration
+        if(count($property_payload) > 0) {
+            self::generateMigration($module_variable, $property_payload);
+        }
         // Create Model
         self::generateModel($module_name, $module_variable, $module_path);
         // Create Repository
@@ -53,7 +56,63 @@ class ModuleRepository
         File::makeDirectory($module_path . '/Controllers', 0755);
         File::makeDirectory($module_path . '/Views', 0755);
     }
+    private static function generateMigration($module_variable, $property_payload) {
+        $migration_string = <<<END
+        <?php
 
+        use Illuminate\Database\Migrations\Migration;
+        use Illuminate\Database\Schema\Blueprint;
+        use Illuminate\Support\Facades\Schema;
+        
+        return new class extends Migration
+        {
+            /**
+             * Run the migrations.
+             *
+             * @return void
+             */
+            public function up()
+            {
+                Schema::create('{$module_variable}', function (Blueprint \$table) {
+        END;
+        $migration_string = $migration_string . "\n\t\t\t\$table->id();";
+
+        foreach($property_payload as $property) {
+            $type = $property['type'];
+            $name = $property['name'];
+            $length = $property['length'] != null ? $property['length'] : 255;
+
+            if($type == 'double'){
+                $migration_string = $migration_string . "\n\t\t\t\$table->$type('$name', $length, 10);";
+            } 
+            else if($type == 'decimal'){
+                $migration_string = $migration_string . "\n\t\t\t\$table->$type('$name', \$precision = $length, \$scale = 8);";
+            } 
+            else if($type == 'string'){
+                $migration_string = $migration_string . "\n\t\t\t\$table->$type('$name', $length);";
+            }
+            else {
+                $migration_string = $migration_string . "\n\t\t\t\$table->$type('$name');";
+            }
+        }
+
+        $migration_string = $migration_string . <<<END
+                \n\t\t});
+            }
+
+            /**
+             * Reverse the migrations.
+             *
+             * @return void
+             */
+            public function down()
+            {
+                Schema::dropIfExists('{$module_variable}');
+            }
+        };
+        END;
+        File::put(base_path() . '/database/migrations/' . date('Y_m_d_His') . "_create_{$module_variable}_table.php", $migration_string);
+    }
     private static function generateRoute($module_name, $module_url, $module_variable, $module_path)
     {
         // creating routes.php in module

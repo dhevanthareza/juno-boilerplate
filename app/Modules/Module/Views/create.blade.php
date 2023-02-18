@@ -61,12 +61,57 @@
                     </div>
                 </form>
             </div>
+            <div class="card-header">
+                <div class="row justify-content-between px-3">
+                    <h4 class="card-title">Property Modul</h6>
+                        <button @click="handleAddPropertyClick" class="btn btn-primary btn-round btn-sm">Tambah
+                            Property</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <form ref="property_form">
+                    <div class="row align-items-center" v-for="(property, index) in properties" :key="index">
+                        <div class="form-group">
+                            <label class="form-control-label">Nama Properti</label>
+                            <input v-model="property.name" class="form-control" type="text">
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-control-label">Label Properti</label>
+                                <input v-model="property.label" class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-control-label">Tipe Properti</label>
+                                <vue-multiselect v-model="property.type" :searchable="true" :options="propertyTypes" />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-control-label">Panjang Properti</label>
+                                <input v-model="property.length" class="form-control" type="number">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-control-label">Tipe Input</label>
+                                <vue-multiselect v-model="property.input_type" :searchable="true" :options="inputTypes" />
+                            </div>
+                        </div>
+                        <button @click="handleRemovePropertyClick(index)" type="button"
+                            class="btn btn-danger btn-rounded btn-icon mr-3 mt-4">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
             <div class="pb-2 pr-4">
                 <div class="d-flex justify-content-end">
-                    <button type="button" @click="back" class="btn btn-sm bg-warning mr-1 text-white">
+                    <button type="button" @click="back" class="btn bg-warning mr-2 text-white">
                         Cancel
                     </button>
-                    <button type="button" @click="store" class="btn btn-sm bg-primary mr-1 text-white">
+                    <button type="button" @click="store" class="btn bg-primary mr-1 text-white">
                         Save Data
                     </button>
                 </div>
@@ -87,10 +132,38 @@
                         description: null,
                         parent_id: null
                     },
+                    properties: [],
                     menuParents: [{
                         value: null,
                         label: "No Parent"
-                    }]
+                    }, ],
+                    propertyTypes: [
+                        "string",
+                        "bigInteger",
+                        "integer",
+                        "float",
+                        "tinyInteger",
+                        "smallInteger",
+                        "double",
+                        "decimal",
+                        "text",
+                        "longtext",
+                        "mediumtext",
+                        "date",
+                        "dateTime",
+                        "timestamp",
+                        "time",
+                        "boolean",
+                        "binary"
+                    ],
+                    inputTypes: [
+                        'INPUT',
+                        'CHECKBOX',
+                        'PASSWORD',
+                        'RADIO',
+                        'SELECT',
+                        'TEXTAREA'
+                    ],
                 }
             },
             watch: {
@@ -117,6 +190,18 @@
                 back() {
                     history.back()
                 },
+                handleAddPropertyClick() {
+                    this.properties.push({
+                        name: null,
+                        label: null,
+                        type: null,
+                        length: null,
+                        input_type: null
+                    })
+                },
+                handleRemovePropertyClick(index) {
+                    this.properties.splice(index, 1)
+                }
             },
             components: {
                 'vue-multiselect': VueformMultiselect
