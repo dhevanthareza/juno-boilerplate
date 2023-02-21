@@ -30,7 +30,7 @@ class ModuleRepository
         // Generate Route
         self::generateRoute($module_name, $module_url, $module_variable, $module_path);
         // Create DB Migration
-        if(count($property_payload) > 0) {
+        if (count($property_payload) > 0) {
             self::generateMigration($module_variable, $property_payload);
         }
         // Create Model
@@ -42,7 +42,7 @@ class ModuleRepository
         // Create Controller
         self::generateController($module_name, $module_variable, $module_path);
         // Create View
-        self::generateView($module_name, $module_url, $module_variable, $module_path);
+        self::generateView($module_name, $module_url, $module_variable, $module_path, $property_payload);
     }
     private static function generateFolder($module_path)
     {
@@ -56,7 +56,8 @@ class ModuleRepository
         File::makeDirectory($module_path . '/Controllers', 0755);
         File::makeDirectory($module_path . '/Views', 0755);
     }
-    private static function generateMigration($module_variable, $property_payload) {
+    private static function generateMigration($module_variable, $property_payload)
+    {
         $migration_string = <<<END
         <?php
 
@@ -77,21 +78,18 @@ class ModuleRepository
         END;
         $migration_string = $migration_string . "\n\t\t\t\$table->id();";
 
-        foreach($property_payload as $property) {
+        foreach ($property_payload as $property) {
             $type = $property['type'];
             $name = $property['name'];
             $length = $property['length'] != null ? $property['length'] : 255;
 
-            if($type == 'double'){
+            if ($type == 'double') {
                 $migration_string = $migration_string . "\n\t\t\t\$table->$type('$name', $length, 10);";
-            } 
-            else if($type == 'decimal'){
+            } else if ($type == 'decimal') {
                 $migration_string = $migration_string . "\n\t\t\t\$table->$type('$name', \$precision = $length, \$scale = 8);";
-            } 
-            else if($type == 'string'){
+            } else if ($type == 'string') {
                 $migration_string = $migration_string . "\n\t\t\t\$table->$type('$name', $length);";
-            }
-            else {
+            } else {
                 $migration_string = $migration_string . "\n\t\t\t\$table->$type('$name');";
             }
         }
@@ -187,28 +185,95 @@ class ModuleRepository
         File::put($module_path . '/Requests//' . $module_name . 'CreateRequest.php', $request_string);
     }
 
-    private static function generateView($module_name, $module_url, $module_variable, $module_path)
+    private static function generateView($module_name, $module_url, $module_variable, $module_path, $property_payload)
     {
+        // Generate Service Provider
+        self::generateServiceProvider($module_name);
         // Generate Index
-        self::generateIndexView();
+        self::generateIndexView($module_name, $module_url, $module_variable, $module_path, $property_payload);
         // Generate Create
         self::generateCreateView();
         // Generate Edit
         self::generateEditView();
     }
-
-    private static function generateIndexView()
+    private static function generateServiceProvider($module_name)
     {
+        // require above file in routes/web.php
+        $file_path = base_path()  . "/app/Providers/ModuleViewServiceProvider.php";
+        $search_string = "VIEW_MARKER";
+        $insert_string = "         \$this->loadViewsFrom(__DIR__.'/../Modules/{$module_name}/Views', '{$module_name}');\n";
+
+        $file_lines = file($file_path);
+
+        $matched_line_index = 18;
+        foreach ($file_lines as $index => $line) {
+            if (str_contains($line, $search_string)) {
+                $matched_line_index = $index;
+            }
+        }
+
+        array_splice($file_lines, $matched_line_index - 1, 0, $insert_string);
+        $modified_file_contents = implode("", $file_lines);
+        file_put_contents($file_path, $modified_file_contents);
+    }
+    private static function generateIndexView($module_name, $module_url, $module_variable, $module_path, $property_payload)
+    {
+        $index_string = <<<END
+        @extends('dashboard_layout.index')
+        @section('content')
+        <div class="page-inner" id="{$module_url}">
+            <default-datatable title="{$module_name}" url="{!! url('{$module_url}') !!}" :headers="headers" />
+        </div>
+
+        <script>
+            createApp({
+                data() {
+                    return {
+                        headers: [
+                            {
+                                text: 'Id',
+                                value: 'id',
+                            },
+        END;
+
+        foreach ($property_payload as $property) {
+            $property_name = $property["name"];
+            $property_label = $property["label"];
+            $index_string = $index_string . <<<END
+                \n\t\t\t\t\t{
+                    \n\t\t\t\t\t\ttext: '{$property_name}',
+                    \n\t\t\t\t\t\tvalue: '{$property_label}'
+                \n\t\t\t\t\t},
+            END;
+        }
+
+
+        $index_string = $index_string . <<<END
+            \n\t\t\t\t\t],
+                    }
+                },
+                created() {},
+                methods: {},
+                components: {
+                    ...commonComponentMap(
+                        [
+                            'DefaultDatatable',
+                        ]
+                    )
+                },
+            }).mount('#{$module_url}');
+        </script>
+        @endsection
+        END;
+        File::put($module_path . '/Views//' . 'index.blade.php', $index_string);
 
     }
 
     private static function generateCreateView()
     {
-
     }
 
     private static function generateEditView()
     {
-
     }
 }
