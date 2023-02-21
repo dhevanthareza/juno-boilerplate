@@ -13,34 +13,34 @@
                         text: 'Id',
                         value: 'id',
                     },    
-						{
+					{
         
 						text: 'tes_string',
         
 						value: 'Tes String'
     
-						},    
-						{
+					},    
+					{
         
 						text: 'tes_double',
         
 						value: 'Tes Double'
     
-						},    
-						{
+					},    
+					{
         
 						text: 'tes_decimal',
         
 						value: 'Tes Decimal'
     
-						},    
-						{
+					},    
+					{
         
 						text: 'tes_text',
         
 						value: 'Tes Text'
     
-						},    
+					},    
 					],
             }
         },

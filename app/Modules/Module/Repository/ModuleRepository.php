@@ -192,16 +192,16 @@ class ModuleRepository
         // Generate Index
         self::generateIndexView($module_name, $module_url, $module_variable, $module_path, $property_payload);
         // Generate Create
-        self::generateCreateView();
+        self::generateCreateView($module_name, $module_url, $module_variable, $module_path, $property_payload);
         // Generate Edit
-        self::generateEditView();
+        self::generateEditView($module_name, $module_url, $module_variable, $module_path, $property_payload);
     }
     private static function generateServiceProvider($module_name)
     {
         // require above file in routes/web.php
         $file_path = base_path()  . "/app/Providers/ModuleViewServiceProvider.php";
         $search_string = "VIEW_MARKER";
-        $insert_string = "         \$this->loadViewsFrom(__DIR__.'/../Modules/{$module_name}/Views', '{$module_name}');\n";
+        $insert_string = "        \$this->loadViewsFrom(__DIR__.'/../Modules/{$module_name}/Views', '{$module_name}');\n";
 
         $file_lines = file($file_path);
 
@@ -266,11 +266,127 @@ class ModuleRepository
         @endsection
         END;
         File::put($module_path . '/Views//' . 'index.blade.php', $index_string);
-
     }
 
-    private static function generateCreateView()
+    private static function generateCreateView($module_name, $module_url, $module_variable, $module_path, $property_payload)
     {
+        $create_string = <<<END
+        @extends('dashboard_layout.index')
+        @section('content')
+        <div class="page-inner">
+            <div id="add-{$module_url}" class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Tambah {$module_name}</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form ref="{$module_variable}_form">
+                        <div class="row">
+        END;
+
+        foreach ($property_payload as $property) {
+            $property_name = $property["name"];
+            $property_label = $property["label"];
+            $property_type = $property["input_type"];
+            if ($property_type == "PASSWORD") {
+                $create_string = $create_string . <<<END
+                \n
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{$property_label} {$module_name}</label>
+                                        <input v-model="{$module_variable}.{$property_name}" class="form-control" type="password">
+                                    </div>
+                                </div>
+                END;
+            } else if ($property_type == "TEXTAREA") {
+                $create_string = $create_string . <<<END
+                \n
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{$property_label} {$module_name}</label>
+                                        <textarea v-model="{$module_variable}.{$property_name}" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                END;
+            } else {
+                $create_string = $create_string . <<<END
+                \n
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{$property_label} {$module_name}</label>
+                                        <input v-model="{$module_variable}.{$property_name}" class="form-control" type="text">
+                                    </div>
+                                </div>
+                END;
+            }
+        }
+
+        $create_string = $create_string . <<<END
+        \n
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" @click="back" class="btn btn-sm bg-warning me-1 text-white">
+                                Cancel
+                            </button>
+                            <button type="button" @click="store" class="btn btn-sm bg-primary me-1 text-white">
+                                Save Data
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            Vue.createApp({
+                data() {
+                    return {
+                        {$module_variable}: {
+        END;
+    
+        foreach($property_payload as $property) {
+            $property_name = $property["name"];
+            $property_label = $property["label"];
+            $property_type = $property["input_type"];
+            if($property_type == "CHECKBOX") {
+                $create_string = $create_string . "\n\t\t\t\t\t{$property_name}: []";
+            } else {
+                $create_string = $create_string . "\n\t\t\t\t\t{$property_name}: null";
+            }
+        }
+
+        $create_string = $create_string . <<<END
+        \n
+                        }
+                    }
+                },
+                methods: {
+                    back() {
+                        history.back()
+                    },
+                    async store() {
+                        try {
+                            showLoading()
+                            const response = await httpClient.post("{!! url('{$module_url}') !!}", this.{$module_variable})
+                            hideLoading()
+                            showToast({
+                                message: "Data berhasil ditambahkan"
+                            })
+                            this.\$refs.{$module_variable}_form.reset()
+                        } catch (err) {
+                            hideLoading()
+                            showToast({
+                                message: err.message,
+                                type: 'error'
+                            })
+                        }
+                    }
+                },
+            }).mount("#add-{$module_url}")
+        </script>
+        @endsection
+        END;
+        File::put($module_path . '/Views//' . 'create.blade.php', $create_string);
     }
 
     private static function generateEditView()
