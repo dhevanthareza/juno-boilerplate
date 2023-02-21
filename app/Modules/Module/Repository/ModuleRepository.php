@@ -389,7 +389,135 @@ class ModuleRepository
         File::put($module_path . '/Views//' . 'create.blade.php', $create_string);
     }
 
-    private static function generateEditView()
+    private static function generateEditView($module_name, $module_url, $module_variable, $module_path, $property_payload)
     {
+        $edit_string = <<<END
+        @extends('dashboard_layout.index')
+        @section('content')
+        <div class="page-inner">
+            <div id="edit-{$module_url}" class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Tambah {$module_name}</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form ref="{$module_variable}_form">
+                        <div class="row">
+        END;
+
+        foreach ($property_payload as $property) {
+            $property_name = $property["name"];
+            $property_label = $property["label"];
+            $property_type = $property["input_type"];
+            if ($property_type == "PASSWORD") {
+                $edit_string = $edit_string . <<<END
+                \n
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{$property_label} {$module_name}</label>
+                                        <input v-model="{$module_variable}.{$property_name}" class="form-control" type="password">
+                                    </div>
+                                </div>
+                END;
+            } else if ($property_type == "TEXTAREA") {
+                $edit_string = $edit_string . <<<END
+                \n
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{$property_label} {$module_name}</label>
+                                        <textarea v-model="{$module_variable}.{$property_name}" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                END;
+            } else {
+                $edit_string = $edit_string . <<<END
+                \n
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{$property_label} {$module_name}</label>
+                                        <input v-model="{$module_variable}.{$property_name}" class="form-control" type="text">
+                                    </div>
+                                </div>
+                END;
+            }
+        }
+
+        $edit_string = $edit_string . <<<END
+        \n
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" @click="back" class="btn btn-sm bg-warning me-1 text-white">
+                                Cancel
+                            </button>
+                            <button type="button" @click="store" class="btn btn-sm bg-primary me-1 text-white">
+                                Save Data
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            Vue.createApp({
+                data() {
+                    return {
+                        {$module_variable}: {
+        END;
+    
+        foreach($property_payload as $property) {
+            $property_name = $property["name"];
+            $property_label = $property["label"];
+            $property_type = $property["input_type"];
+            if($property_type == "CHECKBOX") {
+                $edit_string = $edit_string . "\n\t\t\t\t\t{$property_name}: []";
+            } else {
+                $edit_string = $edit_string . "\n\t\t\t\t\t{$property_name}: null";
+            }
+        }
+
+        $edit_string = $edit_string . <<<END
+        \n
+                        }
+                    }
+                },
+                async created() {
+                    showLoading()
+                    await this.fetchData()
+                    hideLoading()
+                },
+                methods: {
+                    async fetchData() {
+                        const response = await httpClient.get("{!! url('{$module_url}') !!}/{{ \${$module_variable}_id }}/detail")
+                        this.{$module_variable} = response.data.result
+                        console.log(this.{$module_variable})
+                    },
+                    back() {
+                        history.back()
+                    },
+                    async update() {
+                        try {
+                            showLoading()
+                            const response = await httpClient.put("{!! url('{$module_url}') !!}/{{ \${$module_variable}_id }}",
+                                this.{$module_url})
+                            hideLoading()
+                            showToast({
+                                message: "Data berhasil disimpan"
+                            })
+    
+                        } catch (err) {
+                            hideLoading()
+                            showToast({
+                                message: err.message,
+                                type: 'error'
+                            })
+                        }
+                    }
+                },
+            }).mount("#edit-{$module_url}")
+        </script>
+        @endsection
+        END;
+        File::put($module_path . '/Views//' . 'edit.blade.php', $edit_string);
     }
 }

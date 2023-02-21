@@ -1,7 +1,7 @@
 @extends('dashboard_layout.index')
 @section('content')
 <div class="page-inner">
-    <div id="add-user-pref" class="card">
+    <div id="edit-user-pref" class="card">
         <div class="card-header pb-0">
             <div class="d-flex align-items-center">
                 <h4 class="card-title">Tambah UserPref</h4>
@@ -65,19 +65,30 @@
                 }
             }
         },
+        async created() {
+            showLoading()
+            await this.fetchData()
+            hideLoading()
+        },
         methods: {
+            async fetchData() {
+                const response = await httpClient.get("{!! url('user-pref') !!}/{{ $user_pref_id }}/detail")
+                this.user_pref = response.data.result
+                console.log(this.user_pref)
+            },
             back() {
                 history.back()
             },
-            async store() {
+            async update() {
                 try {
                     showLoading()
-                    const response = await httpClient.post("{!! url('user-pref') !!}", this.user_pref)
+                    const response = await httpClient.put("{!! url('user-pref') !!}/{{ $user_pref_id }}",
+                        this.user-pref)
                     hideLoading()
                     showToast({
-                        message: "Data berhasil ditambahkan"
+                        message: "Data berhasil disimpan"
                     })
-                    this.$refs.user_pref_form.reset()
+
                 } catch (err) {
                     hideLoading()
                     showToast({
@@ -87,6 +98,6 @@
                 }
             }
         },
-    }).mount("#add-user-pref")
+    }).mount("#edit-user-pref")
 </script>
 @endsection

@@ -30,29 +30,29 @@ class UserPrefController extends Controller
     public function store(UserPrefCreateRequest $request)
     {
         $payload = $request->all();
-        ${$user_pref} = UserPrefRepository::create($payload);
-        return JsonResponseHandler::setResult(${$user_pref})->send();
+        $user_pref = UserPrefRepository::create($payload);
+        return JsonResponseHandler::setResult($user_pref)->send();
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        ${$user_pref} = UserPrefRepository::get($id);
-        return JsonResponseHandler::setResult(${$user_pref})->send();
+        $user_pref = UserPrefRepository::get($id);
+        return JsonResponseHandler::setResult($user_pref)->send();
     }
 
     public function edit($id)
     {
-        return view('UserPref:edit');
+        return view('UserPref:edit', ['user_pref_id' => $id]);
     }
 
     public function update(Request $request, $id)
     {
         $payload = $request->all();
-        ${$user_pref} = UserPrefRepository::update($id, $payload);
-        return JsonResponseHandler::setResult(${$user_pref})->send();
+        $user_pref = UserPrefRepository::update($id, $payload);
+        return JsonResponseHandler::setResult($user_pref)->send();
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $delete = UserPrefRepository::delete($id);
         return JsonResponseHandler::setResult($delete)->send();

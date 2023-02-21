@@ -30,29 +30,29 @@ class module_nameController extends Controller
     public function store(module_nameCreateRequest $request)
     {
         $payload = $request->all();
-        ${$module_variable} = module_nameRepository::create($payload);
-        return JsonResponseHandler::setResult(${$module_variable})->send();
+        $module_variable = module_nameRepository::create($payload);
+        return JsonResponseHandler::setResult($module_variable)->send();
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        ${$module_variable} = module_nameRepository::get($id);
-        return JsonResponseHandler::setResult(${$module_variable})->send();
+        $module_variable = module_nameRepository::get($id);
+        return JsonResponseHandler::setResult($module_variable)->send();
     }
 
     public function edit($id)
     {
-        return view('module_name:edit');
+        return view('module_name:edit', ['module_variable_id' => $id]);
     }
 
     public function update(Request $request, $id)
     {
         $payload = $request->all();
-        ${$module_variable} = module_nameRepository::update($id, $payload);
-        return JsonResponseHandler::setResult(${$module_variable})->send();
+        $module_variable = module_nameRepository::update($id, $payload);
+        return JsonResponseHandler::setResult($module_variable)->send();
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $delete = module_nameRepository::delete($id);
         return JsonResponseHandler::setResult($delete)->send();
