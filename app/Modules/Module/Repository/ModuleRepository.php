@@ -242,9 +242,9 @@ class ModuleRepository
             $property_label = $property["label"];
             $index_string = $index_string . <<<END
                 \n\t\t\t\t\t{
-                    \n\t\t\t\t\t\ttext: '{$property_name}',
-                    \n\t\t\t\t\t\tvalue: '{$property_label}'
-                \n\t\t\t\t\t},
+                    \t\t\t\t\t\tvalue: '{$property_name}',
+                    \t\t\t\t\t\ttext: '{$property_label}'
+                \t\t\t\t\t},
             END;
         }
 
@@ -310,6 +310,16 @@ class ModuleRepository
                                     </div>
                                 </div>
                 END;
+            } else if ($property_type == "INPUT-NUMBER") {
+                $create_string = $create_string . <<<END
+                \n
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{$property_label} {$module_name}</label>
+                                        <input v-model="{$module_variable}.{$property_name}" class="form-control" type="number">
+                                    </div>
+                                </div>
+                END;
             } else {
                 $create_string = $create_string . <<<END
                 \n
@@ -344,15 +354,15 @@ class ModuleRepository
                     return {
                         {$module_variable}: {
         END;
-    
-        foreach($property_payload as $property) {
+
+        foreach ($property_payload as $property) {
             $property_name = $property["name"];
             $property_label = $property["label"];
             $property_type = $property["input_type"];
-            if($property_type == "CHECKBOX") {
-                $create_string = $create_string . "\n\t\t\t\t\t{$property_name}: []";
+            if ($property_type == "CHECKBOX") {
+                $create_string = $create_string . "\n\t\t\t\t\t{$property_name}: [],";
             } else {
-                $create_string = $create_string . "\n\t\t\t\t\t{$property_name}: null";
+                $create_string = $create_string . "\n\t\t\t\t\t{$property_name}: null,";
             }
         }
 
@@ -465,15 +475,15 @@ class ModuleRepository
                     return {
                         {$module_variable}: {
         END;
-    
-        foreach($property_payload as $property) {
+
+        foreach ($property_payload as $property) {
             $property_name = $property["name"];
             $property_label = $property["label"];
             $property_type = $property["input_type"];
-            if($property_type == "CHECKBOX") {
-                $edit_string = $edit_string . "\n\t\t\t\t\t{$property_name}: []";
+            if ($property_type == "CHECKBOX") {
+                $edit_string = $edit_string . "\n\t\t\t\t\t{$property_name}: [],";
             } else {
-                $edit_string = $edit_string . "\n\t\t\t\t\t{$property_name}: null";
+                $edit_string = $edit_string . "\n\t\t\t\t\t{$property_name}: null,";
             }
         }
 

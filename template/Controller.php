@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Modules\module_name\Controller;
+namespace App\Modules\module_name\Controllers;
 
 use App\Handler\JsonResponseHandler;
 use App\Http\Controllers\Controller;
 use App\Modules\module_name\Repositories\module_nameRepository;
-use App\Modules\module_name\Request\module_nameCreateRequest;
+use App\Modules\module_name\Requests\module_nameCreateRequest;
 use Illuminate\Http\Request;
 
 class module_nameController extends Controller
@@ -24,7 +24,7 @@ class module_nameController extends Controller
 
     public function create()
     {
-        return view('module_name:create');
+        return view('module_name::create');
     }
 
     public function store(module_nameCreateRequest $request)
@@ -42,12 +42,14 @@ class module_nameController extends Controller
 
     public function edit($id)
     {
-        return view('module_name:edit', ['module_variable_id' => $id]);
+        return view('module_name::edit', ['module_variable_id' => $id]);
     }
 
     public function update(Request $request, $id)
     {
         $payload = $request->all();
+        unset($payload['created_at']);
+        unset($payload['updated_at']);
         $module_variable = module_nameRepository::update($id, $payload);
         return JsonResponseHandler::setResult($module_variable)->send();
     }

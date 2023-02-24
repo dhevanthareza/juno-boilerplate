@@ -158,6 +158,7 @@
                     ],
                     inputTypes: [
                         'INPUT',
+                        'INPUT-NUMBER',
                         'CHECKBOX',
                         'PASSWORD',
                         'RADIO',

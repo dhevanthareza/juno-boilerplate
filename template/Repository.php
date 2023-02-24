@@ -2,7 +2,7 @@
 
 namespace App\Modules\module_name\Repositories;
 
-use App\Modules\module_name\Model\module_name;
+use App\Modules\module_name\Models\module_name;
 
 class module_nameRepository
 {

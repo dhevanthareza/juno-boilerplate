@@ -34,14 +34,14 @@ class ModuleTest extends TestCase
                 "label" => "Tes Double",
                 "type" => "double",
                 "length" => 8,
-                "input_type" => "INPUT"
+                "input_type" => "INPUT-NUMBER"
             ],
             [
                 "name" => "tes_decimal",
                 "label" => "Tes Decimal",
                 "type" => "decimal",
                 "length" => 8,
-                "input_type" => "INPUT"
+                "input_type" => "INPUT-NUMBER"
             ],
             [
                 "name" => "tes_text",
