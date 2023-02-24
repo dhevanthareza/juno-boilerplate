@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Modules\UserPref\Controller;
+namespace App\Modules\UserPref\Controllers;
 
 use App\Handler\JsonResponseHandler;
 use App\Http\Controllers\Controller;
 use App\Modules\UserPref\Repositories\UserPrefRepository;
-use App\Modules\UserPref\Request\UserPrefCreateRequest;
+use App\Modules\UserPref\Requests\UserPrefCreateRequest;
 use Illuminate\Http\Request;
 
 class UserPrefController extends Controller
@@ -24,7 +24,7 @@ class UserPrefController extends Controller
 
     public function create()
     {
-        return view('UserPref:create');
+        return view('UserPref::create');
     }
 
     public function store(UserPrefCreateRequest $request)
@@ -42,12 +42,14 @@ class UserPrefController extends Controller
 
     public function edit($id)
     {
-        return view('UserPref:edit', ['user_pref_id' => $id]);
+        return view('UserPref::edit', ['user_pref_id' => $id]);
     }
 
     public function update(Request $request, $id)
     {
         $payload = $request->all();
+        unset($payload['created_at']);
+        unset($payload['updated_at']);
         $user_pref = UserPrefRepository::update($id, $payload);
         return JsonResponseHandler::setResult($user_pref)->send();
     }

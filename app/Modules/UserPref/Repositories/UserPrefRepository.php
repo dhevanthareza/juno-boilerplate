@@ -2,7 +2,7 @@
 
 namespace App\Modules\UserPref\Repositories;
 
-use App\Modules\UserPref\Model\UserPref;
+use App\Modules\UserPref\Models\UserPref;
 
 class UserPrefRepository
 {

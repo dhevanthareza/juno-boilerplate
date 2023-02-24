@@ -1,7 +1,7 @@
 <?php
 namespace App\Modules\UserPref;
 
-use App\Modules\UserPref\Controller\UserPrefController;
+use App\Modules\UserPref\Controllers\UserPrefController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/user-pref')->group(function() {

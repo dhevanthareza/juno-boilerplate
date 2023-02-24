@@ -21,14 +21,14 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-control-label">Tes Double UserPref</label>
-                        <input v-model="user_pref.tes_double" class="form-control" type="text">
+                        <input v-model="user_pref.tes_double" class="form-control" type="number">
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-control-label">Tes Decimal UserPref</label>
-                        <input v-model="user_pref.tes_decimal" class="form-control" type="text">
+                        <input v-model="user_pref.tes_decimal" class="form-control" type="number">
                     </div>
                 </div>
 
@@ -41,10 +41,10 @@
 
                 </div>
                 <div class="d-flex justify-content-end">
-                    <button type="button" @click="back" class="btn btn-sm bg-warning me-1 text-white">
+                    <button type="button" @click="back" class="btn btn-sm bg-warning mr-1 text-white">
                         Cancel
                     </button>
-                    <button type="button" @click="store" class="btn btn-sm bg-primary me-1 text-white">
+                    <button type="button" @click="update" class="btn btn-sm bg-primary me-1 text-white">
                         Save Data
                     </button>
                 </div>
@@ -57,10 +57,10 @@
         data() {
             return {
                 user_pref: {
-					tes_string: null
-					tes_double: null
-					tes_decimal: null
-					tes_text: null
+					tes_string: null,
+					tes_double: null,
+					tes_decimal: null,
+					tes_text: null,
 
                 }
             }
@@ -72,7 +72,7 @@
         },
         methods: {
             async fetchData() {
-                const response = await httpClient.get("{!! url('user-pref') !!}/{{ $user_pref_id }}/detail")
+                const response = await httpClient.get("{!! url('user-pref') !!}/{{ $user_pref_id }}")
                 this.user_pref = response.data.result
                 console.log(this.user_pref)
             },
@@ -83,7 +83,7 @@
                 try {
                     showLoading()
                     const response = await httpClient.put("{!! url('user-pref') !!}/{{ $user_pref_id }}",
-                        this.user-pref)
+                        this.user_pref)
                     hideLoading()
                     showToast({
                         message: "Data berhasil disimpan"
