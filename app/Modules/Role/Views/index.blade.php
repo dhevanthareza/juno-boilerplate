@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="col-sm-6 mb-2">
                                     <vue-multiselect v-model="selectedPermissionId" :searchable="true"
-                                        :options="permissions" placeholder="Pilih Role" />
+                                        :options="permissions" placeholder="Pilih Permission" />
                                 </div>
 
                                 <div class="col-sm-12">

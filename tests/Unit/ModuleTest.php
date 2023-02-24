@@ -14,7 +14,14 @@ class ModuleTest extends TestCase
      */
     public function test_example()
     {
-        ModuleRepository::generateModuleFile(['name' => 'User Pref'], [
+        $module_payload = ['name' => 'User Pref', 'description' => "Tes Description"];
+        $menu_payload = [
+            'name' => "User Pref",
+            'path' => '/user-pref',
+            'description' => 'User Pref Test',
+            'parent_id' => 1,
+        ];
+        $property_payload = [
             [
                 "name" => "tes_string",
                 "label" => "Tes String",
@@ -43,7 +50,8 @@ class ModuleTest extends TestCase
                 "length" => null,
                 "input_type" => "INPUT"
             ],
-        ]);
+        ];
+        ModuleRepository::create($module_payload, $menu_payload, $property_payload);
         $this->assertTrue(true);
     }
 }

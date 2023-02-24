@@ -11,9 +11,10 @@ class ModuleRepository
     public static function create($module_payload, $menu_payload, $property_payload)
     {
         // TODO : Create module data
-        $module = ModuleModel::creeat($module_payload);
+        $module = ModuleModel::create($module_payload);
 
         // TODO : create menu data
+        $menu_payload['module_id'] = $module->id;
         $menu = MenuRepository::createMenu($menu_payload);
 
         // TODO : Create module and menu file
