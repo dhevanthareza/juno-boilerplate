@@ -8,7 +8,7 @@ Route::prefix('/module')->group(function() {
     Route::get('/', [ModuleController::class, 'index']);
     Route::get('/datatable', [ModuleController::class, 'datatable']);
     Route::get('/create', [ModuleController::class, 'create']);
-    Route::post('/', [MenuController::class, 'store']);
+    Route::post('/', [ModuleController::class, 'store']);
     Route::get('/{menu_id}', [MenuController::class, 'show']);
     Route::get('/{menu_id}/detail', [MenuController::class, 'detail']);
     Route::get('/{menu_id}/edit', [MenuController::class, 'edit']);

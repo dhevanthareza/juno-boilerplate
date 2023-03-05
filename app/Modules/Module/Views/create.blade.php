@@ -96,7 +96,8 @@
                         <div class="col">
                             <div class="form-group">
                                 <label class="form-control-label">Tipe Input</label>
-                                <vue-multiselect v-model="property.input_type" :searchable="true" :options="inputTypes" />
+                                <vue-multiselect v-model="property.input_type" :searchable="true"
+                                    :options="inputTypes" />
                             </div>
                         </div>
                         <button @click="handleRemovePropertyClick(index)" type="button"
@@ -202,6 +203,31 @@
                 },
                 handleRemovePropertyClick(index) {
                     this.properties.splice(index, 1)
+                },
+                async store() {
+                    const module_payload = this.module;
+                    const menu = this.menu;
+                    const property = this.properties;
+                    const payload = {
+                        module: module_payload,
+                        menu,
+                        property
+                    }
+                    showLoading()
+                    try {
+                        const response = await httpClient.post("{!! url('module') !!}", payload)
+                        hideLoading()
+                        showToast({
+                            message: "Berhasil membuat module"
+                        })
+                        this.back()
+                    } catch (err) {
+                        hideLoading()
+                        showToast({
+                            message: err.message,
+                            type: 'error'
+                        })
+                    }
                 }
             },
             components: {

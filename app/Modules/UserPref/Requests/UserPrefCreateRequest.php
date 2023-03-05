@@ -10,7 +10,6 @@ class UserPrefCreateRequest extends AppFormRequest
     public function rules(): array
     {
         return [
-            
         ];
     }
 

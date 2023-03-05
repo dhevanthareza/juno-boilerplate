@@ -85,7 +85,7 @@ class ModuleRepository
             $length = $property['length'] != null ? $property['length'] : 255;
 
             if ($type == 'double') {
-                $migration_string = $migration_string . "\n\t\t\t\$table->$type('$name', $length, 10);";
+                $migration_string = $migration_string . "\n\t\t\t\$table->$type('$name', 10, $length);";
             } else if ($type == 'decimal') {
                 $migration_string = $migration_string . "\n\t\t\t\$table->$type('$name', \$precision = $length, \$scale = 8);";
             } else if ($type == 'string') {

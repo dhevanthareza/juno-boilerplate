@@ -29,7 +29,7 @@ class ModuleController extends Controller {
     public function store(Request $request)
     {   
         $payload = $request->all();
-        $module = ModuleRepository::create($payload['module'], $payload['menu']);
+        $module = ModuleRepository::create($payload['module'], $payload['menu'], $payload['property']);
         return JsonResponseHandler::setResult($module)->send();
     }
 

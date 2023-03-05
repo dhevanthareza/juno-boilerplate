@@ -13,8 +13,8 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="form-control-label">Tes String UserPref</label>
-                        <input v-model="user_pref.tes_string" class="form-control" type="text">
+                        <label class="form-control-label">Nama UserPref</label>
+                        <input v-model="user_pref.name" class="form-control" type="text">
                     </div>
                 </div>
 
@@ -25,23 +25,9 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-control-label">Tes Decimal UserPref</label>
-                        <input v-model="user_pref.tes_decimal" class="form-control" type="number">
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-control-label">Tes Text UserPref</label>
-                        <input v-model="user_pref.tes_text" class="form-control" type="text">
-                    </div>
-                </div>
-
                 </div>
                 <div class="d-flex justify-content-end">
-                    <button type="button" @click="back" class="btn btn-sm bg-warning mr-1 text-white">
+                    <button type="button" @click="back" class="btn btn-sm bg-warning me-1 text-white">
                         Cancel
                     </button>
                     <button type="button" @click="store" class="btn btn-sm bg-primary me-1 text-white">
@@ -57,10 +43,8 @@
         data() {
             return {
                 user_pref: {
-					tes_string: null,
+					name: null,
 					tes_double: null,
-					tes_decimal: null,
-					tes_text: null,
 
                 }
             }
