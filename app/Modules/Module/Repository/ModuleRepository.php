@@ -94,7 +94,8 @@ class ModuleRepository
                 $migration_string = $migration_string . "\n\t\t\t\$table->$type('$name');";
             }
         }
-
+        $migration_string = $migration_string . "\n\$table->timestamps();";
+        $migration_string = $migration_string . "\n\$table->softDeletes();";
         $migration_string = $migration_string . <<<END
                 \n\t\t});
             }
@@ -119,7 +120,7 @@ class ModuleRepository
         <?php
         namespace App\Modules\\{$module_name};
 
-        use App\Modules\\{$module_name}\Controller\\{$module_name}Controller;
+        use App\Modules\\{$module_name}\Controllers\\{$module_name}Controller;
         use Illuminate\Support\Facades\Route;
 
         Route::prefix('/{$module_url}')->group(function() {
@@ -295,7 +296,7 @@ class ModuleRepository
                 \n
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">{$property_label} {$module_name}</label>
+                                        <label class="form-control-label">{$property_label}</label>
                                         <input v-model="{$module_variable}.{$property_name}" class="form-control" type="password">
                                     </div>
                                 </div>
@@ -305,7 +306,7 @@ class ModuleRepository
                 \n
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">{$property_label} {$module_name}</label>
+                                        <label class="form-control-label">{$property_label}</label>
                                         <textarea v-model="{$module_variable}.{$property_name}" class="form-control"></textarea>
                                     </div>
                                 </div>
@@ -315,7 +316,7 @@ class ModuleRepository
                 \n
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">{$property_label} {$module_name}</label>
+                                        <label class="form-control-label">{$property_label}</label>
                                         <input v-model="{$module_variable}.{$property_name}" class="form-control" type="number">
                                     </div>
                                 </div>
@@ -325,7 +326,7 @@ class ModuleRepository
                 \n
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">{$property_label} {$module_name}</label>
+                                        <label class="form-control-label">{$property_label}</label>
                                         <input v-model="{$module_variable}.{$property_name}" class="form-control" type="text">
                                     </div>
                                 </div>
@@ -337,10 +338,10 @@ class ModuleRepository
         \n
                         </div>
                         <div class="d-flex justify-content-end">
-                            <button type="button" @click="back" class="btn btn-sm bg-warning me-1 text-white">
+                            <button type="button" @click="back" class="btn btn-sm bg-warning mr-2 text-white">
                                 Cancel
                             </button>
-                            <button type="button" @click="store" class="btn btn-sm bg-primary me-1 text-white">
+                            <button type="button" @click="store" class="btn btn-sm bg-primary mr-2 text-white">
                                 Save Data
                             </button>
                         </div>
@@ -426,7 +427,7 @@ class ModuleRepository
                 \n
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">{$property_label} {$module_name}</label>
+                                        <label class="form-control-label">{$property_label}</label>
                                         <input v-model="{$module_variable}.{$property_name}" class="form-control" type="password">
                                     </div>
                                 </div>
@@ -436,7 +437,7 @@ class ModuleRepository
                 \n
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">{$property_label} {$module_name}</label>
+                                        <label class="form-control-label">{$property_label}</label>
                                         <textarea v-model="{$module_variable}.{$property_name}" class="form-control"></textarea>
                                     </div>
                                 </div>
@@ -446,7 +447,7 @@ class ModuleRepository
                 \n
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">{$property_label} {$module_name}</label>
+                                        <label class="form-control-label">{$property_label}</label>
                                         <input v-model="{$module_variable}.{$property_name}" class="form-control" type="text">
                                     </div>
                                 </div>
@@ -458,10 +459,10 @@ class ModuleRepository
         \n
                         </div>
                         <div class="d-flex justify-content-end">
-                            <button type="button" @click="back" class="btn btn-sm bg-warning me-1 text-white">
+                            <button type="button" @click="back" class="btn btn-sm bg-warning mr-2 text-white">
                                 Cancel
                             </button>
-                            <button type="button" @click="store" class="btn btn-sm bg-primary me-1 text-white">
+                            <button type="button" @click="update" class="btn btn-sm bg-primary mr-2 text-white">
                                 Save Data
                             </button>
                         </div>
@@ -499,7 +500,7 @@ class ModuleRepository
                 },
                 methods: {
                     async fetchData() {
-                        const response = await httpClient.get("{!! url('{$module_url}') !!}/{{ \${$module_variable}_id }}/detail")
+                        const response = await httpClient.get("{!! url('{$module_url}') !!}/{{ \${$module_variable}_id }}")
                         this.{$module_variable} = response.data.result
                         console.log(this.{$module_variable})
                     },
@@ -510,7 +511,7 @@ class ModuleRepository
                         try {
                             showLoading()
                             const response = await httpClient.put("{!! url('{$module_url}') !!}/{{ \${$module_variable}_id }}",
-                                this.{$module_url})
+                                this.{$module_variable})
                             hideLoading()
                             showToast({
                                 message: "Data berhasil disimpan"
