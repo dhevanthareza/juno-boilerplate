@@ -56,12 +56,14 @@ class RoleController extends Controller
         return JsonResponseHandler::setResult($role)->send();
     }
 
-    public function all(Request $request) {
+    public function all(Request $request)
+    {
         $roles = RoleModel::get();
         return JsonResponseHandler::setResult($roles)->send();
     }
 
-    public function permissionDatatable(Request $request, $role_id) {
+    public function permissionDatatable(Request $request, $role_id)
+    {
         $per_page = $request->input('per_page') != null ? $request->input('per_page') : 15;
         $keyword = $request->input('keyword') != null ? $request->input('keyword') : null;
         $role = RoleModel::where('id', $role_id)->first();
@@ -69,13 +71,23 @@ class RoleController extends Controller
         return JsonResponseHandler::setResult($permissions)->send();
     }
 
-    public function addPermission(Request $request, $role_id) {
+    public function addPermission(Request $request, $role_id)
+    {
         $permission_id = $request->input('permission_id');
-        $upsert = RolePermissionModel::firstOrCreate(['role_id' => $role_id, 'permission_id' => $permission_id], ['role_id' => $role_id, 'permission_id' => $permission_id]);
+        $menu_id = $request->input('menu_id');
+        if ($permission_id == "all") {
+            $permissions = PermissionModel::where('menu_id', $menu_id)->get();
+            foreach ($permissions as $permission) {
+                $upsert = RolePermissionModel::firstOrCreate(['role_id' => $role_id, 'permission_id' => $permission->id], ['role_id' => $role_id, 'permission_id' => $permission->id]);
+            }
+        } else {
+            $upsert = RolePermissionModel::firstOrCreate(['role_id' => $role_id, 'permission_id' => $permission_id], ['role_id' => $role_id, 'permission_id' => $permission_id]);
+        }
         return JsonResponseHandler::setResult($upsert)->send();
     }
 
-    public function deletePermission(Request $request, $role_id, $permission_id) {
+    public function deletePermission(Request $request, $role_id, $permission_id)
+    {
         $delete = RolePermissionModel::where('role_id', $role_id)->where('permission_id', $permission_id)->delete();
         return JsonResponseHandler::setResult($delete)->send();
     }

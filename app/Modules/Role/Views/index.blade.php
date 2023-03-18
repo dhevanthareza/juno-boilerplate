@@ -94,12 +94,18 @@
                 async fetchPermissions() {
                     const response = await httpClient.get(
                         `{{ url('') }}/menu/${this.selectedMenuId}/permissions`)
+                    var staticPermission = {
+                        value: "all",
+                        label: "All Permission"
+                    }
+                    this.permissions.push(staticPermission);
                     this.permissions = response.data.result.map(el => {
                         return {
                             value: el.id,
                             label: `${el.code} - ${el.description}`,
                         }
                     })
+                    this.permissions.unshift(staticPermission);
                 },
                 async fetchMenus() {
                     const response = await httpClient.get('{{ url('') }}/menu/all')
@@ -118,7 +124,8 @@
                     this.isAddingPermission = true;
                     try {
                         await httpClient.post(`{{ url('') }}/role/${this.selectedRoleId}/permission`, {
-                            permission_id: this.selectedPermissionId
+                            permission_id: this.selectedPermissionId,
+                            menu_id: this.selectedMenuId
                         })
                         this.$refs.permissionTable.fetchData()
                         this.isAddingPermission = false;
