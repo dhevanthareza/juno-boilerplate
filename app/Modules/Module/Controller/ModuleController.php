@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Modules\Module\Controller;
 
@@ -6,9 +6,11 @@ use App\Handler\JsonResponseHandler;
 use App\Http\Controllers\Controller;
 use App\Modules\Module\Model\ModuleModel;
 use App\Modules\Module\Repository\ModuleRepository;
+use App\Modules\Module\Request\ModuleCreateRequest;
 use Illuminate\Http\Request;
 
-class ModuleController extends Controller {
+class ModuleController extends Controller
+{
     public function index(Request $request)
     {
         return view('Module::index');
@@ -26,11 +28,11 @@ class ModuleController extends Controller {
         return view('Module::create');
     }
 
-    public function store(Request $request)
-    {   
+    public function store(ModuleCreateRequest $request)
+    {
         $payload = $request->all();
         $module = ModuleRepository::create($payload['module'], $payload['menu'], $payload['property']);
-        return JsonResponseHandler::setResult($module)->send();
+        return JsonResponseHandler::setResult($payload)->send();
     }
 
     public function show($id)

@@ -223,6 +223,15 @@
                         this.back()
                     } catch (err) {
                         hideLoading()
+                        const hasResult = Object.keys(err.result).some(key => !!err.result[key]);
+                        const result = Object.values(err.result);
+                        var messages = "";
+                        if(hasResult){
+                            result.forEach(el => {
+                                messages += el.join('')+"<br>";
+                            });
+                            err.message = messages;
+                        }
                         showToast({
                             message: err.message,
                             type: 'error'
