@@ -272,6 +272,9 @@ class ModuleRepository
 
     private static function generateCreateView($module_name, $module_url, $module_variable, $module_path, $property_payload)
     {
+        $haveCheckbox = false;
+        $haveSelect = false;
+        $haveRadio = false;
         $create_string = <<<END
         @extends('dashboard_layout.index')
         @section('content')
@@ -321,6 +324,51 @@ class ModuleRepository
                                     </div>
                                 </div>
                 END;
+            } else if ($property_type == "CHECKBOX") {
+                $haveCheckbox = true;
+                $checkboxLabel = $property_name;
+                $create_string = $create_string . <<<END
+                \n
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{$property_label}</label>
+                                        <div class="checkbox row">
+                                            <label class="col-auto">
+                                                <input type="checkbox" true-value=1 v-model="{$module_variable}.{$property_name}"> 
+                                                Check
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                END;
+            } else if ($property_type == "RADIO") {
+                $haveRadio = true;
+                $create_string = $create_string . <<<END
+                \n
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{$property_label}</label>
+                                        <div class="radio row">
+                                            <label v-for="(radio, index) in radioOptions" class="col-auto">
+                                                <input type="radio" :name="radio.id+index" :value="radio.id" v-model="{$module_variable}.{$property_name}"> 
+                                                @{{ radio.label }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                END;
+            } else if ($property_type == "SELECT") {
+                $haveSelect = true;
+                $create_string = $create_string . <<<END
+                \n
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{$property_label}</label>
+                                        <vue-multiselect v-model="{$module_variable}.{$property_name}" :searchable="true" :options="selectOptions"
+                                                placeholder="Pilih Opsi" />
+                                    </div>
+                                </div>
+                END;
             } else {
                 $create_string = $create_string . <<<END
                 \n
@@ -361,7 +409,7 @@ class ModuleRepository
             $property_label = $property["label"];
             $property_type = $property["input_type"];
             if ($property_type == "CHECKBOX") {
-                $create_string = $create_string . "\n\t\t\t\t\t{$property_name}: [],";
+                $create_string = $create_string . "\n\t\t\t\t\t{$property_name}: 0,";
             } else {
                 $create_string = $create_string . "\n\t\t\t\t\t{$property_name}: null,";
             }
@@ -369,12 +417,51 @@ class ModuleRepository
 
         $create_string = $create_string . <<<END
         \n
-                        }
+                        },
+                        selectOptions: [
+                            {
+                                value: 1,
+                                label: "Yes" 
+                            },
+                            {
+                                value: 0,
+                                label: "No"
+                            }
+                        ],
+                        radioOptions: [
+                            {
+                                id: 1,
+                                label: "Yes"
+                            },
+                            {
+                                id: 0,
+                                label: "No"
+                            }
+                        ],
                     }
                 },
                 methods: {
                     back() {
                         history.back()
+                    },
+                    resetForm(){
+                        this.{$module_variable} = {
+        END;
+
+        foreach ($property_payload as $property) {
+            $property_name = $property["name"];
+            $property_label = $property["label"];
+            $property_type = $property["input_type"];
+            if ($property_type == "CHECKBOX") {
+                $create_string = $create_string . "\n\t\t\t\t\t{$property_name}: 0,";
+            } else {
+                $create_string = $create_string . "\n\t\t\t\t\t{$property_name}: null,";
+            }
+        }
+
+        $create_string = $create_string . <<<END
+        \n              }
+                        this.\$refs.{$module_variable}_form.reset()
                     },
                     async store() {
                         try {
@@ -384,7 +471,7 @@ class ModuleRepository
                             showToast({
                                 message: "Data berhasil ditambahkan"
                             })
-                            this.\$refs.{$module_variable}_form.reset()
+                            this.resetForm()
                         } catch (err) {
                             hideLoading()
                             showToast({
@@ -393,6 +480,9 @@ class ModuleRepository
                             })
                         }
                     }
+                },
+                components: {
+                    'vue-multiselect': VueformMultiselect
                 },
             }).mount("#add-{$module_url}")
         </script>
@@ -442,6 +532,61 @@ class ModuleRepository
                                     </div>
                                 </div>
                 END;
+            } else if ($property_type == "INPUT-NUMBER") {
+                $edit_string = $edit_string . <<<END
+                \n
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{$property_label}</label>
+                                        <input v-model="{$module_variable}.{$property_name}" class="form-control" type="number">
+                                    </div>
+                                </div>
+                END;
+            } else if ($property_type == "CHECKBOX") {
+                $haveCheckbox = true;
+                $checkboxLabel = $property_name;
+                $edit_string = $edit_string . <<<END
+                \n
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{$property_label}</label>
+                                        <div class="checkbox row">
+                                            <label class="col-auto">
+                                                <input type="checkbox" true-value=1 v-model="{$module_variable}.{$property_name}"> 
+                                                 Check
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                END;
+            } else if ($property_type == "RADIO") {
+                $haveRadio = true;
+                $edit_string = $edit_string . <<<END
+                \n
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{$property_label}</label>
+                                        <div class="radio row">
+                                            <label v-for="(radio, index) in radioOptions" class="col-auto">
+                                                <input type="radio" :name="radio.id+index" :value="radio.id" v-model="{$module_variable}.{$property_name}"> 
+                                                @{{ radio.label }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                END;
+            } else if ($property_type == "SELECT") {
+                $haveSelect = true;
+                $edit_string = $edit_string . <<<END
+                \n
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{$property_label}</label>
+                                        <vue-multiselect v-model="{$module_variable}.{$property_name}" :selected="{$module_variable}.{$property_name}" :searchable="true" :options="selectOptions"
+                                                placeholder="Pilih Opsi" />
+                                    </div>
+                                </div>
+                END;
             } else {
                 $edit_string = $edit_string . <<<END
                 \n
@@ -482,7 +627,7 @@ class ModuleRepository
             $property_label = $property["label"];
             $property_type = $property["input_type"];
             if ($property_type == "CHECKBOX") {
-                $edit_string = $edit_string . "\n\t\t\t\t\t{$property_name}: [],";
+                $edit_string = $edit_string . "\n\t\t\t\t\t{$property_name}: 0,";
             } else {
                 $edit_string = $edit_string . "\n\t\t\t\t\t{$property_name}: null,";
             }
@@ -490,7 +635,27 @@ class ModuleRepository
 
         $edit_string = $edit_string . <<<END
         \n
-                        }
+                        },
+                        selectOptions: [
+                            {
+                                value: 1,
+                                label: "Yes" 
+                            },
+                            {
+                                value: 0,
+                                label: "No"
+                            }
+                        ],
+                        radioOptions: [
+                            {
+                                id: 1,
+                                label: "Yes"
+                            },
+                            {
+                                id: 0,
+                                label: "No"
+                            }
+                        ],
                     }
                 },
                 async created() {
@@ -525,6 +690,9 @@ class ModuleRepository
                             })
                         }
                     }
+                },
+                components: {
+                    'vue-multiselect': VueformMultiselect
                 },
             }).mount("#edit-{$module_url}")
         </script>
