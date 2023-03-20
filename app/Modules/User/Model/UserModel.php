@@ -30,4 +30,11 @@ class UserModel extends Authenticatable
     protected function getRoles() {
         return $this->roles();
     }
+
+    protected function getRoleIdsAttribute() {
+        $roles = $this->roles->toArray();
+        return array_map(function($role) {
+            return $role['id'];
+        }, $roles);
+    }
 }

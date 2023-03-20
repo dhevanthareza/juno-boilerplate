@@ -4,6 +4,7 @@ namespace App\Modules\UserPref\Controllers;
 
 use App\Handler\JsonResponseHandler;
 use App\Http\Controllers\Controller;
+use App\Modules\Permission\Repositories\PermissionRepository;
 use App\Modules\UserPref\Repositories\UserPrefRepository;
 use App\Modules\UserPref\Requests\UserPrefCreateRequest;
 use Illuminate\Http\Request;
@@ -12,7 +13,8 @@ class UserPrefController extends Controller
 {
     public function index(Request $request)
     {
-        return view('UserPref::index');
+        $permissions = PermissionRepository::getPermissionStatusOnMenuPath($request->path());
+        return view('UserPref::index', ['permissions' => $permissions]);
     }
 
     public function datatable(Request $request)

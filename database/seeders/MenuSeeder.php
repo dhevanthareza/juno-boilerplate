@@ -26,7 +26,7 @@ class MenuSeeder extends Seeder
             [
                 'id' => 2,
                 'name' => 'User',
-                'path' => '/user',
+                'path' => 'user',
                 'description' => 'Organize User',
                 'parent_id' => 1,
                 'module_id' => 1
@@ -34,7 +34,7 @@ class MenuSeeder extends Seeder
             [
                 'id' => 3,
                 'name' => 'Role',
-                'path' => '/role',
+                'path' => 'role',
                 'description' => 'Organize Role',
                 'parent_id' => 1,
                 'module_id' => 2
@@ -42,7 +42,7 @@ class MenuSeeder extends Seeder
             [
                 'id' => 4,
                 'name' => 'Menu',
-                'path' => '/menu',
+                'path' => 'menu',
                 'description' => 'Organize Menu',
                 'parent_id' => 1,
                 'module_id' => 3
@@ -50,7 +50,7 @@ class MenuSeeder extends Seeder
             [
                 'id' => 5,
                 'name' => 'Permission',
-                'path' => '/permission',
+                'path' => 'permission',
                 'description' => 'Organize Permission',
                 'parent_id' => 1,
                 'module_id' => 4
@@ -63,7 +63,7 @@ class MenuSeeder extends Seeder
             [
                 'id' => 8,
                 'name' => 'Employee',
-                'path' => '/employee',
+                'path' => 'employee',
                 'description' => 'Organize employee',
                 'parent_id' => 6,
                 'module_id' => 5
@@ -71,7 +71,7 @@ class MenuSeeder extends Seeder
             [
                 'id' => 10,
                 'name' => 'Module',
-                'path' => '/module',
+                'path' => 'module',
                 'description' => 'Organize module',
                 'parent_id' => 1,
                 'module_id' => 5
