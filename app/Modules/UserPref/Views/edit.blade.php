@@ -13,15 +13,15 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="form-control-label">nama UserPref</label>
+                        <label class="form-control-label">Nama</label>
                         <input v-model="user_pref.name" class="form-control" type="text">
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="form-control-label">Level UserPref</label>
-                        <input v-model="user_pref.level" class="form-control" type="text">
+                        <label class="form-control-label">Level</label>
+                        <input v-model="user_pref.level" class="form-control" type="number">
                     </div>
                 </div>
 
@@ -46,7 +46,27 @@
 					name: null,
 					level: null,
 
-                }
+                },
+                selectOptions: [
+                    {
+                        value: 1,
+                        label: "Yes" 
+                    },
+                    {
+                        value: 0,
+                        label: "No"
+                    }
+                ],
+                radioOptions: [
+                    {
+                        id: 1,
+                        label: "Yes"
+                    },
+                    {
+                        id: 0,
+                        label: "No"
+                    }
+                ],
             }
         },
         async created() {
@@ -81,6 +101,9 @@
                     })
                 }
             }
+        },
+        components: {
+            'vue-multiselect': VueformMultiselect
         },
     }).mount("#edit-user-pref")
 </script>
