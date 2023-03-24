@@ -10,10 +10,10 @@ class UploadFileHandler
     /**
      * Handles file upload and returns the path where the file was stored
      *
-     * @param string $targetDir The target directory where the file will be stored
-     * @param string $fileName The name of the file will be stored
      * @param Request $file The request data from user
-     * @param array $allowedExtensions An array of allowed file extensions
+     * @param string $targetDir [optional] The target directory where the file will be stored
+     * @param string $fileName [optional] The name of the file will be stored
+     * @param array $allowedExtensions [optional] An array of allowed file extensions
      * @return string The path where the file was stored
      * @throws ThrowException If the file upload fails
      */
