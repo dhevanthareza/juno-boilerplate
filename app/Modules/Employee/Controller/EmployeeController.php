@@ -32,7 +32,7 @@ class EmployeeController extends Controller
     public function store(EmployeeCreateRequest $request)
     {
         $payload = $request->all();
-        $payload['photo'] = UploadFileHandler::handle("", "", $request->file('photo'));
+        $payload['photo'] = UploadFileHandler::handle($request->file('photo'));
         $employee = EmployeeRepository::create($payload);
         return JsonResponseHandler::setResult($employee)->send();
     }
