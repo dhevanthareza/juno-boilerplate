@@ -6,13 +6,15 @@ use App\Handler\JsonResponseHandler;
 use App\Http\Controllers\Controller;
 use App\Modules\module_name\Repositories\module_nameRepository;
 use App\Modules\module_name\Requests\module_nameCreateRequest;
+use App\Modules\Permission\Repositories\PermissionRepository;
 use Illuminate\Http\Request;
 
 class module_nameController extends Controller
 {
     public function index(Request $request)
     {
-        return view('module_name::index');
+        $permissions = PermissionRepository::getPermissionStatusOnMenuPath($request->path());
+        return view('module_name::index', ['permissions' => $permissions]);
     }
 
     public function datatable(Request $request)

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         return view('Permission::index');
     }

@@ -18,13 +18,14 @@ class ModuleRepository
         $menu = MenuRepository::createMenu($menu_payload);
 
         // TODO : Create module and menu file
-        self::generateModuleFile($module_payload, $property_payload);
+        self::generateModuleFile($module_payload, $menu_payload, $property_payload);
     }
-    public static function generateModuleFile($module_payload, $property_payload)
+    public static function generateModuleFile($module_payload, $menu_payload, $property_payload)
     {
         $module_name = join("", explode(" ", $module_payload['name'])); // Patter must Be ModuleName, Employee, UserPreferences, modulename
         $module_url = strtolower(join("-", explode(" ", $module_payload['name']))); // module-name, employee, user-preferences
         $module_variable = strtolower(join("_", explode(" ", $module_payload['name']))); // module_name, employee, user_preferences
+        $menu_permission_code = strtolower(join("_", explode(" ", $menu_payload['name']))); // module_name, employee, user_preferences
         $module_path = app_path() . '/Modules' . '/' . $module_name; // returning app/Modules/$module_name
         // Generate Folder
         self::generateFolder($module_path);
@@ -43,7 +44,7 @@ class ModuleRepository
         // Create Controller
         self::generateController($module_name, $module_variable, $module_path);
         // Create View
-        self::generateView($module_name, $module_url, $module_variable, $module_path, $property_payload);
+        self::generateView($module_name, $module_url, $module_variable, $module_path, $property_payload, $menu_permission_code);
     }
     private static function generateFolder($module_path)
     {
@@ -187,12 +188,12 @@ class ModuleRepository
         File::put($module_path . '/Requests//' . $module_name . 'CreateRequest.php', $request_string);
     }
 
-    private static function generateView($module_name, $module_url, $module_variable, $module_path, $property_payload)
+    private static function generateView($module_name, $module_url, $module_variable, $module_path, $property_payload, $menu_permission_code)
     {
         // Generate Service Provider
         self::generateServiceProvider($module_name);
         // Generate Index
-        self::generateIndexView($module_name, $module_url, $module_variable, $module_path, $property_payload);
+        self::generateIndexView($module_name, $module_url, $module_variable, $module_path, $property_payload, $menu_permission_code);
         // Generate Create
         self::generateCreateView($module_name, $module_url, $module_variable, $module_path, $property_payload);
         // Generate Edit
@@ -218,13 +219,13 @@ class ModuleRepository
         $modified_file_contents = implode("", $file_lines);
         file_put_contents($file_path, $modified_file_contents);
     }
-    private static function generateIndexView($module_name, $module_url, $module_variable, $module_path, $property_payload)
+    private static function generateIndexView($module_name, $module_url, $module_variable, $module_path, $property_payload, $menu_permission_code)
     {
         $index_string = <<<END
         @extends('dashboard_layout.index')
         @section('content')
         <div class="page-inner" id="{$module_url}">
-            <default-datatable title="{$module_name}" url="{!! url('{$module_url}') !!}" :headers="headers" />
+            <default-datatable title="{$module_name}" url="{!! url('{$module_url}') !!}" :headers="headers" :can-add="{{ \$permissions['create-{$menu_permission_code}'] }}" :can-edit="{{ \$permissions['update-{$menu_permission_code}'] }}" :can-delete="{{ \$permissions['delete-{$menu_permission_code}'] }}" />
         </div>
 
         <script>

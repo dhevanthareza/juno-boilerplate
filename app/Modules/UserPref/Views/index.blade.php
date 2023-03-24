@@ -1,7 +1,7 @@
 @extends('dashboard_layout.index')
 @section('content')
 <div class="page-inner" id="user-pref">
-    <default-datatable title="UserPref" url="{!! url('user-pref') !!}" :headers="headers" />
+    <default-datatable title="UserPref" url="{!! url('user-pref') !!}" :headers="headers" :can-add="{{ $permissions['create-user_preferences'] }}" :can-edit="{{ $permissions['update-user_preferences'] }}" :can-delete="{{ $permissions['delete-user_preferences'] }}" />
 </div>
 
 <script>
@@ -15,7 +15,7 @@
                     },    
 					{
         						value: 'name',
-        						text: 'nama'
+        						text: 'Nama'
     					},    
 					{
         						value: 'level',
