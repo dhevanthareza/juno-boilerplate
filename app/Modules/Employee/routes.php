@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Modules\Employee;
 
 use App\Modules\Employee\Controller\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('/employee')->group(function() {
+Route::prefix('/employee')->group(function () {
     Route::get('/', [EmployeeController::class, 'index']);
     Route::get('/datatable', [EmployeeController::class, 'datatable']);
     Route::get('/create', [EmployeeController::class, 'create']);
