@@ -101,6 +101,10 @@
                     }
                 }
             },
+            components: {
+                'vue-multiselect': VueformMultiselect,
+                'date-picker': VueDatePicker
+            }
         }).mount("#employee-page")
     </script>
 @endsection
