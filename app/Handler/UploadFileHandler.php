@@ -17,7 +17,7 @@ class UploadFileHandler
      * @return string The path where the file was stored
      * @throws ThrowException If the file upload fails
      */
-    public static function handle($targetDir = "", $fileName = "", $file, $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'])
+    public static function handle($file, $targetDir = "", $fileName = "", $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'])
     {
         $extension = strtolower($file->getClientOriginalExtension());
         $targetDir = $targetDir === "" ? 'public/uploads' : $targetDir;
