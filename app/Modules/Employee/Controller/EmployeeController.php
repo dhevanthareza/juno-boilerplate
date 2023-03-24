@@ -6,6 +6,7 @@ use App\Handler\JsonResponseHandler;
 use App\Http\Controllers\Controller;
 use App\Modules\Employee\Repositories\EmployeeRepository;
 use App\Modules\Employee\Request\EmployeeCreateRequest;
+use Exception;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
