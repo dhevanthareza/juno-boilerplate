@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\AppException;
 use App\Handler\ThrowException;
+use App\Type\JsonResponseType;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -36,14 +38,12 @@ class VerifyUpload
 
             // Checking malicious activity by file extensions
             if (in_array(strtolower($file->getClientOriginalExtension()), ['php', 'pl', 'phtml', 'php1', 'php2', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8', 'html', 'svg', 'xhtml', 'shtml'])) {
-                Log::channel('custom')->info($messages);
-                return ThrowException::make($file, 500, $data);
+                throw new AppException("System warning that you do a malicious activity", $code=JsonResponseType::INTERNAL_SERVER_ERROR, 401);
             }
 
             // Checking malicious activity by name of files
             if (preg_match($regxp, $file->getClientOriginalName())) {
-                Log::channel('custom')->info($messages);
-                return ThrowException::make($file, 500, $data);
+                throw new AppException("System warning that you do a malicious activity", $code=JsonResponseType::INTERNAL_SERVER_ERROR, 401);
             }
         }
         return $next($request);

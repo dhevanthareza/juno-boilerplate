@@ -3,8 +3,10 @@
 namespace App\Exceptions;
 
 use App\Handler\JsonResponseHandler;
-use App\Handler\JsonResponseType;
+use App\Type\JsonResponseType;
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Throwable;
 
@@ -49,10 +51,28 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
         });
         $this->renderable(function (ValidationException $e) {
-            return JsonResponseHandler::setResult($e->errors())
+            $errors = $e->errors();
+            return JsonResponseHandler::setResult($errors)
                 ->setCode(JsonResponseType::VALIDATION_ERROR)
+                ->setMessage("validation error")
                 ->setStatus(422)
                 ->send();
         });
+        $this->renderable(function (AppException $e) {
+            $errors = $e->errors;
+            return JsonResponseHandler::setResult($errors)
+                ->setCode($e->code)
+                ->setMessage($e->message)
+                ->setStatus($e->httpCode)
+                ->send();
+        });
+        $this->renderable(function (Exception $e) {
+            return JsonResponseHandler::setResult([])
+                ->setCode(JsonResponseType::INTERNAL_SERVER_ERROR)
+                ->setMessage($e->getMessage())
+                ->setStatus(500)
+                ->send();
+        });
+        
     }
 }

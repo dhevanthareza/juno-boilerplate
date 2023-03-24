@@ -2,6 +2,8 @@
 
 namespace App\Handler;
 
+use App\Type\JsonResponseType;
+
 class JsonResponseHandler
 {
     public static function setStatus(int $status)
@@ -59,13 +61,4 @@ class _JsonResponseHandler
         ];
         return response()->json($jsonData, $this->status);
     }
-}
-
-class JsonResponseType
-{
-    const SUCCESS = 'SUCCESS';
-    const ERROR = 'ERROR';
-    const VALIDATION_ERROR = 'VALIDATION_ERROR';
-    const NOT_FOUND = 'NOT_FOUND';
-    const INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR';
 }

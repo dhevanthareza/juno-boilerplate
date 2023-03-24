@@ -3,7 +3,7 @@
 namespace App\Modules\User\Controller;
 
 use App\Handler\JsonResponseHandler;
-use App\Handler\JsonResponseType;
+use App\Type\JsonResponseType;
 use App\Http\Controllers\Controller;
 use App\Modules\User\Model\UserModel;
 use App\Modules\User\Model\UserRoleModel;
