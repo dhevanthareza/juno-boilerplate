@@ -3,6 +3,7 @@
 namespace App\Modules\Employee\Controller;
 
 use App\Handler\JsonResponseHandler;
+use App\Handler\UploadFileHandler;
 use App\Http\Controllers\Controller;
 use App\Modules\Employee\Repositories\EmployeeRepository;
 use App\Modules\Employee\Request\EmployeeCreateRequest;
@@ -29,10 +30,9 @@ class EmployeeController extends Controller
     }
 
     public function store(EmployeeCreateRequest $request)
-    {   
+    {
         $payload = $request->all();
-        $path = $request->file('photo')->storePubliclyAs('public/employee_photo', $payload['fullname'] . ".jpg");
-        $payload['photo'] = $path; 
+        $payload['photo'] = UploadFileHandler::handle("", "", $request->file('photo'));
         $employee = EmployeeRepository::create($payload);
         return JsonResponseHandler::setResult($employee)->send();
     }
@@ -52,7 +52,7 @@ class EmployeeController extends Controller
     {
         $payload = $request->all();
         $path = $request->file('photo')->storePubliclyAs('public/employee_photo', $payload['fullname'] . ".jpg");
-        $payload['photo'] = $path; 
+        $payload['photo'] = $path;
         $employee = EmployeeRepository::update($id, $payload);
         return JsonResponseHandler::setResult($employee)->send();
     }
