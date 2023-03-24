@@ -2,7 +2,9 @@
 
 namespace App\Handler;
 
+use App\Exceptions\AppException;
 use App\Handler\ThrowException;
+use App\Type\JsonResponseType;
 use Illuminate\Support\Facades\Log;
 
 class UploadFileHandler
@@ -27,10 +29,7 @@ class UploadFileHandler
 
         // Checking for malicious activity by file extensions
         if (!in_array($extension, $allowedExtensions)) {
-            ThrowException::make(["status" => "warning"], 401, [
-                "info" => "malicious_activity",
-                "message" => "System warning that you do a malicious activity"
-            ]);
+            throw new AppException("System warning that you do a malicious activity", $code=JsonResponseType::INTERNAL_SERVER_ERROR, 401);
         }
 
         // Create a log for monitoring file uploads on server
