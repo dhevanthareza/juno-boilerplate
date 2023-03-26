@@ -2,13 +2,14 @@
 
 namespace App\Modules\Employee\Controller;
 
+use App\Handler\FileHandler;
 use App\Handler\JsonResponseHandler;
-use App\Handler\UploadFileHandler;
 use App\Http\Controllers\Controller;
 use App\Modules\Employee\Repositories\EmployeeRepository;
 use App\Modules\Employee\Request\EmployeeCreateRequest;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EmployeeController extends Controller
 {
@@ -32,7 +33,7 @@ class EmployeeController extends Controller
     public function store(EmployeeCreateRequest $request)
     {
         $payload = $request->all();
-        $payload['photo'] = UploadFileHandler::handle($request->file('photo'));
+        $payload['photo'] = FileHandler::store($request->file('photo'));
         $employee = EmployeeRepository::create($payload);
         return JsonResponseHandler::setResult($employee)->send();
     }
@@ -41,6 +42,12 @@ class EmployeeController extends Controller
     {
         $employee = EmployeeRepository::get($id);
         return JsonResponseHandler::setResult($employee)->send();
+    }
+
+    public function showPhoto($id)
+    {
+        $employee = EmployeeRepository::get($id);
+        return Storage::download($employee->photo);
     }
 
     public function edit($id)

@@ -6,8 +6,9 @@ use App\Exceptions\AppException;
 use App\Handler\ThrowException;
 use App\Type\JsonResponseType;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
-class UploadFileHandler
+class FileHandler
 {
     /**
      * Handles file upload and returns the path where the file was stored
@@ -19,10 +20,10 @@ class UploadFileHandler
      * @return string The path where the file was stored
      * @throws ThrowException If the file upload fails
      */
-    public static function handle($file, $targetDir = "", $fileName = "", $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'])
+    public static function store($file, $targetDir = "", $fileName = "", $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'])
     {
         $extension = strtolower($file->getClientOriginalExtension());
-        $targetDir = $targetDir === "" ? 'public/uploads' : $targetDir;
+        $targetDir = $targetDir === "" ? 'uploads' : $targetDir;
         $fileName = $fileName === "" ? uniqid('', true) . '.' . $extension : $fileName . $extension;
 
         $messages = "Upload file activity on directory: " . $targetDir . " with filename: " . $fileName;
@@ -34,8 +35,8 @@ class UploadFileHandler
 
         // Create a log for monitoring file uploads on server
         Log::channel('custom')->info($messages);
-
-        $file->move(base_path($targetDir), $fileName);
+        
+        $file->storeAs($targetDir, $fileName, 'local');
 
         return $targetDir . "/" . $fileName;
     }

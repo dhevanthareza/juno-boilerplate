@@ -9,7 +9,6 @@
 
 
 
-    RewriteRule ^(.*)$ /public/$1 
-    #RewriteRule ^ index.php [L]
+    RewriteRule ^(.*)$ /public/$1
     RewriteRule ^(/)?$ public/index.php [L] 
 </IfModule>
