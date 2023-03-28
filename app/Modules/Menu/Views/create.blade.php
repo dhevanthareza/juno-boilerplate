@@ -12,6 +12,12 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label class="form-control-label">Module</label>
+                                <vue-multiselect v-model="module_id" :searchable="true" :options="modules" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label class="form-control-label">Nama Menu</label>
                                 <input v-model="name" class="form-control" type="text">
                             </div>
@@ -19,7 +25,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-control-label">Path</label>
-                                <input v-model="path" class="form-control" type="email">
+                                <input v-model="path" class="form-control" type="text" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -56,20 +62,48 @@
                     path: null,
                     description: null,
                     parent_id: null,
+                    module_id: null,
                     parents: [{
                         value: null,
                         label: "No Parent"
-                    }]
+                    }],
+                    modules: []
                 }
             },
             created() {
                 this.fetchParents()
+                this.fetchModules()
+            },
+            watch: {
+                module_id(value) {
+                    let module_data = this.modules.find(module_item => module_item.value == value)
+                    this.path = `${module_data.label.toLowerCase().split(" ").join("-")}`
+                    if(this.name != null && this.name != "") {
+                        this.path += `/${this.name.toLowerCase().split(" ").join("-")}`
+                    }
+
+                },
+                name(value) {
+                    let module_data = this.modules.find(module_item => module_item.value == this.module_id)
+                    this.path = `${module_data.label.toLowerCase().split(" ").join("-")}/${value.toLowerCase().split(" ").join("-")}`
+                }
             },
             methods: {
                 async fetchParents() {
                     const response = await httpClient.get("{!! url('menu/parents') !!}")
                     this.parents = [
                         ...this.parents,
+                        ...response.data.result.map(el => {
+                            return {
+                                value: el.id,
+                                label: el.name
+                            }
+                        })
+                    ]
+                },
+                async fetchModules() {
+                    const response = await httpClient.get("{!! url('module/all') !!}")
+                    this.modules = [
                         ...response.data.result.map(el => {
                             return {
                                 value: el.id,
@@ -88,13 +122,15 @@
                             name,
                             path,
                             description,
-                            parent_id
+                            parent_id,
+                            module_id
                         } = this
                         const response = await httpClient.post("{!! url('menu') !!}", {
                             name,
                             path,
                             description,
-                            parent_id
+                            parent_id,
+                            module_id
                         })
                         hideLoading()
                         showToast({

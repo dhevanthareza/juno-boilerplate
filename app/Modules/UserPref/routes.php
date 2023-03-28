@@ -1,10 +1,19 @@
 <?php
+
 namespace App\Modules\UserPref;
 
 use App\Modules\UserPref\Controllers\UserPrefController;
+use App\Modules\UserPref\Controllers\UserPrefSubMenuController;
+
+// USE MARKER (DONT DELETE THIS LINE)
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('/user-pref')->group(function() {
+Route::prefix('/user-pref')->group(function () {
+    	Route::prefix('/user-pref-sub-menu')->group(function() {
+        Route::get('/', [UserPrefSubMenuController::class, 'index']);
+    });
+    // SUB MENU MARKER (DONT DELETE THIS LINE)
+
     Route::get('/', [UserPrefController::class, 'index']);
     Route::get('/datatable', [UserPrefController::class, 'datatable']);
     Route::get('/create', [UserPrefController::class, 'create']);

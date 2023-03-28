@@ -23,6 +23,12 @@ class ModuleController extends Controller
         return JsonResponseHandler::setResult($employees)->send();
     }
 
+    public function all(Request $request)
+    {
+        $modules = ModuleModel::get();
+        return JsonResponseHandler::setResult($modules)->send();
+    }
+
     public function create()
     {
         return view('Module::create');

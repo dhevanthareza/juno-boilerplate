@@ -6,6 +6,7 @@ use App\Modules\Module\Controller\ModuleController;
 use Illuminate\Support\Facades\Route;
 Route::prefix('/module')->group(function() {
     Route::get('/', [ModuleController::class, 'index']);
+    Route::get('/all', [ModuleController::class, 'all']);
     Route::get('/datatable', [ModuleController::class, 'datatable']);
     Route::get('/create', [ModuleController::class, 'create']);
     Route::post('/', [ModuleController::class, 'store']);

@@ -15,7 +15,7 @@ class ModuleRepository
 
         // TODO : create menu data
         $menu_payload['module_id'] = $module->id;
-        $menu = MenuRepository::createMenu($menu_payload);
+        $menu = MenuRepository::store($menu_payload);
 
         // TODO : Create module and menu file
         self::generateModuleFile($module_payload, $menu_payload, $property_payload);
@@ -125,6 +125,8 @@ class ModuleRepository
         use Illuminate\Support\Facades\Route;
 
         Route::prefix('/{$module_url}')->group(function() {
+            // PLACE SUB MENU OF MODULE BELOW
+
             Route::get('/', [{$module_name}Controller::class, 'index']);
             Route::get('/datatable', [{$module_name}Controller::class, 'datatable']);
             Route::get('/create', [{$module_name}Controller::class, 'create']);

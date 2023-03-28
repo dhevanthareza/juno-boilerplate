@@ -74,7 +74,7 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         $payload = $request->all();
-        $menu = MenuRepository::createMenu($payload);
+        $menu = MenuRepository::generateMenu($payload);
         return JsonResponseHandler::setResult($menu)->send();
     }
 
