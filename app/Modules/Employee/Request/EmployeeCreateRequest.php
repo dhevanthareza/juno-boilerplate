@@ -14,7 +14,8 @@ class EmployeeCreateRequest extends FormRequest
             'dob' => ['required', 'date_format:Y-m-d'],
             'fullname' => ['required', 'string'],
             'address' => ['required', 'string'],
-            'photo' => ['required', 'mimes:jpg,jpeg,png']
+            'photo' => ['required', 'mimes:jpg,jpeg,png'],
+            'ktp_photo' => ['required', 'mimes:jpg,jpeg,png']
         ];
     }
     

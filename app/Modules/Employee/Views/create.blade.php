@@ -45,6 +45,12 @@
                                 <input class="form-control" type="file" @change="handleFileChange">
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label">KTP</label>
+                                <input class="form-control" type="file" @change="handleKtpChange">
+                            </div>
+                        </div>
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="button" @click="back" class="btn btn-sm bg-warning me-1 text-white">
@@ -69,12 +75,16 @@
                         dob: null,
                         address: null,
                         photo: null,
+                        ktp_photo: null,
                     }
                 }
             },
             methods: {
                 handleFileChange(event) {
                     this.employee.photo = event.target.files[0];
+                },
+                handleKtpChange(event) {
+                    this.employee.ktp_photo = event.target.files[0];
                 },
                 back() {
                     history.back()

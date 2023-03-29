@@ -34,6 +34,7 @@ class EmployeeController extends Controller
     {
         $payload = $request->all();
         $payload['photo'] = FileHandler::store($request->file('photo'));
+        $payload['ktp_photo'] = FileHandler::store(file: $request->file('ktp_photo'), access: "private");
         $employee = EmployeeRepository::create($payload);
         return JsonResponseHandler::setResult($employee)->send();
     }
@@ -44,10 +45,10 @@ class EmployeeController extends Controller
         return JsonResponseHandler::setResult($employee)->send();
     }
 
-    public function showPhoto($id)
+    public function showKtpPhoto($id)
     {
         $employee = EmployeeRepository::get($id);
-        return Storage::download($employee->photo);
+        return Storage::download($employee->ktp_photo);
     }
 
     public function edit($id)

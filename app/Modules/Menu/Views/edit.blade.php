@@ -4,7 +4,7 @@
         <div id="add-menu" class="card">
             <div class="card-header pb-0">
                 <div class="d-flex align-items-center">
-                    <h6 class="mb-0">Edit Menu</h6>
+                    <h4 class="mb-0">Edit Menu</h4>
                 </div>
             </div>
             <div class="card-body">

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('dob');
             $table->text('address');
             $table->text('photo');
+            $table->text('ktp_photo');
             $table->timestamps();
             $table->softDeletes();
             $table->index(['dob']);

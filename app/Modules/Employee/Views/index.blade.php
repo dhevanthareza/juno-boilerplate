@@ -7,6 +7,12 @@
                 <template #dob="{ content }">
                     <span class="badge badge-sm bg-gradient-success">@{{ content.dob }}</span>
                 </template>
+                <template #photo="{ content }">
+                    <img width="100" :src="content.photo_url" />
+                </template>
+                <template #ktp_photo="{ content }">
+                    <img width="100" :src="content.ktp_photo_url" />
+                </template>
             </default-datatable>
         </div>
     </div>
@@ -40,6 +46,10 @@
                     {
                         text: 'photo',
                         value: 'photo',
+                    },
+                    {
+                        text: 'ktp photo',
+                        value: 'ktp_photo',
                     },
                 ],
             }

@@ -11,7 +11,7 @@ Route::prefix('/employee')->group(function () {
     Route::get('/create', [EmployeeController::class, 'create']);
     Route::post('/', [EmployeeController::class, 'store']);
     Route::get('/{employee_id}', [EmployeeController::class, 'show']);
-    Route::get('/{employee_id}/photo', [EmployeeController::class, 'showPhoto']);
+    Route::get('/{employee_id}/ktp-photo', [EmployeeController::class, 'showKtpPhoto']);
     Route::get('/{employee_id}/edit', [EmployeeController::class, 'edit']);
     Route::put('/{employee_id}', [EmployeeController::class, 'update']);
     Route::delete('/{employee_id}', [EmployeeController::class, 'destroy']);

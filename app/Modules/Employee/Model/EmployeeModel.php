@@ -9,9 +9,12 @@ class EmployeeModel extends Model
     use SoftDeletes;
     protected $table = 'employee';
     protected $guarded = [];
-    protected $appends = ['photo_url'];
+    protected $appends = ['photo_url', 'ktp_photo_url'];
     
     protected function getPhotoUrlAttribute() {
-        return "";
+        return Storage::url($this->photo);
+    }
+    protected function getKtpPhotoUrlAttribute() {
+        return "/employee/{$this->id}/ktp-photo";
     }
 }

@@ -19,7 +19,7 @@ class FileHandler
      * @return string The path where the file was stored
      * @throws AppException If the file upload fails
      */
-    public static function store($file, $targetDir = "", $fileName = "", $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'])
+    public static function store($file = null, $targetDir = "", $fileName = "", $access = 'public', $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'])
     {
         $extension = strtolower($file->getClientOriginalExtension());
         $targetDir = $targetDir === "" ? 'uploads' : $targetDir;
@@ -35,7 +35,7 @@ class FileHandler
         // Create a log for monitoring file uploads on server
         Log::channel('custom')->info($messages);
         
-        $file->storeAs($targetDir, $fileName, 'local');
+        $file->storeAs($targetDir, $fileName, $access == 'private' ? 'local' : 'public');
 
         return $targetDir . "/" . $fileName;
     }
