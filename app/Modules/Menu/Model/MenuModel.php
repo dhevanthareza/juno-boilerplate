@@ -3,8 +3,10 @@
 namespace App\Modules\Menu\Model;
 
 use App\Handler\ModelSearchHandler;
+use App\Modules\Module\Model\ModuleModel;
 use App\Modules\Permission\Model\PermissionModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MenuModel extends Model
@@ -25,6 +27,11 @@ class MenuModel extends Model
     public function parent()
     {
         return $this->belongsTo(MenuModel::class, 'parent_id', 'id');
+    }
+
+    public function module(): BelongsTo
+    {
+        return $this->belongsTo(ModuleModel::class, 'module_id', 'id');
     }
 
     // Scope

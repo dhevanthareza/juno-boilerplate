@@ -62,7 +62,7 @@ class MenuController extends Controller
 
     public function detail(Request $request, $menu_id)
     {
-        $menu = MenuModel::where('id', $menu_id)->first();
+        $menu = MenuModel::with(['module'])->where('id', $menu_id)->first();
         return JsonResponseHandler::setResult($menu)->send();
     }
 
@@ -86,11 +86,14 @@ class MenuController extends Controller
     public function update(Request $request, $menu_id)
     {
         $payload = $request->all();
-        unset($payload['created_at']);
-        unset($payload['updated_at']);
+        $update = [
+            "name" => $payload['name'],
+            "description" => $payload['description'],
+            "parent_id" => $payload['parent_id']
+        ];
 
-        $menu = MenuModel::where('id', $menu_id)->update($payload);
-        return JsonResponseHandler::setResult($menu)->send();
+        $menu = MenuModel::where('id', $menu_id)->update($update);
+        return JsonResponseHandler::setResult($update)->send();
     }
 
     public function permissions(Request $request, $menu_id)
