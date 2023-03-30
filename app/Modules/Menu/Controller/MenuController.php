@@ -93,7 +93,7 @@ class MenuController extends Controller
         ];
 
         $menu = MenuModel::where('id', $menu_id)->update($update);
-        return JsonResponseHandler::setResult($update)->send();
+        return JsonResponseHandler::setResult($menu)->send();
     }
 
     public function permissions(Request $request, $menu_id)
