@@ -30,7 +30,7 @@ class ModuleRepository
         // Generate Folder
         self::generateFolder($module_path);
         // Generate Route
-        self::generateRoute($module_name, $module_url, $module_variable, $module_path);
+        self::generateRoute($module_name, $module_url, $module_variable, $module_path, $menu_permission_code);
         // Create DB Migration
         if (count($property_payload) > 0) {
             self::generateMigration($module_variable, $property_payload);
@@ -114,7 +114,7 @@ class ModuleRepository
         END;
         File::put(base_path() . '/database/migrations/' . date('Y_m_d_His') . "_create_{$module_variable}_table.php", $migration_string);
     }
-    private static function generateRoute($module_name, $module_url, $module_variable, $module_path)
+    private static function generateRoute($module_name, $module_url, $module_variable, $module_path, $menu_permission_code)
     {
         // creating routes.php in module
         $route_string = <<<END
@@ -127,14 +127,14 @@ class ModuleRepository
         Route::prefix('/{$module_url}')->group(function() {
             // PLACE SUB MENU OF MODULE BELOW
 
-            Route::get('/', [{$module_name}Controller::class, 'index']);
-            Route::get('/datatable', [{$module_name}Controller::class, 'datatable']);
-            Route::get('/create', [{$module_name}Controller::class, 'create']);
-            Route::post('/', [{$module_name}Controller::class, 'store']);
-            Route::get('/{{$module_variable}_id}', [{$module_name}Controller::class, 'show']);
-            Route::get('/{{$module_variable}_id}/edit', [{$module_name}Controller::class, 'edit']);
-            Route::put('/{{$module_variable}_id}', [{$module_name}Controller::class, 'update']);
-            Route::delete('/{{$module_variable}_id}', [{$module_name}Controller::class, 'destroy']);
+            Route::get('/', [{$module_name}Controller::class, 'index'])->middleware('authorize:read-{$menu_permission_code}');
+            Route::get('/datatable', [{$module_name}Controller::class, 'datatable'])->middleware('authorize:read-{$menu_permission_code}');
+            Route::get('/create', [{$module_name}Controller::class, 'create'])->middleware('authorize:create-{$menu_permission_code}');
+            Route::post('/', [{$module_name}Controller::class, 'store'])->middleware('authorize:create-{$menu_permission_code}');
+            Route::get('/{{$module_variable}_id}', [{$module_name}Controller::class, 'show'])->middleware('authorize:read-{$menu_permission_code}');
+            Route::get('/{{$module_variable}_id}/edit', [{$module_name}Controller::class, 'edit'])->middleware('authorize:update-{$menu_permission_code}');
+            Route::put('/{{$module_variable}_id}', [{$module_name}Controller::class, 'update'])->middleware('authorize:update-{$menu_permission_code}');
+            Route::delete('/{{$module_variable}_id}', [{$module_name}Controller::class, 'destroy'])->middleware('authorize:delete-{$menu_permission_code}');
         });
         END;
         File::put($module_path . '/' . 'routes.php', $route_string);
