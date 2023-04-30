@@ -12,6 +12,12 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label class="form-control-label">Nama Module</label>
+                                <input v-model="menuData.module.name" class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label class="form-control-label">Nama Menu</label>
                                 <input v-model="menuData.name" class="form-control" type="text">
                             </div>
@@ -19,7 +25,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-control-label">Path</label>
-                                <input v-model="menuData.path" class="form-control" type="email">
+                                <input v-model="menuData.path" class="form-control" type="email" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -54,6 +60,7 @@
             data() {
                 return {
                     menuData: {
+                        module: [],
                         name: null,
                         path: null,
                         description: null,
@@ -75,7 +82,6 @@
                 async fetchData() {
                     const response = await httpClient.get("{!! url('menu') !!}/{{ $menu_id }}/detail")
                     this.menuData = response.data.result
-                    console.log(this.menuData)
                 },
                 async fetchParents() {
                     const response = await httpClient.get("{!! url('menu/parents') !!}")
