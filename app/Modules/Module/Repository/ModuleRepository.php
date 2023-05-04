@@ -40,7 +40,7 @@ class ModuleRepository
         // Create Repository
         self::generateRepository($module_name, $module_variable, $module_path);
         // Create Request
-        self::generateRequest($module_name, $module_path);
+        self::generateRequest($module_name, $module_path, $property_payload);
         // Create Controller
         self::generateController($module_name, $module_variable, $module_path);
         // Create View
@@ -183,9 +183,53 @@ class ModuleRepository
         File::put($module_path . '/Controllers//' . $module_name . 'Controller.php', $controller_string);
     }
 
-    public static function generateRequest($module_name, $module_path)
+    public static function generateRequest($module_name, $module_path, $property_payload)
     {
         $request_string = File::get(base_path() . "/template/Request.php");
+        $request_string = <<<END
+        <?php
+
+        namespace App\Modules\UserPref\Requests;
+
+        use App\Request\AppFormRequest;
+
+
+        class {$module_name}CreateRequest extends AppFormRequest
+        {
+            public function rules(): array
+            {
+                return [
+        END;
+
+        foreach($property_payload as $property) {
+            $property_name = $property["name"];
+            $property_label = $property["label"];
+            $request_string = $request_string . "\n\t\t\t\t'{$property_name}' => 'required',";
+        }
+
+        $request_string = $request_string . <<<END
+        \n\t\t\t];
+            }
+
+            public function messages(): array
+            {
+                return [
+                    
+                
+        END;
+
+        foreach($property_payload as $property) {
+            $property_name = $property["name"];
+            $property_label = $property["label"];
+            $request_string = $request_string . "\n\t\t\t\t'{$property_name}.required' => '{$property_label} tidak boleh kosong',";
+        }
+
+        $request_string = $request_string . <<<END
+        \n\t\t\t];
+            }
+
+        }     
+        END;
         $request_string = str_replace('module_name', $module_name, $request_string);
         File::put($module_path . '/Requests//' . $module_name . 'CreateRequest.php', $request_string);
     }

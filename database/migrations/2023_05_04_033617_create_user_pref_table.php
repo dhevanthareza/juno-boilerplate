@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('user_pref', function (Blueprint $table) {
 			$table->id();
 			$table->string('name', 255);
+			$table->integer('level');
 $table->timestamps();
 $table->softDeletes();        
 		});

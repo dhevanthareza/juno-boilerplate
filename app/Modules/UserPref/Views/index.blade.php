@@ -17,6 +17,10 @@
         						value: 'name',
         						text: 'Nama'
     					},    
+					{
+        						value: 'level',
+        						text: 'Level'
+    					},    
 					],
             }
         },

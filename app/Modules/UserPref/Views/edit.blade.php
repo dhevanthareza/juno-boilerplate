@@ -18,6 +18,13 @@
                     </div>
                 </div>
 
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-control-label">Level</label>
+                        <input v-model="user_pref.level" class="form-control" type="number">
+                    </div>
+                </div>
+
                 </div>
                 <div class="d-flex justify-content-end">
                     <button type="button" @click="back" class="btn btn-sm bg-warning mr-2 text-white">
@@ -37,6 +44,7 @@
             return {
                 user_pref: {
 					name: null,
+					level: null,
 
                 },
                 selectOptions: [

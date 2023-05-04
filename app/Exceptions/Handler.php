@@ -52,13 +52,15 @@ class Handler extends ExceptionHandler
         });
         $this->renderable(function (ValidationException $e) {
             $errors = $e->errors();
-            $message = "";
-            foreach($errors as $key => $val) {
-                $message += " " . $val[0]; 
+            $messages = [];
+            foreach($errors as $key => $error) {
+                foreach($error as $key => $message) {
+                    array_push($messages, $message);
+                }
             }
             return JsonResponseHandler::setResult($errors)
                 ->setCode(JsonResponseType::VALIDATION_ERROR)
-                ->setMessage($message)
+                ->setMessage(join(", ", $messages))
                 ->setStatus(422)
                 ->send();
         });
