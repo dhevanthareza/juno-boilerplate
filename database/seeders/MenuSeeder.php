@@ -59,6 +59,8 @@ class MenuSeeder extends Seeder
                 'id' => 7,
                 'name' => 'Master Data',
                 'description' => 'Organize Permission',
+                'parent_id' => null,
+                'module_id' => null
             ],
             [
                 'id' => 8,
