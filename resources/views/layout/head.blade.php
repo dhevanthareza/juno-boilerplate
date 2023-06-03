@@ -38,8 +38,10 @@
 
 
   <!-- include Vue Datepicker https://vue3datepicker.com -->
-  <script src="https://unpkg.com/@vuepic/vue-datepicker@latest"></script>
-  <link rel="stylesheet" href="https://unpkg.com/@vuepic/vue-datepicker@latest/dist/main.css">
+  {{-- <script src="https://unpkg.com/@vuepic/vue-datepicker@latest"></script> --}}
+  <script src="{!! asset('js/libraries/vuedatepicker/vuedatepicker.js') !!}"></script>
+  {{-- <link rel="stylesheet" href="https://unpkg.com/@vuepic/vue-datepicker@latest/dist/main.css"> --}}
+  <link href="{!! asset('css/libraries/vuedatepicker/vdpmain.css') !!}" rel="stylesheet" />
 
   <!-- include CKEditor 5 (vanilla) -->
   <script src="//cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>

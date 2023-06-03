@@ -28,7 +28,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-control-label">DOB</label>
-                                <vue-date-picker v-model="employee.dob" class="form-control" type="date">
+                                <date-picker v-model="employee.dob" type="date" format="dd-mm-yyyy">
                             </div>
                         </div>
 
