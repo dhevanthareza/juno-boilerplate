@@ -125,28 +125,52 @@ class PermissionSeeder extends Seeder
                 'menu_id' => 5
             ],
             [
-                'id' => 15,
+                'id' => 19,
                 'code' => 'create-employee',
                 'description' => 'Create Employee',
-                'menu_id' => 7
+                'menu_id' => 8
             ],
             [
-                'id' => 16,
+                'id' => 20,
                 'code' => 'read-employee',
                 'description' => 'Read Employee',
-                'menu_id' => 7
+                'menu_id' => 8
             ],
             [
-                'id' => 17,
+                'id' => 21,
                 'code' => 'update-employee',
                 'description' => 'Update Employee',
-                'menu_id' => 7
+                'menu_id' => 8
             ],
             [
-                'id' => 18,
+                'id' => 22,
                 'code' => 'delete-employee',
                 'description' => 'Delete Employee',
-                'menu_id' =>7
+                'menu_id' =>8
+            ],
+            [
+                'id' => 23,
+                'code' => 'create-module',
+                'description' => 'Create Module',
+                'menu_id' => 10
+            ],
+            [
+                'id' => 24,
+                'code' => 'read-module',
+                'description' => 'Read Module',
+                'menu_id' => 10
+            ],
+            [
+                'id' => 25,
+                'code' => 'update-module',
+                'description' => 'Update Module',
+                'menu_id' => 10
+            ],
+            [
+                'id' => 26,
+                'code' => 'delete-module',
+                'description' => 'Delete Employee',
+                'menu_id' => 10
             ],
             
         ]);

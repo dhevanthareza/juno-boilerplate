@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   php-apache:
-    container_name: vascomm-ecommerce
+    container_name: dnt-software-core
     build:
       context: .
       dockerfile: Dockerfile
