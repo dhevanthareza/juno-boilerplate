@@ -13,20 +13,22 @@ class MenuRepository
     {
         self::store($menu_payload);
         $module = ModuleModel::where('id', $menu_payload['module_id'])->first();
-        $module_name = join("", explode(" ", $module->name));
-        $module_path = app_path() . '/Modules' . '/' . $module_name;
-        $menu_title = $menu_payload['name'];
-        $menu_name = join("", explode(" ", $menu_payload['name']));
-        $menu_path = strtolower(join("-", explode(" ", $menu_payload['name'])));
+        if ($module != null) {
+            $module_name = join("", explode(" ", $module->name));
+            $module_path = app_path() . '/Modules' . '/' . $module_name;
+            $menu_title = $menu_payload['name'];
+            $menu_name = join("", explode(" ", $menu_payload['name']));
+            $menu_path = strtolower(join("-", explode(" ", $menu_payload['name'])));
 
-        // TODO : Generate Controller
-        self::generateController($module_path, $module_name, $menu_name, $menu_path);
+            // TODO : Generate Controller
+            self::generateController($module_path, $module_name, $menu_name, $menu_path);
 
-        // TODO : Generate route
-        self::generateRoute($module_name, $menu_name, $menu_path);
+            // TODO : Generate route
+            self::generateRoute($module_name, $menu_name, $menu_path);
 
-        // TODO : Generate index file
-        self::generateIndexFile($module_path, $menu_path, $menu_title);
+            // TODO : Generate index file
+            self::generateIndexFile($module_path, $menu_path, $menu_title);
+        }
     }
 
     private static function generateController($module_path, $module_name, $menu_name, $menu_path)
@@ -53,17 +55,18 @@ class MenuRepository
             }
         }
 
-        array_splice($file_lines, $matched_line_index - 1, 0, $insert_string);
+        array_splice($file_lines, $matched_line_index, 0, $insert_string);
         $modified_file_contents = implode("", $file_lines);
         file_put_contents($file_path, $modified_file_contents);
 
         // Generate route prefix
+        $file_lines = file($file_path);
         $file_path = base_path()  . "/app/Modules/{$module_name}/routes.php";
         $search_string = "// SUB MENU MARKER (DONT DELETE THIS LINE)";
         $insert_string = <<<END
-            \tRoute::prefix('/{$menu_path}')->group(function() {
+            Route::prefix('/{$menu_path}')->group(function() {
                 Route::get('/', [{$menu_name}Controller::class, 'index']);
-            });
+            });\n
         END;
         $file_lines = file($file_path);
         $matched_line_index = 18;
@@ -73,12 +76,13 @@ class MenuRepository
             }
         }
 
-        array_splice($file_lines, $matched_line_index - 1, 0, $insert_string);
+        array_splice($file_lines, $matched_line_index, 0, $insert_string);
         $modified_file_contents = implode("", $file_lines);
         file_put_contents($file_path, $modified_file_contents);
     }
 
-    private static function generateIndexFile($module_path, $menu_path, $menu_title) {
+    private static function generateIndexFile($module_path, $menu_path, $menu_title)
+    {
         File::makeDirectory($module_path . '/Views//' . $menu_path, 0755);
 
         $index_string = <<<END

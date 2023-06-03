@@ -123,9 +123,12 @@ class ModuleRepository
 
         use App\Modules\\{$module_name}\Controllers\\{$module_name}Controller;
         use Illuminate\Support\Facades\Route;
+        
+        // USE MARKER (DONT DELETE THIS LINE)
 
         Route::prefix('/{$module_url}')->group(function() {
-            // PLACE SUB MENU OF MODULE BELOW
+
+            // SUB MENU MARKER (DONT DELETE THIS LINE)
 
             Route::get('/', [{$module_name}Controller::class, 'index'])->middleware('authorize:read-{$menu_permission_code}');
             Route::get('/datatable', [{$module_name}Controller::class, 'datatable'])->middleware('authorize:read-{$menu_permission_code}');
@@ -189,7 +192,7 @@ class ModuleRepository
         $request_string = <<<END
         <?php
 
-        namespace App\Modules\UserPref\Requests;
+        namespace App\Modules\\{$module_name}\Requests;
 
         use App\Request\AppFormRequest;
 

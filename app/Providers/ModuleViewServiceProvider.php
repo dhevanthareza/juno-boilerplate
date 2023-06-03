@@ -22,6 +22,11 @@ class ModuleViewServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../Modules/Role/Views', 'Role');
         $this->loadViewsFrom(__DIR__.'/../Modules/Permission/Views', 'Permission');
         $this->loadViewsFrom(__DIR__.'/../Modules/Module/Views', 'Module');
+        $this->loadViewsFrom(__DIR__.'/../Modules/TesMenu/Views', 'TesMenu');
+        $this->loadViewsFrom(__DIR__.'/../Modules/Presensi/Views', 'Presensi');
+        $this->loadViewsFrom(__DIR__.'/../Modules/Jabatan/Views', 'Jabatan');
+        $this->loadViewsFrom(__DIR__.'/../Modules/Shift/Views', 'Shift');
+        $this->loadViewsFrom(__DIR__.'/../Modules/Laptop/Views', 'Laptop');
         
         // VIEW_MARKER
         // Add view in the line below (DONT REMOVE THIS SECTION !!!!!!, because this line is LINE_MARKER used by Module Generator)

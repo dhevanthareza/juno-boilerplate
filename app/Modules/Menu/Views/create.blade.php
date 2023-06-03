@@ -78,14 +78,17 @@
                 module_id(value) {
                     let module_data = this.modules.find(module_item => module_item.value == value)
                     this.path = `${module_data.label.toLowerCase().split(" ").join("-")}`
-                    if(this.name != null && this.name != "") {
+                    if (this.name != null && this.name != "") {
                         this.path += `/${this.name.toLowerCase().split(" ").join("-")}`
                     }
 
                 },
                 name(value) {
                     let module_data = this.modules.find(module_item => module_item.value == this.module_id)
-                    this.path = `${module_data.label.toLowerCase().split(" ").join("-")}/${value.toLowerCase().split(" ").join("-")}`
+                    if (module_data) {
+                        this.path =
+                            `${module_data.label.toLowerCase().split(" ").join("-")}/${value.toLowerCase().split(" ").join("-")}`
+                    }
                 }
             },
             methods: {
