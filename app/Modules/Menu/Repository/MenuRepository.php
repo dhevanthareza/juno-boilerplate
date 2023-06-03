@@ -46,7 +46,7 @@ class MenuRepository
         // Generate use
         $file_path = base_path()  . "/app/Modules/$module_name/routes.php";
         $search_string = "// USE MARKER (DONT DELETE THIS LINE)";
-        $insert_string = "use App\Modules\UserPref\Controllers\\{$menu_name}Controller;\n";
+        $insert_string = "use App\Modules\\{$module_name}\Controllers\\{$menu_name}Controller;\n";
         $file_lines = file($file_path);
         $matched_line_index = 18;
         foreach ($file_lines as $index => $line) {
