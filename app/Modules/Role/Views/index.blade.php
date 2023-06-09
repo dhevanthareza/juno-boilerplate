@@ -140,8 +140,9 @@
                     [
                         'DefaultDatatable',
                     ]
-                )
+                ),
+                'vue-multiselect': VueformMultiselect
             },
-        }).component('vue-multiselect', VueformMultiselect).mount('#role-page');
+        }).mount('#role-page');
     </script>
 @endsection

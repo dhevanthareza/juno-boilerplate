@@ -28,7 +28,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-control-label">DOB</label>
-                                <date-picker v-model="employee.dob" type="date" format="dd-mm-yyyy">
+                                <input v-model="employee.dob" type="text" />
                             </div>
                         </div>
 

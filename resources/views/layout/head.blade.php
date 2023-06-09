@@ -53,8 +53,8 @@
   <link href="{!! asset('css/libraries/viewerjs/viewer.min.css') !!}" rel="stylesheet" />
 
   <!---- SELECT ---->
-  <script src="https://cdn.jsdelivr.net/npm/@vueform/multiselect@2.5.2/dist/multiselect.global.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vueform/multiselect@2.5.2/themes/default.css">
+  <script src="{!! asset('js/libraries/multiselect/multiselect.global.js') !!}"></script>
+  <link href="{!! asset('css/libraries/multiselect/multiselect.css') !!}" rel="stylesheet" />
   <link id="pagestyle" href="{!! asset('css/app.css') !!}" rel="stylesheet" />
 </head>
   
