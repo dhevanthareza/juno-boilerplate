@@ -62,7 +62,6 @@
                             <a :href="menu.path">
                                 <i class="fas fa-layer-group"></i>
                                 <p>@{{ menu.name }}</p>
-                                <span class="caret"></span>
                             </a>
                         </li>
                     </template>
