@@ -25,7 +25,7 @@
 
   <!-- CSS Files -->
   <!-- Load CSS assets with Vite -->
-  @vite
+  @vite(['resources/js/app.js', 'resources/scss/dnt-core.scss'])
   
   <!-- include Vue.js -->
   @if (env('APP_ENV') == 'PRODUCTION')

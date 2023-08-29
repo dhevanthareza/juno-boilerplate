@@ -50,35 +50,35 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
         });
-        $this->renderable(function (ValidationException $e) {
-            $errors = $e->errors();
-            $messages = [];
-            foreach($errors as $key => $error) {
-                foreach($error as $key => $message) {
-                    array_push($messages, $message);
-                }
-            }
-            return JsonResponseHandler::setResult($errors)
-                ->setCode(JsonResponseType::VALIDATION_ERROR)
-                ->setMessage(join(", ", $messages))
-                ->setStatus(422)
-                ->send();
-        });
-        $this->renderable(function (AppException $e) {
-            $errors = $e->errors;
-            return JsonResponseHandler::setResult($errors)
-                ->setCode($e->code)
-                ->setMessage($e->message)
-                ->setStatus($e->httpCode)
-                ->send();
-        });
-        $this->renderable(function (Exception $e) {
-            return JsonResponseHandler::setResult([])
-                ->setCode(JsonResponseType::INTERNAL_SERVER_ERROR)
-                ->setMessage($e->getMessage())
-                ->setStatus(500)
-                ->send();
-        });
+        // $this->renderable(function (ValidationException $e) {
+        //     $errors = $e->errors();
+        //     $messages = [];
+        //     foreach($errors as $key => $error) {
+        //         foreach($error as $key => $message) {
+        //             array_push($messages, $message);
+        //         }
+        //     }
+        //     return JsonResponseHandler::setResult($errors)
+        //         ->setCode(JsonResponseType::VALIDATION_ERROR)
+        //         ->setMessage(join(", ", $messages))
+        //         ->setStatus(422)
+        //         ->send();
+        // });
+        // $this->renderable(function (AppException $e) {
+        //     $errors = $e->errors;
+        //     return JsonResponseHandler::setResult($errors)
+        //         ->setCode($e->code)
+        //         ->setMessage($e->message)
+        //         ->setStatus($e->httpCode)
+        //         ->send();
+        // });
+        // $this->renderable(function (Exception $e) {
+        //     return JsonResponseHandler::setResult([])
+        //         ->setCode(JsonResponseType::INTERNAL_SERVER_ERROR)
+        //         ->setMessage($e->getMessage())
+        //         ->setStatus(500)
+        //         ->send();
+        // });
         
     }
 }

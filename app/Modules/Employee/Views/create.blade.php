@@ -28,7 +28,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-control-label">DOB</label>
-                                <input v-model="employee.dob" type="text" />
+                                <date-picker v-model="employee.dob" type="text" />
                             </div>
                         </div>
 
@@ -52,6 +52,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+                    </div>
                     <div class="d-flex justify-content-end">
                         <button type="button" @click="back" class="btn btn-sm bg-warning me-1 text-white">
                             Cancel
@@ -65,10 +68,15 @@
             </div>
         </div>
     </div>
-    <script>
+    <script type="module">
         Vue.createApp({
             data() {
                 return {
+                    editor: ClassicEditor,
+                    editorData: '<p>Content of the editor.</p>',
+                    editorConfig: {
+                        // The configuration of the editor.
+                    },
                     employee: {
                         nip: null,
                         fullname: null,
@@ -79,6 +87,7 @@
                     }
                 }
             },
+            mounted() {},
             methods: {
                 handleFileChange(event) {
                     this.employee.photo = event.target.files[0];
@@ -113,7 +122,8 @@
             },
             components: {
                 'vue-multiselect': VueformMultiselect,
-                'date-picker': VueDatePicker
+                'date-picker': VueDatePicker,
+                'ckeditor': CKEditor.component
             }
         }).mount("#employee-page")
     </script>
