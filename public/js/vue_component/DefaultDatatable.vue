@@ -2,7 +2,9 @@
     <div class="card mb-4">
         <div class="card-header">
             <div class="card-head-row justify-content-between">
-                <h4 class="card-title"><strong>{{ title }}</strong></h4>
+                <h4 class="card-title">
+                    <strong>{{ title }}</strong>
+                </h4>
                 <div class="d-flex align-items-center">
                     <div class="form-group">
                         <div class="input-icon">
@@ -20,21 +22,24 @@
                     <div>
                         <a
                             v-if="canAdd"
-                            :href="`${url}/create`"
+                            :href="`${addDataLink ?? `${url}/create`}`"
                             type="button"
                             class="btn btn-primary btn-round ml-auto"
                         >
                             <div class="fa fa-fw fa-plus mr-2"></div>
-                            Add Data
+                            {{ addDataText ?? "Add Data" }}
                         </a>
                     </div>
                 </div>
             </div>
-            
+
+            <!-- Filter Modal Slot -->
+            <slot name="filter-modal" :content="content"> </slot>
         </div>
+
         <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0 table-hover">
+                <table class="table align-items-center mb-0 table-hover" style="min-width:100%;table-layout: fixed;width: max-content;">
                     <thead class="bg-grey1">
                         <tr>
                             <th
@@ -43,10 +48,11 @@
                                 :class="`text-${
                                     header['align'] ? header['align'] : 'center'
                                 }`"
+                                :style="header['style']"
                             >
                                 {{ header["text"] }}
                             </th>
-                            <th>Actions</th>
+                            <th :style="actionStyle" class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -70,6 +76,7 @@
                                             ? header['align']
                                             : 'center'
                                     }`"
+                                    :style="header['style']"
                                 >
                                     <slot
                                         :name="`${header['value']}`"
@@ -91,7 +98,7 @@
                                         >
                                     </slot>
                                 </td>
-                                <td>
+                                <td :style="actionStyle" class="text-center">
                                     <div class="d-flex">
                                         <slot
                                             name="left-action"
@@ -143,9 +150,24 @@ let fetchController = new AbortController();
 export default {
     components: { PaginateContent },
     props: {
+        addDataText: {
+            type: String,
+            required: false,
+            default: null,
+        },
+        addDataLink: {
+            type: String,
+            required: false,
+            default: null,
+        },
         url: {
             type: String,
             required: true,
+        },
+        listUrl: {
+            type: String,
+            required: false,
+            default: null,
         },
         headers: {
             type: Array,
@@ -154,6 +176,11 @@ export default {
         title: {
             type: String,
             reqired: true,
+        },
+        actionStyle: {
+            type: String,
+            reqired: false,
+            default: null
         },
         canAdd: {
             type: Boolean,
@@ -167,6 +194,14 @@ export default {
             type: Boolean,
             default: true,
         },
+        additionalFilter: {
+            type: Object,
+            default: {},
+        },
+        deleteMethod: {
+            type: Function,
+            required: true,
+        },
     },
     data() {
         return {
@@ -175,7 +210,7 @@ export default {
             keyword: "",
             total: 0,
             page: 1,
-            per_page: 15,
+            per_page: 10,
             isSearchFocused: false,
         };
     },
@@ -205,9 +240,11 @@ export default {
             this.isContentLoading = true;
             const { page, per_page, keyword } = this;
             fetchController = new AbortController();
-            const response = await httpClient.get(`${this.url}/datatable`, {
+            const url =
+                this.listUrl != null ? this.listUrl : `${this.url}/datatable`;
+            const response = await httpClient.get(url, {
                 signal: fetchController.signal,
-                params: { page, per_page, keyword },
+                params: { page, per_page, keyword, ...this.additionalFilter },
             });
             const result = response.data.result;
             this.contents = result.data;
@@ -216,10 +253,10 @@ export default {
         },
         async deleteData(id) {
             Swal.fire({
-                title: "Apakah anda yakin ingin menghapus data ini?",
+                title: "Are you sure want delete this data?",
                 showDenyButton: true,
-                confirmButtonText: `Yakin`,
-                denyButtonText: `Tidak`,
+                confirmButtonText: `Yes`,
+                denyButtonText: `No`,
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     await httpClient.delete(`${this.url}/${id}`);

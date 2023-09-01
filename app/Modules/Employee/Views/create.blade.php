@@ -87,7 +87,6 @@
                     }
                 }
             },
-            mounted() {},
             methods: {
                 handleFileChange(event) {
                     this.employee.photo = event.target.files[0];

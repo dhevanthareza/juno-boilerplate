@@ -16,6 +16,7 @@
         "@ckeditor/ckeditor5-build-classic": "^39.0.1",
         "@ckeditor/ckeditor5-vue": "^5.1.0",
         "@vitejs/plugin-vue": "^4.3.3",
+        "@vueform/multiselect": "^2.6.2",
         "bootstrap": "^4.6.2",
         "vue": "^3.3.4",
         "vuejs3-datepicker": "^1.0.19"

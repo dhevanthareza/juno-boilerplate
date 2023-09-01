@@ -1,6 +1,7 @@
-import CKEditor from '@ckeditor/ckeditor5-vue';
+import CKEditor from "@ckeditor/ckeditor5-vue";
+import Multiselect from "@vueform/multiselect";
 
-(function() {
+(function () {
+    window.Multiselect = Multiselect;
     window.CKEditor = CKEditor;
-    console.log("dsadsaadsfsdaf")
-  })();
+})();

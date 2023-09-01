@@ -22,7 +22,7 @@
             >
                 <span
                     :class="`page-link ${item == page ? 'text-white' : ''}`"
-                    >{{ item }}</span
+                    >{{ item == 0 ? "..." : item}}</span
                 >
             </li>
             <li
@@ -47,67 +47,29 @@ export default {
             return Math.ceil(this.total / this.per_page);
         },
         paginateItem() {
-            if(this.pageCount == 0) {
-                return [1]
-            }
-            const maxLength = 12;
-            const leftWidth = 2;
-            const maxleftWidth = 3;
-            const rightWidth = 2;
-            const maxRightWidth = 3;
-            const page = 27;
-            function range(start, end) {
-                if (start == end) {
-                    return [start];
-                } else if (end > start) {
-                    var ans = [];
-                    for (let i = start; i <= end; i++) {
-                        ans.push(i);
-                    }
-                    return ans;
+            const totalPages = this.pageCount;
+            const currentPage = this.page;
+            const rangeToShow = 2;
+            const compressedPagination = [];
+
+            let prevHidden = false;
+            for (let i = 1; i <= totalPages; i++) {
+                if (
+                    i === 1 ||
+                    i === totalPages ||
+                    Math.abs(i - currentPage) <= rangeToShow
+                ) {
+                    compressedPagination.push(i);
+                    prevHidden = false;
                 } else {
-                    var ans = [];
-                    for (let i = start; i >= end; i--) {
-                        ans.unshift(i);
+                    if (!prevHidden) {
+                        compressedPagination.push(0);
+                        prevHidden = true;
                     }
-                    return ans;
                 }
             }
-            if (this.pageCount <= maxLength) {
-                return range(1, this.pageCount);
-            }
 
-            var centerWidth = maxLength - leftWidth - rightWidth;
-
-            const rightContents = range(
-                1,
-                page <= maxleftWidth ? maxleftWidth : leftWidth
-            );
-            const leftContents = range(
-                this.pageCount,
-                page >= this.pageCount - (maxRightWidth - 1)
-                    ? this.pageCount - (maxRightWidth - 1)
-                    : this.pageCount - (rightWidth - 1)
-            );
-            let centerContents =
-                rightContents.includes(page) || leftContents.includes(page)
-                    ? []
-                    : [page];
-            if (centerWidth > 1 && centerContents != []) {
-                centerContents =
-                    page < this.pageCount / 2
-                        ? [
-                              ...range(page, page - centerWidth / 2),
-                              ...range(page + 1, page + (centerWidth / 2 + -1)),
-                          ]
-                        : [
-                              ...range(page - 1, page - (centerWidth / 2 + -1)),
-                              ...range(page, page + centerWidth / 2),
-                          ];
-            }
-            return centerContents == []
-                ? [...rightContents, 0, ...leftContents]
-                : [...rightContents, 0, ...centerContents, 0, ...leftContents];
+            return compressedPagination;
         },
     },
 };
