@@ -48,8 +48,8 @@
                                 <ul class="nav nav-collapse">
                                     <template v-for="(childMenu, childIndex) in menu.childs">
                                         <li :class="`${ activeMenu == childMenu.name ? 'active' : ''}`" @click="setActiveMenu(childMenu.name)">
-                                            <a :href="`/${childMenu.path}`">
-                                                <span :href="`/${childMenu.path}`" class="sub-item">@{{ childMenu.name }}</span>
+                                            <a :href="`{{ url('') }}/${childMenu.path}`">
+                                                <span :href="`{{ url('') }}/${childMenu.path}`" class="sub-item">@{{ childMenu.name }}</span>
                                             </a>
                                         </li>
                                     </template>
