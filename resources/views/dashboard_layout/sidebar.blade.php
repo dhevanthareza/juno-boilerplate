@@ -59,7 +59,7 @@
                     </template>
                     <template v-else>
                         <li class="nav-item">
-                            <a :href="menu.path">
+                            <a :href="`{{ url('') }}/${menu.path}`">
                                 <i class="fas fa-layer-group"></i>
                                 <p>@{{ menu.name }}</p>
                             </a>
