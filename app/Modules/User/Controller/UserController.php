@@ -82,6 +82,12 @@ class UserController extends Controller
         return JsonResponseHandler::setResult($User)->send();
     }
 
+    public function show($id)
+    {
+        $data = UserModel::find($id);
+        return JsonResponseHandler::setResult($data)->send();
+    }
+
     public function edit(Request $request, $user_id)
     {
         return view('User::edit', ['user_id' => $user_id]);
@@ -118,5 +124,10 @@ class UserController extends Controller
     {
         $delete = UserRoleModel::where('user_id', $user_id)->where('role_id', $role_id)->delete();
         return JsonResponseHandler::setResult($delete)->send();
+    }
+    public function me()
+    {
+        $user = UserModel::where('id', Auth::user()->id)->first();
+        return JsonResponseHandler::setResult($user)->send();
     }
 }

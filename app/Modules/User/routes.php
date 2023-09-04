@@ -15,6 +15,7 @@ Route::prefix('/user')->group(function () {
     Route::get('/logout', [UserController::class, 'logout']);
     Route::get('/datatable', [UserController::class, 'datatable']);
     Route::get('/create', [UserController::class, 'create']);
+    Route::get('/me', [UserController::class, 'me']);
     Route::post('/', [UserController::class, 'store']);
     Route::post('/{user_id}/role', [UserController::class, 'addRole']);
     Route::get('/{user_id}', [UserController::class, 'show']);

@@ -60,12 +60,12 @@
                         password,
                         remember_me
                     } = this
-                    const response = await httpClient.post('/user/login', {
+                    const response = await httpClient.post('{{ url('') }}/user/login', {
                         username,
                         password,
                         remember_me
                     })
-                    location.href = "/dashboard"
+                    location.href = "{{ url('') }}/dashboard"
                 } catch (err) {
                     hideLoading()
                     showToast({

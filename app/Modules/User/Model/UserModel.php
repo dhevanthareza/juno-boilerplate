@@ -12,6 +12,8 @@ class UserModel extends Authenticatable
     use SoftDeletes;
     protected $table = 'users';
     protected $guarded = [];
+    protected $appends = ['role_name_list'];
+
 
     // Scope
     public function scopeSearch($query, $keyword)
@@ -36,5 +38,13 @@ class UserModel extends Authenticatable
         return array_map(function($role) {
             return $role['id'];
         }, $roles);
+    }
+
+    protected function getRoleNameListAttribute() {
+        $role_name_list = [];
+        foreach($this->roles as $role) {
+            array_push($role_name_list, $role->name);
+        }
+        return $role_name_list;
     }
 }

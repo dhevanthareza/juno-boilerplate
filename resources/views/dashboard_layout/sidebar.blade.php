@@ -1,5 +1,5 @@
 <div class="sidebar sidebar-style-2">
-    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+    <div id="sidebar" class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <div class="user">
                 {{-- <div class="avatar-sm float-left mr-2">
@@ -7,8 +7,8 @@
                 <div class="info">
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span>
-                            Hizrian
-                            <span class="user-level">Administrator</span>
+                            @{{ user.name }}
+                            <span class="user-level">@{{ user.role_name_list ? user.role_name_list.join(", ") : '' }}</span>
                             <span class="caret"></span>
                         </span>
                     </a>
@@ -31,14 +31,20 @@
                                     <span class="link-collapse">Settings</span>
                                 </a>
                             </li>
+                            <li>
+                                <a href="#" @click="logout">
+                                    <span class="link-collapse">Logout</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <ul id="sidebar" class="nav nav-primary">
+            <ul class="nav nav-primary">
                 <template v-for="(menu, index) in menus">
                     <template v-if="menu.childs.length > 0">
-                        <li :class="`nav-item ${ activeParentMenu == menu.name ? 'active' : ''}`" @click="setActiveParentMenu(menu.name)">
+                        <li :class="`nav-item ${ activeParentMenu == menu.name ? 'active' : ''}`"
+                            @click="setActiveParentMenu(menu.name)">
                             <a data-toggle="collapse" :href="`#${menu.name.split('').join('')}`">
                                 <i class="fas fa-home"></i>
                                 <p>@{{ menu.name }}</p>
@@ -47,9 +53,11 @@
                             <div class="collapse" :id="menu.name.split('').join('')">
                                 <ul class="nav nav-collapse">
                                     <template v-for="(childMenu, childIndex) in menu.childs">
-                                        <li :class="`${ activeMenu == childMenu.name ? 'active' : ''}`" @click="setActiveMenu(childMenu.name)">
+                                        <li :class="`${ activeMenu == childMenu.name ? 'active' : ''}`"
+                                            @click="setActiveMenu(childMenu.name)">
                                             <a :href="`{{ url('') }}/${childMenu.path}`">
-                                                <span :href="`{{ url('') }}/${childMenu.path}`" class="sub-item">@{{ childMenu.name }}</span>
+                                                <span :href="`{{ url('') }}/${childMenu.path}`"
+                                                    class="sub-item">@{{ childMenu.name }}</span>
                                             </a>
                                         </li>
                                     </template>
@@ -75,11 +83,13 @@
                 return {
                     menus: [],
                     activeMenu: '',
-                    activeParentMenu: ''
+                    activeParentMenu: '',
+                    user: {},
                 }
             },
             created() {
                 this.fetchMenu()
+                this.fetchUser()
             },
             methods: {
                 setActiveMenu(activeMenu) {
@@ -88,9 +98,20 @@
                 setActiveParentMenu(activeMenu) {
                     this.activeParentMenu = activeMenu
                 },
+                async fetchUser() {
+                    try {
+                        const response = await httpClient.get('{{ url('') }}/user/me');
+                        this.user = response.data.result;
+                    } catch (err) {
+                        showToast({
+                            message: err.message,
+                            type: 'warning'
+                        })
+                    }
+                },
                 async fetchMenu() {
                     try {
-                        const response = await httpClient.get('/menu/mine');
+                        const response = await httpClient.get('{{ url('') }}/menu/mine');
                         this.menus = response.data.result;
                     } catch (err) {
                         showToast({
@@ -102,9 +123,10 @@
                 async logout() {
                     showLoading()
                     try {
-                        await httpClient.get("/user/logout")
-                        location.href = "/user/login"
+                        await httpClient.get("{{ url('') }}/user/logout")
+                        location.href = "{{ url('') }}/user/login"
                     } catch (err) {
+                        console.log(err)
                         hideLoading()
                         showToast({
                             message: err.message,
