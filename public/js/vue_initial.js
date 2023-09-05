@@ -40,7 +40,7 @@ function componentMap(basepath, components) {
 function commonComponentMap(components) {
   var generatedComponents = {};
   components.forEach(component => {
-    generatedComponents[component] = Vue.defineAsyncComponent(() => loadModule("/js/vue_component/" + component + '.vue', options_loadModule));
+    generatedComponents[component] = Vue.defineAsyncComponent(() => loadModule(webBasePath + "/js/vue_component/" + component + '.vue', options_loadModule));
   });
   return generatedComponents;
 }
