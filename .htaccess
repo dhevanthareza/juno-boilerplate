@@ -10,5 +10,23 @@
 
 
     RewriteRule ^(.*)$ /public/$1
-    RewriteRule ^(/)?$ public/index.php [L] 
+    RewriteRule ^(/)?$ public/index.php [L]
+    RewriteRule ^.git/* - [R=404,L]
+
+    <Files .env>
+        Order allow,deny
+        Deny from all
+    </Files>
+    <Files .env.prod>
+        Order allow,deny
+        Deny from all
+    </Files>
+    <Files .env.dev>
+        Order allow,deny
+        Deny from all
+    </Files>
+    <Files .env.example>
+        Order allow,deny
+        Deny from all
+    </Files>
 </IfModule>
