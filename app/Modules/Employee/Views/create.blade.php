@@ -28,7 +28,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-control-label">DOB</label>
-                                <date-picker v-model="employee.dob" type="text" />
+                                <date-picker v-model="employee.dob" type="text" format="yyyy-MM-dd HH:mm:ss"
+                                    model-type="yyyy-MM-dd HH:mm:ss" />
                             </div>
                         </div>
 
@@ -99,6 +100,7 @@
                 },
                 async store() {
                     const employeeFormData = new FormData()
+                    this.employee.dob = this.employee.dob.split(" ")[0]
                     Object.keys(this.employee).forEach(key => {
                         employeeFormData.append(key, this.employee[key])
                     });

@@ -21,7 +21,8 @@ class EmployeeController extends Controller
     public function datatable(Request $request)
     {
         $per_page = $request->input('per_page') != null ? $request->input('per_page') : 15;
-        $employees = EmployeeRepository::datatable($per_page);
+        $sortBy = $request->input('sortBy');
+        $employees = EmployeeRepository::datatable($per_page, $sortBy);
         return JsonResponseHandler::setResult($employees)->send();
     }
 

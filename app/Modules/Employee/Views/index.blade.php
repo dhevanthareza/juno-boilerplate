@@ -34,10 +34,12 @@
                     {
                         text: 'fullname',
                         value: 'fullname',
+                        sortable: true
                     },
                     {
                         text: 'dob',
                         value: 'dob',
+                        sortable: true
                     },
                     {
                         text: 'address',

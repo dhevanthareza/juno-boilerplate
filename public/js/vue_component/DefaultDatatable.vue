@@ -39,7 +39,14 @@
 
         <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0 table-hover" style="min-width:100%;table-layout: fixed;width: max-content;">
+                <table
+                    class="table align-items-center mb-0 table-hover"
+                    style="
+                        min-width: 100%;
+                        table-layout: fixed;
+                        width: max-content;
+                    "
+                >
                     <thead class="bg-grey1">
                         <tr>
                             <th
@@ -50,9 +57,18 @@
                                 }`"
                                 :style="header['style']"
                             >
-                                {{ header["text"] }}
+                                <div
+                                    @click="header.sortable ? handleHeaderClick(header) : null"
+                                    style="cursor: pointer"
+                                >
+                                    {{ header["text"] }}
+                                    <i v-if="header.sortable && sortBy.column == header.value && sortBy.type == 'ASC'" class="fas fa-arrow-up ml-2"></i>
+                                    <i v-if="header.sortable && sortBy.column == header.value && sortBy.type == 'DESC'" class="fas fa-arrow-down ml-2"></i>
+                                </div>
                             </th>
-                            <th :style="actionStyle" class="text-center">Actions</th>
+                            <th :style="actionStyle" class="text-center">
+                                Actions
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -180,7 +196,7 @@ export default {
         actionStyle: {
             type: String,
             reqired: false,
-            default: null
+            default: null,
         },
         canAdd: {
             type: Boolean,
@@ -212,6 +228,10 @@ export default {
             page: 1,
             per_page: 10,
             isSearchFocused: false,
+            sortBy: {
+                column: null,
+                type: null,
+            },
         };
     },
     watch: {
@@ -221,6 +241,9 @@ export default {
         keyword() {
             this.fetchData();
         },
+        sortBy() {
+            this.fetchData()
+        }
     },
     created() {
         this.fetchData();
@@ -233,6 +256,26 @@ export default {
         handlePageItemClick(page) {
             this.page = page;
         },
+        handleHeaderClick(header) {
+            if (this.sortBy.column == header.value && this.sortBy.type == "DESC") {
+                this.sortBy = {
+                    column: null,
+                    type: null,
+                };
+                return;
+            }
+            if (this.sortBy.column == header.value) {
+                this.sortBy = {
+                    column: header.value,
+                    type: "DESC",
+                };
+                return;
+            }
+            this.sortBy = {
+                column: header.value,
+                type: "ASC",
+            };
+        },
         async fetchData() {
             try {
                 fetchController.abort();
@@ -244,7 +287,7 @@ export default {
                 this.listUrl != null ? this.listUrl : `${this.url}/datatable`;
             const response = await httpClient.get(url, {
                 signal: fetchController.signal,
-                params: { page, per_page, keyword, ...this.additionalFilter },
+                params: { page, per_page, keyword, ...this.additionalFilter, sortBy: this.sortBy },
             });
             const result = response.data.result;
             this.contents = result.data;

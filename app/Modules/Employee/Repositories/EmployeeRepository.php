@@ -6,9 +6,9 @@ use App\Modules\Employee\Model\EmployeeModel;
 
 class EmployeeRepository
 {
-    public static function datatable($per_page = 15)
+    public static function datatable($per_page = 15, $sortBy = null)
     {
-        $employees = EmployeeModel::paginate($per_page);
+        $employees = $sortBy == null ? EmployeeModel::paginate($per_page) : EmployeeModel::orderBy($sortBy['column'], $sortBy['type'])->paginate($per_page);
         return $employees;
     }
     public static function get($employee_id)

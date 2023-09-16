@@ -51,7 +51,8 @@
     <link href="{!! asset('css/libraries/vuedatepicker/vdpmain.css') !!}" rel="stylesheet" />
 
     <!-- include CKEditor 5 (vanilla) -->
-    <script src="//cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+
+
     <script src="//cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
