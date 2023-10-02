@@ -46,7 +46,7 @@
                         <li :class="`nav-item ${ activeParentMenu == menu.name ? 'active' : ''}`"
                             @click="setActiveParentMenu(menu.name)">
                             <a data-toggle="collapse" :href="`#${menu.name.split('').join('')}`">
-                                <i class="fas fa-home"></i>
+                                <i :class="menu.icon"></i>
                                 <p>@{{ menu.name }}</p>
                                 <span class="caret"></span>
                             </a>

@@ -41,6 +41,12 @@
                                     :options="parents" />
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Icon</label>
+                                <input v-model="menuData.icon" class="form-control" type="text">
+                            </div>
+                        </div>
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="button" @click="back" class="btn btn-sm bg-warning mr-1 text-white">
@@ -65,6 +71,7 @@
                         path: null,
                         description: null,
                         parent_id: null,
+                        icon: null
                     },
                     parents: [{
                         value: null,
@@ -81,7 +88,12 @@
             methods: {
                 async fetchData() {
                     const response = await httpClient.get("{!! url('menu') !!}/{{ $menu_id }}/detail")
-                    this.menuData = response.data.result
+                    this.menuData = {
+                        ...response.data.result,
+                        module: {
+                            name: null
+                        }
+                    }
                 },
                 async fetchParents() {
                     const response = await httpClient.get("{!! url('menu/parents') !!}")
@@ -90,7 +102,7 @@
                         ...response.data.result.map(el => {
                             return {
                                 value: el.id,
-                                label: el.name
+                                label: `${el.name} - ${el.description}`
                             }
                         })
                     ]

@@ -112,7 +112,7 @@
                     this.menus = response.data.result.map(el => {
                         return {
                             value: el.id,
-                            label: el.name
+                            label: `${el.name} - ${el.description}`
                         }
                     })
                 },

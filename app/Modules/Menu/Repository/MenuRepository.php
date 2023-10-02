@@ -15,9 +15,11 @@ class MenuRepository
         $module = ModuleModel::where('id', $menu_payload['module_id'])->first();
         if ($module != null) {
             $module_name = join("", explode(" ", $module->name));
+            $module_name = join("", explode("-", $module->name));
             $module_path = app_path() . '/Modules' . '/' . $module_name;
             $menu_title = $menu_payload['name'];
             $menu_name = join("", explode(" ", $menu_payload['name']));
+            $menu_name = join("", explode("-", $menu_payload['name']));
             $menu_path = strtolower(join("-", explode(" ", $menu_payload['name'])));
 
             // TODO : Generate Controller

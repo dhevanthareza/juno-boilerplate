@@ -40,6 +40,12 @@
                                 <vue-multiselect v-model="parent_id" :searchable="true" :options="parents" />
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Icon</label>
+                                <input v-model="icon" class="form-control" type="text">
+                            </div>
+                        </div>
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="button" @click="back" class="btn btn-sm bg-warning mr-1 text-white">
@@ -67,7 +73,8 @@
                         value: null,
                         label: "No Parent"
                     }],
-                    modules: []
+                    modules: [],
+                    icon: null
                 }
             },
             created() {
@@ -126,14 +133,16 @@
                             path,
                             description,
                             parent_id,
-                            module_id
+                            module_id,
+                            icon
                         } = this
                         const response = await httpClient.post("{!! url('menu') !!}", {
                             name,
                             path,
                             description,
                             parent_id,
-                            module_id
+                            module_id,
+                            icon
                         })
                         hideLoading()
                         showToast({
