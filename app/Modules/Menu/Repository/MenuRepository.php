@@ -5,13 +5,14 @@ namespace App\Modules\Menu\Repository;
 use App\Modules\Menu\Model\MenuModel;
 use App\Modules\Module\Model\ModuleModel;
 use App\Modules\Permission\Model\PermissionModel;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class MenuRepository
 {
     public static function generateMenu($menu_payload)
     {
-        self::store($menu_payload);
+        self::storeV2($menu_payload);
         $module = ModuleModel::where('id', $menu_payload['module_id'])->first();
         if ($module != null) {
             $module_name = join("", explode(" ", $module->name));
@@ -132,6 +133,109 @@ class MenuRepository
             ]
         ];
         PermissionModel::insert($permission_payload);
+        return $menu;
+    }
+
+    public static function storeV2($menu_payload)
+    {
+        $menu = MenuModel::create($menu_payload);
+        $menu = MenuModel::where('id', $menu->id)->first();
+        $menu_code = strtolower(join("_", explode(" ", $menu->name)));
+        $is_group_menu = !isset($menu_payload['module_id']) || $menu_payload['module_id'] == null;
+        $permission_payload = [
+            [
+                'code' => 'create-' . ($is_group_menu ? 'group-' : '') . $menu_code,
+                'description' => 'Create ' . $menu->name,
+                'menu_id' => $menu->id
+            ],
+            [
+                'code' => 'read-' . ($is_group_menu ? 'group-' : '') . $menu_code,
+                'description' => 'Read ' . $menu->name,
+                'menu_id' => $menu->id
+            ],
+            [
+                'code' => 'update-' . ($is_group_menu ? 'group-' : '') . $menu_code,
+                'description' => 'Update ' . $menu->name,
+                'menu_id' => $menu->id
+            ],
+            [
+                'code' => 'delete-' . ($is_group_menu ? 'group-' : '') . $menu_code,
+                'description' => 'Delete ' . $menu->name,
+                'menu_id' => $menu->id
+            ]
+        ];
+        PermissionModel::insert($permission_payload);
+
+        $path = $menu->path !== null ? "\"{$menu->path}\"" : 'null';
+        $parent_id = $menu->parent_id !== null ? "\"{$menu->parent_id}\"" : 'null';
+        $module_id = $menu->module_id !== null ? "\"{$menu->module_id}\"" : 'null';
+        $icon = $menu->icon !== null ? "\"{$menu->icon}\"" : 'null';
+        $migration_string = <<<END
+        <?php
+
+        use Illuminate\Database\Migrations\Migration;
+        use Illuminate\Database\Schema\Blueprint;
+        use Illuminate\Support\Facades\Schema;
+        use App\Modules\Menu\Model\MenuModel;
+        use App\Modules\Permission\Model\PermissionModel;
+
+        return new class extends Migration
+        {
+            /**
+             * Run the migrations.
+             */
+            public function up(): void
+            {
+                \$menu = MenuModel::create([
+                    'name' => '{$menu->name}',
+                    'path' => {$path},
+                    'description' => '{$menu->description}',
+                    'parent_id' => {$parent_id},
+                    'module_id' => {$module_id},
+                    'created_at' => '{$menu->created_at}',
+                    'updated_at' => '{$menu->updated_at}',
+                    'icon' => '{$icon}',
+                ]);
+                \$menu_code = strtolower(join("_", explode(" ", \$menu->name)));
+                \$is_group_menu = {$is_group_menu};
+                \$permission_payload = [
+                    [
+                        'code' => 'create-' . (\$is_group_menu ? 'group-' : '') . \$menu_code,
+                        'description' => 'Create ' . \$menu->name,
+                        'menu_id' => \$menu->id
+                    ],
+                    [
+                        'code' => 'read-' . (\$is_group_menu ? 'group-' : '') . \$menu_code,
+                        'description' => 'Read ' . \$menu->name,
+                        'menu_id' => \$menu->id
+                    ],
+                    [
+                        'code' => 'update-' . (\$is_group_menu ? 'group-' : '') . \$menu_code,
+                        'description' => 'Update ' . \$menu->name,
+                        'menu_id' => \$menu->id
+                    ],
+                    [
+                        'code' => 'delete-' . (\$is_group_menu ? 'group-' : '') . \$menu_code,
+                        'description' => 'Delete ' . \$menu->name,
+                        'menu_id' => \$menu->id
+                    ]
+                ];
+                PermissionModel::insert(\$permission_payload);
+            }
+
+            /**
+             * Reverse the migrations.
+             */
+            public function down(): void
+            {
+               
+            }
+        };
+
+        END;
+        $migration_name = date('Y_m_d_His') . "_create_menu_{$menu['name']}_record";
+        File::put(base_path() . '/database/migrations/' . $migration_name . ".php", $migration_string);
+        DB::table('migrations')->insert(['migration' => $migration_name, 'batch' => 1]);
         return $menu;
     }
 }
