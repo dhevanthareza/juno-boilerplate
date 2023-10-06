@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="{!! asset('img/favicon.png') !!}">
 
     <title>
-        DNT - Core
+        Juno
     </title>
 
     <!-- Fonts and icons -->
@@ -30,39 +30,17 @@
         });
     </script>
 
-    <!-- CSS Files -->
     <!-- Load CSS assets with Vite -->
+    <script>
+        const BASE_URL = "{{ url('') }}"
+    </script>
     @vite(['resources/js/app.js', 'resources/scss/dnt-core.scss'])
 
-    <!-- include Vue.js -->
-    @if (env('APP_ENV') == 'PRODUCTION')
-        <script src="{!! asset('js/libraries/vue/vue.global.prod.js') !!}"></script>
-    @else
-        <script src="{!! asset('js/libraries/vue/vue.global.js') !!}"></script>
-    @endif
-
-    <script src="{!! asset('js/libraries/vue/vue3-sfc-loader.js') !!}"></script>
-
-
-    <!-- include Vue Datepicker https://vue3datepicker.com -->
-    {{-- <script src="https://unpkg.com/@vuepic/vue-datepicker@latest"></script> --}}
-    <script src="{!! asset('js/libraries/vuedatepicker/vuedatepicker.js') !!}"></script>
-    {{-- <link rel="stylesheet" href="https://unpkg.com/@vuepic/vue-datepicker@latest/dist/main.css"> --}}
-    <link href="{!! asset('css/libraries/vuedatepicker/vdpmain.css') !!}" rel="stylesheet" />
-
     <!-- include CKEditor 5 (vanilla) -->
-
-
     <script src="//cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- viewer js --->
-    <script src="{!! asset('js/libraries/viewerjs/viewer.min.js') !!}"></script>
-    <link href="{!! asset('css/libraries/viewerjs/viewer.min.css') !!}" rel="stylesheet" />
-
-    <!---- SELECT ---->
-    <script src="{!! asset('js/libraries/multiselect/multiselect.global.js') !!}"></script>
-    <link href="{!! asset('css/libraries/multiselect/multiselect.css') !!}" rel="stylesheet" />
+    <!--- APP CSS --->
     <link id="pagestyle" href="{!! asset('css/app.css') !!}" rel="stylesheet" />
 
     <script>

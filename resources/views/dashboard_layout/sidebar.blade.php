@@ -7,7 +7,7 @@
                 <div class="info">
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span>
-                            @{{ user.name }}
+                            @{{ user.nama }}
                             <span class="user-level">@{{ user.role_name_list ? user.role_name_list.join(", ") : '' }}</span>
                             <span class="caret"></span>
                         </span>
@@ -66,10 +66,11 @@
                         </li>
                     </template>
                     <template v-else>
-                        <li class="nav-item">
+                        <li class="nav-item ${ activeParentMenu == menu.name ? 'active' : ''}`">
                             <a :href="`{{ url('') }}/${menu.path}`">
                                 <i class="fas fa-layer-group"></i>
-                                <p>@{{ menu.name }}</p>
+                                <span :href="`{{ url('') }}/${menu.path}`"
+                                    class="sub-item">@{{ menu.name }}</span>
                             </a>
                         </li>
                     </template>
@@ -77,8 +78,8 @@
             </ul>
         </div>
     </div>
-    <script>
-        createApp({
+    <script type="module">
+        Vue.createApp({
             data() {
                 return {
                     menus: [],

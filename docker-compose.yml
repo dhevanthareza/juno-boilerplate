@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 4001:80
+      - 4002:80
     volumes:
       - ./:/var/www/html/
       - ./apache/conf/default.conf:/etc/apache2/sites-enabled/000-default.conf

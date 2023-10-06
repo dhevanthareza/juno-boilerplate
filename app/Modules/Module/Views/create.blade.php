@@ -119,8 +119,8 @@
             </div>
         </div>
     </div>
-    <script>
-        createApp({
+    <script type="module">
+        Vue.createApp({
             data() {
                 return {
                     module: {
@@ -240,7 +240,7 @@
                 }
             },
             components: {
-                'vue-multiselect': VueformMultiselect
+                'vue-multiselect': Multiselect
             },
         }).mount('#app');
     </script>

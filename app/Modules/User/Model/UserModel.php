@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class UserModel extends Authenticatable
 {
-    use SoftDeletes;
+    // use SoftDeletes;
     protected $table = 'users';
     protected $guarded = [];
     protected $appends = ['role_name_list'];

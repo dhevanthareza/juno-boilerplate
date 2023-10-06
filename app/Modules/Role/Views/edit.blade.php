@@ -30,7 +30,7 @@
             </div>
         </div>
     </div>
-    <script>
+    <script type="module">
         Vue.createApp({
             data() {
                 return {
@@ -72,6 +72,6 @@
                     }
                 }
             },
-        }).component('vue-multiselect', VueformMultiselect).mount("#add-menu")
+        }).component('vue-multiselect', Multiselect).mount("#add-menu")
     </script>
 @endsection

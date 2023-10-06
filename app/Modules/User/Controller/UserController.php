@@ -24,7 +24,7 @@ class UserController extends Controller
         $password = $request->input('password');
         $remember_me = $request->input('remember_me');
 
-        $user = UserModel::where('username', $username)->orWhere('email', $username)->first();
+        $user = UserModel::where('email', $username)->first();
         if ($user == null) {
             return JsonResponseHandler::setCode(JsonResponseType::ERROR)
                 ->setStatus(400)

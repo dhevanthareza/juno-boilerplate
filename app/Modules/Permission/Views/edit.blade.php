@@ -43,7 +43,7 @@
             </div>
         </div>
     </div>
-    <script>
+    <script type="module">
         Vue.createApp({
             data() {
                 return {
@@ -103,6 +103,6 @@
                     }
                 }
             },
-        }).component('vue-multiselect', VueformMultiselect).mount("#add-permission")
+        }).component('vue-multiselect', Multiselect).mount("#add-permission")
     </script>
 @endsection

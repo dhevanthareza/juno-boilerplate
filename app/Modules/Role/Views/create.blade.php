@@ -30,7 +30,7 @@
             </div>
         </div>
     </div>
-    <script>
+    <script type="module">
         Vue.createApp({
             data() {
                 return {

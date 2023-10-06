@@ -277,8 +277,8 @@ class ModuleRepository
             <default-datatable title="{$module_name}" url="{!! url('{$module_url}') !!}" :headers="headers" :can-add="{{ \$permissions['create-{$menu_permission_code}'] }}" :can-edit="{{ \$permissions['update-{$menu_permission_code}'] }}" :can-delete="{{ \$permissions['delete-{$menu_permission_code}'] }}" />
         </div>
 
-        <script>
-            createApp({
+        <script type="module">
+            Vue.createApp({
                 data() {
                     return {
                         headers: [
@@ -307,11 +307,7 @@ class ModuleRepository
                 created() {},
                 methods: {},
                 components: {
-                    ...commonComponentMap(
-                        [
-                            'DefaultDatatable',
-                        ]
-                    )
+                    'default-datatable': DefaultDatatable
                 },
             }).mount('#{$module_url}');
         </script>

@@ -122,7 +122,7 @@
                 }
             },
             components: {
-                'vue-multiselect': VueformMultiselect,
+                'vue-multiselect': Multiselect,
                 'date-picker': VueDatePicker,
                 'ckeditor': CKEditor.component
             }

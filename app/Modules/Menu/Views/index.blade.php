@@ -4,8 +4,8 @@
     <default-datatable title="Menu" url="{!! url('menu') !!}" :headers="headers" />
 </div>
 
-<script>
-    createApp({
+<script type="module">
+    Vue.createApp({
         data() {
             return {
                 headers: [
@@ -36,11 +36,7 @@
         created() {},
         methods: {},
         components: {
-            ...commonComponentMap(
-                [
-                    'DefaultDatatable',
-                ]
-            )
+            'default-datatable': DefaultDatatable
         },
     }).mount('#app');
 </script>

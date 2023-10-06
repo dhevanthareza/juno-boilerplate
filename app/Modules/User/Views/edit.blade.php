@@ -48,7 +48,7 @@
             </div>
         </div>
     </div>
-    <script>
+    <script type="module">
         Vue.createApp({
             data() {
                 return {
@@ -91,6 +91,6 @@
                     }
                 }
             },
-        }).component('vue-multiselect', VueformMultiselect).mount("#add-user")
+        }).component('vue-multiselect', Multiselect).mount("#add-user")
     </script>
 @endsection

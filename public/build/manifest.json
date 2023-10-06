@@ -1,11 +1,11 @@
 {
   "resources/js/app.js": {
-    "file": "assets/app-72da25c4.js",
+    "file": "assets/app-82fbc91d.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/scss/dnt-core.scss": {
-    "file": "assets/dnt-core-b5b7c5f8.css",
+    "file": "assets/dnt-core-913fd5cc.css",
     "isEntry": true,
     "src": "resources/scss/dnt-core.scss"
   }

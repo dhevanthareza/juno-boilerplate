@@ -4,8 +4,8 @@
     <default-datatable title="Role" url="{!! url('permission') !!}" :headers="headers" />
 </div>
 
-<script>
-    createApp({
+<script type="module">
+    Vue.createApp({
         data() {
             return {
                 headers: [
@@ -31,11 +31,7 @@
         created() {},
         methods: {},
         components: {
-            ...commonComponentMap(
-                [
-                    'DefaultDatatable',
-                ]
-            )
+            'default-datatable': DefaultDatatable
         },
     }).mount('#permission-page');
 </script>

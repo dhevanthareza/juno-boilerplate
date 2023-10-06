@@ -32,7 +32,7 @@ const {
 function componentMap(basepath, components) {
   var generatedComponents = {};
   components.forEach(component => {
-    generatedComponents[component] = Vue.defineAsyncComponent(() => loadModule(basepath + component + '.vue', options_loadModule));
+    generatedComponents[component] = Vue.defineAsyncComponent(() => loadModule(BASE_URL + component + '.vue', options_loadModule));
   });
   return generatedComponents;
 }
@@ -40,7 +40,7 @@ function componentMap(basepath, components) {
 function commonComponentMap(components) {
   var generatedComponents = {};
   components.forEach(component => {
-    generatedComponents[component] = Vue.defineAsyncComponent(() => loadModule(webBasePath + "/js/vue_component/" + component + '.vue', options_loadModule));
+    generatedComponents[component] = Vue.defineAsyncComponent(() => loadModule(BASE_URL + "/js/vue_component/" + component + '.vue', options_loadModule));
   });
   return generatedComponents;
 }

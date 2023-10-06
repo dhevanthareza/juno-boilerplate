@@ -5,6 +5,7 @@ namespace App\Modules\Menu\Repository;
 use App\Modules\Menu\Model\MenuModel;
 use App\Modules\Module\Model\ModuleModel;
 use App\Modules\Permission\Model\PermissionModel;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
@@ -12,25 +13,32 @@ class MenuRepository
 {
     public static function generateMenu($menu_payload)
     {
-        self::storeV2($menu_payload);
-        $module = ModuleModel::where('id', $menu_payload['module_id'])->first();
-        if ($module != null) {
-            $module_name = join("", explode(" ", $module->name));
-            $module_name = join("", explode("-", $module_name));
-            $module_path = app_path() . '/Modules' . '/' . $module_name;
-            $menu_title = $menu_payload['name'];
-            $menu_name = join("", explode(" ", $menu_payload['name']));
-            $menu_name = join("", explode("-", $menu_name));
-            $menu_path = strtolower(join("-", explode(" ", $menu_payload['name'])));
+        DB::beginTransaction();
+        try {
+            self::storeV2($menu_payload);
+            $module = ModuleModel::where('id', $menu_payload['module_id'])->first();
+            if ($module != null) {
+                $module_name = join("", explode(" ", $module->name));
+                $module_name = join("", explode("-", $module_name));
+                $module_path = app_path() . '/Modules' . '/' . $module_name;
+                $menu_title = $menu_payload['name'];
+                $menu_name = join("", explode(" ", $menu_payload['name']));
+                $menu_name = join("", explode("-", $menu_name));
+                $menu_path = strtolower(join("-", explode(" ", $menu_payload['name'])));
 
-            // TODO : Generate Controller
-            self::generateController($module_path, $module_name, $menu_name, $menu_path);
+                // TODO : Generate Controller
+                self::generateController($module_path, $module_name, $menu_name, $menu_path);
 
-            // TODO : Generate route
-            self::generateRoute($module_name, $menu_name, $menu_path);
+                // TODO : Generate route
+                self::generateRoute($module_name, $menu_name, $menu_path);
 
-            // TODO : Generate index file
-            self::generateIndexFile($module_path, $menu_path, $menu_title);
+                // TODO : Generate index file
+                self::generateIndexFile($module_path, $menu_path, $menu_title);
+
+                DB::commit();
+            }
+        } catch (Exception $err) {
+            DB::rollBack();
         }
     }
 

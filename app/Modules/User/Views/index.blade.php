@@ -76,8 +76,8 @@
         </div>
     </div>
 
-    <script>
-        createApp({
+    <script type="module">
+        Vue.createApp({
             data() {
                 return {
                     roles: [],
@@ -111,11 +111,7 @@
                 this.fetchRoles()
             },
             components: {
-                ...commonComponentMap(
-                    [
-                        'DefaultDatatable',
-                    ]
-                )
+                'default-datatable': DefaultDatatable
             },
             methods: {
                 async handleRoleButtonClick(userId) {
@@ -153,6 +149,6 @@
                     })
                 }
             },
-        }).component('vue-multiselect', VueformMultiselect).mount('#user-page');
+        }).component('vue-multiselect', Multiselect).mount('#user-page');
     </script>
 @endsection

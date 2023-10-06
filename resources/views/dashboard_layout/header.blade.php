@@ -3,7 +3,7 @@
   <div class="logo-header" data-background-color="blue">
     
     <a href="{{ url('') }}" class="logo text-white">
-      <h1 class="navbar-brand font-weight-bold">JUNO</h1>
+      <h1 class="navbar-brand font-weight-bold">Juno</h1>
     </a>
     <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon">

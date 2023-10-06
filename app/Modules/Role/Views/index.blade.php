@@ -52,8 +52,8 @@
         </div>
     </div>
 
-    <script>
-        createApp({
+    <script type="module">
+        Vue.createApp({
             data() {
                 return {
                     isAddingPermission: false,
@@ -136,12 +136,8 @@
                 },
             },
             components: {
-                ...commonComponentMap(
-                    [
-                        'DefaultDatatable',
-                    ]
-                ),
-                'vue-multiselect': VueformMultiselect
+                'default-datatable': DefaultDatatable,
+                'vue-multiselect': Multiselect
             },
         }).mount('#role-page');
     </script>

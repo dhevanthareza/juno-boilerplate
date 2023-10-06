@@ -42,8 +42,8 @@
         </div>
     </section>
 </main>
-<script>
-    createApp({
+<script type="module">
+    Vue.createApp({
         data() {
             return {
                 username: null,
