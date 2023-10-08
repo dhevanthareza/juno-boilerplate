@@ -34,9 +34,9 @@ class MenuRepository
 
                 // TODO : Generate index file
                 self::generateIndexFile($module_path, $menu_path, $menu_title);
-
-                DB::commit();
             }
+
+            DB::commit();
         } catch (Exception $err) {
             DB::rollBack();
         }
