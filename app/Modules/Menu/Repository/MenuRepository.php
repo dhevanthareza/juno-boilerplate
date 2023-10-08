@@ -15,7 +15,7 @@ class MenuRepository
     {
         DB::beginTransaction();
         try {
-            self::storeV2($menu_payload);
+            self::store($menu_payload);
             $module = ModuleModel::where('id', $menu_payload['module_id'])->first();
             if ($module != null) {
                 $module_name = join("", explode(" ", $module->name));
