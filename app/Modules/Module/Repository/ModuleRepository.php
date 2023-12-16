@@ -15,7 +15,7 @@ class ModuleRepository
 
         // TODO : create menu data
         $menu_payload['module_id'] = $module->id;
-        $menu = MenuRepository::storeV2($menu_payload);
+        $menu = MenuRepository::store($menu_payload);
 
         // TODO : Create module and menu file
         self::generateModuleFile($module_payload, $menu_payload, $property_payload);
